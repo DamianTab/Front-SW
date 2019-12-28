@@ -1,1 +1,6 @@
-<p>dashboard works!</p>
+
+<div *ngFor="let item of track[selectedTrack].items" class="sw-dashboard">
+    <p-card class="sw-dashboard-p-card">
+        <div [innerHTML]="item.component" class="sw-dashboard-innerHTML"></div>
+    </p-card>
+</div>
