@@ -9,9 +9,11 @@ import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
 import { FieldsetModule } from 'primeng/fieldset';
 import { MessagesModule } from 'primeng/messages';
+import { DashboardModule } from './shared/components/dashboard/dashboard.module';
+import { WaterModule } from './forms/water/water.module';
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -21,6 +23,8 @@ import { MessagesModule } from 'primeng/messages';
     MessagesModule,
     MessageModule,
     FieldsetModule,
+    DashboardModule,
+    WaterModule,
     AppRoutingModule
   ],
   providers: [],
