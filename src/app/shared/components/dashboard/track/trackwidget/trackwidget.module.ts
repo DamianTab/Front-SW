@@ -1,13 +1,13 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { TrackwidgetComponent } from './trackwidget.component'
+import { TrackWidgetComponent } from './trackwidget.component'
 
 @NgModule({
-  declarations: [TrackwidgetComponent],
+  declarations: [TrackWidgetComponent],
   imports: [
     CommonModule
   ],
-  exports: [TrackwidgetComponent]
+  exports: [TrackWidgetComponent]
 })
-export class TrackwidgetModule { }
+export class TrackWidgetModule { }
