@@ -1,6 +1,5 @@
-import { Component, ViewChildren, QueryList } from '@angular/core';
-import { Track } from './track'
-import { throwError } from 'rxjs';
+import { Component, Input, ViewContainerRef, ViewChild, ContentChildren, QueryList, Query } from '@angular/core';
+import { TrackComponent } from './track/track.component';
 
 @Component({
   selector: 'sw-dashboard',
@@ -8,12 +7,6 @@ import { throwError } from 'rxjs';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
-  private selectedTrack: number = 0
-  public readonly tracks: Track[]
-
-  constructor(@ViewChildren('sw-track') children: QueryList) {
-    for(let i of children) {
-      
-    }
-  }
+  @Input('show') selectedTrack: string
+  @ContentChildren(TrackComponent) tracks: QueryList<TrackComponent>
 }

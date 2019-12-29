@@ -1,6 +1,9 @@
-
-<div *ngFor="let item of track[selectedTrack].items" class="sw-dashboard">
-    <p-card class="sw-dashboard-p-card">
-        <div [innerHTML]="item.component" class="sw-dashboard-innerHTML"></div>
-    </p-card>
+<div *ngFor="let track of tracks">
+    <div *ngIf="track.name === selectedTrack">
+        <div *ngFor="let widget of track.contents" class="sw-dashboard">
+            <p-card class="sw-dashboard-p-card">
+                <ng-container class="sw-dashboard-innerHTML" *ngTemplateOutlet="widget.content"></ng-container>
+            </p-card>
+        </div>
+    </div>
 </div>

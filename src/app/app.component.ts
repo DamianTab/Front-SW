@@ -7,15 +7,4 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'front-app';
-  msgs = [];
-
-
-  show() {
-    this.msgs.push({ severity: 'info', summary: 'Info Message', detail: 'PrimeNG rocks' });
-  }
-
-  hide() {
-    this.msgs = [];
-  }
-
 }
