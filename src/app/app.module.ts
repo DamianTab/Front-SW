@@ -11,6 +11,8 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { MessagesModule } from 'primeng/messages';
 import { DashboardModule } from './shared/components/dashboard/dashboard.module';
 import { WaterModule } from './forms/water/water.module';
+import { OxygenChartModule } from './charts/chart/oxygen-chart.module';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -25,7 +27,8 @@ import { WaterModule } from './forms/water/water.module';
     FieldsetModule,
     DashboardModule,
     WaterModule,
-    AppRoutingModule
+    AppRoutingModule,
+    OxygenChartModule
   ],
   providers: [],
   bootstrap: [AppComponent]
