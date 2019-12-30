@@ -48,18 +48,22 @@ export class ChartComponent {
     }
 
     private getServiceData(): ChartService.Data {
-        return this.service[`get${this.dataType}`](this.interval)
+        return this.service[this.dataType](this.interval)
     }
 
     private randomColor(): string {
-        return this.rgb2hex(`rgba(${Math.round(Math.random()*255)}, ${Math.round(Math.random()*255)}, ${Math.round(Math.random()*255)}, 1)`)
+        var r: number, g: number, b: number;
+        r = Math.round(Math.random()*255);
+        g = Math.round(Math.random()*255);
+        b = Math.round(Math.random()*255);
+        return this.rgb2hex(`rgba(${r}, ${g}, ${b}, 1)`)
     }
 
-    private rgb2hex(rgb: any): string {
-        rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
+    private rgb2hex(rgb: string): string {
+        var setRgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
         return "#" +
-        ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
-        ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
-        ("0" + parseInt(rgb[3],10).toString(16)).slice(-2);
+        ("0" + parseInt(setRgb[1],10).toString(16)).slice(-2) +
+        ("0" + parseInt(setRgb[2],10).toString(16)).slice(-2) +
+        ("0" + parseInt(setRgb[3],10).toString(16)).slice(-2);
     }
 }

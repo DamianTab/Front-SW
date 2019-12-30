@@ -3,28 +3,28 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class ChartService {
 
-  getTemperature(meta: ChartService.MetaData): ChartService.Data {
+  temperature(meta: ChartService.MetaData): ChartService.Data {
     return {
       x: [],
       y: []
     }
   }
 
-  getOxygen(meta: ChartService.MetaData): ChartService.Data {
+  oxygen(meta: ChartService.MetaData): ChartService.Data {
     return {
       x: [1, 2, 3, 4, 5, 6, 7],
       y: [65, 59, 80, 81, 56, 55, 40]
     }
   }
 
-  getRedox(meta: ChartService.MetaData): ChartService.Data {
+  redox(meta: ChartService.MetaData): ChartService.Data {
     return {
       x: [],
       y: []
     }
   }
 
-  getPH(meta: ChartService.MetaData): ChartService.Data {
+  pH(meta: ChartService.MetaData): ChartService.Data {
     return {
       x: [],
       y: []

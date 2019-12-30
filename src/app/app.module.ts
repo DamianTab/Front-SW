@@ -12,6 +12,10 @@ import { MessagesModule } from 'primeng/messages';
 import { DashboardModule } from './shared/components/dashboard/dashboard.module';
 import { WaterModule } from './forms/water/water.module';
 import { ChartModule as SwChartModule } from './charts/chart/chart.module';
+import { TemperatureChartModule } from './charts/temperature-chart/temperature-chart.module';
+import { OxygenChartModule } from './charts/oxygen-chart/oxygen-chart.module';
+import { RedoxChartModule } from './charts/redox-chart/redox-chart.module';
+import { PhChartModule } from './charts/ph-chart/ph-chart.module';
 
 @NgModule({
   declarations: [
@@ -28,7 +32,11 @@ import { ChartModule as SwChartModule } from './charts/chart/chart.module';
     DashboardModule,
     WaterModule,
     AppRoutingModule,
-    SwChartModule
+    SwChartModule,
+    TemperatureChartModule,
+    OxygenChartModule,
+    RedoxChartModule,
+    PhChartModule
   ],
   providers: [],
   bootstrap: [AppComponent]
