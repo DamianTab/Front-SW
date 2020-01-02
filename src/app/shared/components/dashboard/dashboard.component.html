@@ -1,1 +1,11 @@
-<p>dashboard works!</p>
+<div *ngFor="let track of tracks">
+    <div *ngIf="track.name === selectedTrack">
+        <div *ngFor="let widget of track.widgets" class="sw-dashboard">
+            <p-card [header]="widget.header" [subheader]="widget.subheader" [style]="widget.style" [styleClass]="widget.styleClass">
+                                
+                <ng-container class="sw-dashboard-innerHTML" *ngTemplateOutlet="widget.content"></ng-container>
+
+            </p-card>
+        </div>
+    </div>
+</div>

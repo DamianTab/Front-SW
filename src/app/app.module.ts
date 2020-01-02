@@ -11,6 +11,7 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { MessagesModule } from 'primeng/messages';
 import { DashboardModule } from './shared/components/dashboard/dashboard.module';
 import { WaterModule } from './forms/water/water.module';
+
 @NgModule({
   declarations: [
     AppComponent
