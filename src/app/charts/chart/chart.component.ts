@@ -1,6 +1,21 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { ChartService } from '../../../services/charts/chart.service' 
 
+/* Example:
+ * <sw-chart dataType="oxygen" [interval]="interval"></sw-chart>
+ * 
+ * Warning - dataType have to be named like the service accessor in the ChartService!!!
+ * 
+ * Additional attributes:
+ * width - width of the graph
+ * height - height of the graph
+ * lineColor - color of the function
+ * title - title of the graph
+ * fontSize - font size of the graph title
+ * shadow - shadow under the function
+ * xLabel - title of the x axis
+ * yLabel - title of the y axis
+ */
 @Component({
   selector: 'sw-chart',
   templateUrl: './chart.component.html'
@@ -15,14 +30,24 @@ export class ChartComponent {
     @Input() readonly title: string = 'Oxygen';
     @Input() readonly fontSize: number = 16;
     @Input() readonly shadow: boolean = true;
+    @Input() readonly xLabel: string = '';
+    @Input() readonly yLabel: string = '';
     
-    @Input() readonly interval: ChartService.MetaData;
-    @Input() readonly dataType: any; 
+    @Input() readonly dataType: any;
+    @Input() interval: ChartService.MetaData;
     
     constructor(private service: ChartService) { }
 
-    ngAfterViewInit() {
-        var serviceData: ChartService.Data = this.getServiceData()
+    ngOnChanges(changes: SimpleChanges): void {
+
+        if(changes.interval.currentValue != changes.interval.previousValue) {
+            this.interval = changes.interval.currentValue
+            this.ngAfterViewInit()
+        }
+    }
+
+    ngAfterViewInit(): void {
+        var serviceData = this.getServiceData()
         
         this.data = {
             labels: serviceData.x,
@@ -43,7 +68,21 @@ export class ChartComponent {
             },
             legend: {
                 display: false
-            }
+            },
+            scales: {
+                xAxes: [{
+                    scaleLabel: {
+                      display: this.xLabel !== '',
+                      labelString: this.xLabel
+                    }
+                }],
+                yAxes: [{
+                  scaleLabel: {
+                    display: this.yLabel !== '',
+                    labelString: this.yLabel
+                  }
+                }]
+              }
         }
     }
 

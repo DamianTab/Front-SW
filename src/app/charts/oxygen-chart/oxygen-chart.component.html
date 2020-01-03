@@ -1,17 +1,1 @@
-<sw-chart dataType="oxygen" [interval]="interval"></sw-chart>
-
-<div class="ui-g ui-fluid">
-    <div class="ui-g-12 ui-md-4">
-        <div class="ui-inputgroup">
-            <span class="ui-inputgroup-addon"><i class="pi pi-user" style="line-height: 1.25;"></i></span>
-            <input type="datetime-local" [value]="interval.begin.toString()" min="2018-06-07T00" max="2018-06-14T00">         
-        </div>
-    </div>
-
-    <div class="ui-g-12 ui-md-4">
-        <div class="ui-inputgroup">
-            <span class="ui-inputgroup-addon"><i class="pi pi-user" style="line-height: 1.25;"></i></span>
-            <input type="datetime-local" value="2018-06-12T19:30" min="2018-06-07T00:00" max="2018-06-14T00:00">         
-        </div>
-    </div>
-</div>
+<sw-chart-widget dataType="oxygen" title="Natężenie tlenu" yLabel="Stężenie tlenu"></sw-chart-widget>

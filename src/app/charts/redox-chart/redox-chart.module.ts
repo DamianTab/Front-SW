@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { ChartWidgetModule } from '../chart-widget/chart-widget.module'
 import { RedoxChartComponent } from './redox-chart.component'
-import { ChartModule } from '../chart/chart.module'
 
 @NgModule({
   declarations: [RedoxChartComponent],
   imports: [
     CommonModule,
-    ChartModule
+    ChartWidgetModule
   ],
   exports: [RedoxChartComponent]
 })

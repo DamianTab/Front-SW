@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { ChartWidgetModule } from '../chart-widget/chart-widget.module'
 import { TemperatureChartComponent } from './temperature-chart.component'
-import { ChartModule } from '../chart/chart.module'
 
 @NgModule({
   declarations: [TemperatureChartComponent],
   imports: [
     CommonModule,
-    ChartModule
+    ChartWidgetModule
   ],
   exports: [TemperatureChartComponent]
 })

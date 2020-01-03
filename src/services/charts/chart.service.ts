@@ -5,8 +5,8 @@ export class ChartService {
 
   temperature(meta: ChartService.MetaData): ChartService.Data {
     return {
-      x: [],
-      y: []
+      x: [1, 2, 3, 4, 5, 6, 7],
+      y: [65, 59, 80, 81, 56, 55, 40]
     }
   }
 
@@ -19,15 +19,15 @@ export class ChartService {
 
   redox(meta: ChartService.MetaData): ChartService.Data {
     return {
-      x: [],
-      y: []
+      x: [1, 2, 3, 4, 5, 6, 7],
+      y: [65, 59, 80, 81, 56, 55, 40]
     }
   }
 
   pH(meta: ChartService.MetaData): ChartService.Data {
     return {
-      x: [],
-      y: []
+      x: [1, 2, 3, 4, 5, 6, 7],
+      y: [65, 59, 80, 81, 56, 55, 40]
     }
   }
 }
