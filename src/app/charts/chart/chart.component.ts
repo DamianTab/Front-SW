@@ -82,7 +82,10 @@ export class ChartComponent {
                     labelString: this.yLabel
                   }
                 }]
-              }
+            },
+            
+            responsive: true,
+            maintainAspectRatio: false
         }
     }
 

@@ -1,6 +1,21 @@
-<sw-oxygen-chart></sw-oxygen-chart>
-<sw-ph-chart></sw-ph-chart>
-<sw-redox-chart></sw-redox-chart>
-<sw-temperature-chart></sw-temperature-chart>
+<sw-dashboard show="graps">
+    <sw-track name="graps">
+        <sw-track-widget>
+            <sw-oxygen-chart></sw-oxygen-chart>
+        </sw-track-widget>
+
+        <sw-track-widget>
+            <sw-ph-chart></sw-ph-chart>
+        </sw-track-widget>
+
+        <sw-track-widget>
+            <sw-redox-chart></sw-redox-chart>
+        </sw-track-widget>
+
+        <sw-track-widget>
+            <sw-temperature-chart></sw-temperature-chart>
+        </sw-track-widget>
+    </sw-track>
+</sw-dashboard>
 
 <router-outlet></router-outlet>
