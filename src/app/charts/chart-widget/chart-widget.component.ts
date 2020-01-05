@@ -43,6 +43,26 @@ export class ChartWidgetComponent {
     this.checkXLabel()
   }
 
+  saveChartImg() {
+    var canvas = document.querySelector(`sw-chart-widget[dataType=${this.dataType}]`).getElementsByTagName('canvas').item(0)
+    var img = document.createElement('canvas')
+    
+    var ctx = img.getContext('2d')
+    img.width = canvas.width 
+    img.height = canvas.height
+
+    ctx.drawImage(canvas, 0, 0)
+    ctx.globalCompositeOperation ='destination-over';
+    ctx.fillStyle = '#ffffff'
+    ctx.fillRect(0, 0, img.width, img.height)
+
+
+    var url = img.toDataURL('image/png')
+    var link = document.createElement('a')
+    link.setAttribute('href', url)
+    link.setAttribute('download', `${this.title}.png`)
+    link.click()
+  }
 
   get minDate(): string {
     return this.parseDate(this._minDate)
