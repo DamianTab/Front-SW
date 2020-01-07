@@ -1,0 +1,38 @@
+<p-table [columns]="cols" [value]="rows" [paginator]="rows.length > maxRows ? true : false" [rows]="maxRows" 
+[resizableColumns]="true" [reorderableColumns]="true" [loading]="loading" selectionMode="multiple" 
+[(selection)]="selectedRows" (onRowSelect)="onRowSelect($event)">
+    
+    <ng-template pTemplate="caption">
+        <div class="ui-helper-clearfix" style="text-align: left">
+            <button type="button" pButton [icon]="selectedRows.length > 0 ? 'pi pi-list' : 'pi pi-table'" style="margin-right: 1em;" class="ui-button-secondary" disabled></button>
+            <button type="button" pButton icon="pi pi-file-o" iconPos="left" label="CSV" (click)="exportCSV()" style="margin-right: 0.5em;" class="ui-button-secondary"></button>
+            <button type="button" pButton icon="pi pi-file-excel" iconPos="left" label="EXCEL" (click)="exportExcel()" style="margin-right: 0.5em;" class="ui-button-secondary"></button>
+            <button type="button" pButton icon="pi pi-file-pdf" iconPos="left" label="PDF" (click)="exportPdf()" class="ui-button-secondary"></button>
+        </div>
+    </ng-template>
+    
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of columns" pReorderableColumn>
+                {{col.header}}
+            </th>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-row let-rowData let-rowIndex="rowIndex" let-columns="columns">
+        <tr [pSelectableRow]="row" [pSelectableRowIndex]="rowIndex">
+            <td *ngFor="let col of columns" [ngClass]="row[col.field] == null ? 'emptyCell': null">
+                    {{row[col.field] == null? '_' : row[col.field]}}
+            </td>
+        </tr>
+    </ng-template>
+    
+    <ng-template pTemplate="emptymessage" let-columns>
+        <tr>
+            <td [attr.colspan]="columns.length">
+                Nie znaleziono rekordów
+            </td>
+        </tr>
+    </ng-template>
+
+</p-table>

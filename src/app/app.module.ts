@@ -17,6 +17,7 @@ import { OxygenChartComponent } from './charts/oxygen-chart/oxygen-chart.compone
 import { TemperatureChartComponent } from './charts/temperature-chart/temperature-chart.component';
 import { RedoxChartComponent } from './charts/redox-chart/redox-chart.component';
 import { PhChartComponent } from './charts/ph-chart/ph-chart.component';
+import { TableModule } from './shared/components/table/table.module';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { PhChartComponent } from './charts/ph-chart/ph-chart.component';
     WaterModule,
     AppRoutingModule,
     SwChartModule,
-    ChartWidgetModule
+    ChartWidgetModule,
+    TableModule
   ],
   providers: [],
   bootstrap: [AppComponent]
