@@ -22,7 +22,8 @@ export class TableComponent implements OnInit {
   @Input() readonly dataType: string;
 
   private cols: any[] = [];
-  private rows: any[];
+  private rows: any[]; //rows = visible rows + invisible rows
+  private data: any[]; //data = visible rows
   private loading: boolean;
   private selectedRows: any[] = [];
   private exportColumns: any;
@@ -33,7 +34,8 @@ export class TableComponent implements OnInit {
     this.loading = true 
     this.dataSource.getData(this.dataType).then(data => {
       this.rows = this.extractRows(data)
-      
+      this.data = Object.assign([], this.rows)
+
       var empty = {}
       for(let key in this.rows[0]) {
         empty[key] = null
@@ -76,7 +78,7 @@ export class TableComponent implements OnInit {
   }
 
   exportCSV(): void {
-    const rows = (this.selectedRows.length > 0 ? this.selectedRows : this.rows)
+    const rows = (this.selectedRows.length > 0 ? this.selectedRows : this.data)
     const headers = [this.cols.map(col => col.header).join(',')]
     
     const csvData = (headers.concat(rows.map(row => {
@@ -100,7 +102,7 @@ export class TableComponent implements OnInit {
 
   exportExcel(): void {
     import("xlsx").then(xlsx => {
-      const worksheet = xlsx.utils.json_to_sheet(this.selectedRows.length > 0 ? this.selectedRows : this.rows)
+      const worksheet = xlsx.utils.json_to_sheet(this.selectedRows.length > 0 ? this.selectedRows : this.data)
       const workbook = { 
         Sheets: { 
           'data': worksheet 
@@ -126,9 +128,9 @@ export class TableComponent implements OnInit {
   exportPdf(): void {
     import("jspdf").then(jsPDF => {
       import("jspdf-autotable").then(x => {
-          const doc = new jsPDF.default(0,0);
-          doc.autoTable(this.exportColumns, this.selectedRows.length > 0 ? this.selectedRows : this.rows);
-          doc.save(`${this.name}.pdf`);
+          const doc = new jsPDF.default(0,0)
+          doc.autoTable(this.exportColumns, this.selectedRows.length > 0 ? this.selectedRows : this.data)
+          doc.save(`${this.name}.pdf`)
       })
   })
   }
