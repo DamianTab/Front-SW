@@ -15,6 +15,8 @@ export class NavbarComponent implements OnInit {
     { name: "Ustawienia", subpages: ["Zmień dane", "Wyloguj"] }
   ];
 
+  ngOnInit(): void {}
+
   onClick(name: string): void {
     console.log(name);
   }
