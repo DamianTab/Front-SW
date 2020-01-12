@@ -13,19 +13,15 @@ import { DashboardModule } from './shared/components/dashboard/dashboard.module'
 import { WaterModule } from './forms/water/water.module';
 import { ChartModule as SwChartModule } from './charts/chart/chart.module';
 import { ChartWidgetModule } from './charts/chart-widget/chart-widget.module';
-import { OxygenChartComponent } from './charts/oxygen-chart/oxygen-chart.component';
-import { TemperatureChartComponent } from './charts/temperature-chart/temperature-chart.component';
-import { RedoxChartComponent } from './charts/redox-chart/redox-chart.component';
-import { PhChartComponent } from './charts/ph-chart/ph-chart.component';
+import { OxygenChartModule } from './charts/oxygen-chart/oxygen-chart.module';
+import { TemperatureChartModule } from './charts/temperature-chart/temperature-chart.module';
+import { RedoxChartModule } from './charts/redox-chart/redox-chart.module';
+import { PhChartModule } from './charts/ph-chart/ph-chart.module';
 import { TableModule } from './shared/components/table/table.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    OxygenChartComponent,
-    TemperatureChartComponent,
-    RedoxChartComponent,
-    PhChartComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -40,6 +36,10 @@ import { TableModule } from './shared/components/table/table.module';
     AppRoutingModule,
     SwChartModule,
     ChartWidgetModule,
+    OxygenChartModule,
+    TemperatureChartModule,
+    RedoxChartModule,
+    PhChartModule,
     TableModule
   ],
   providers: [],

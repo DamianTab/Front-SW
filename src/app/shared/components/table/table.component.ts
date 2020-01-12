@@ -36,7 +36,7 @@ export class TableComponent implements OnInit {
       this.rows = this.extractRows(data)
       this.data = Object.assign([], this.rows)
 
-      var empty = {}
+      const empty = {}
       for(let key in this.rows[0]) {
         empty[key] = null
       }
@@ -50,10 +50,10 @@ export class TableComponent implements OnInit {
   }
 
   private extractRows(data: any): any {
-    var length = data[Object.keys(data)[0]].length
+    const length = data[Object.keys(data)[0]].length
 
     //create rows
-    var rows = []
+    const rows = []
     for(let i=0; i<length; i++) {
       let row = {}
 
@@ -82,7 +82,7 @@ export class TableComponent implements OnInit {
     const headers = [this.cols.map(col => col.header).join(',')]
     
     const csvData = (headers.concat(rows.map(row => {
-      var r = []
+      const r = []
       for(let header in row) {
         r.push(row[header]) 
       }
@@ -94,7 +94,7 @@ export class TableComponent implements OnInit {
   }
 
   private saveAsCSVFile(csvData: string, fileName: string): void {
-    var link = document.createElement('a')
+    const link = document.createElement('a')
     link.setAttribute('href', encodeURI("data:text/csv;charset=utf-8," + csvData))
     link.setAttribute('download', `${fileName}.csv`)
     link.click()
@@ -116,8 +116,8 @@ export class TableComponent implements OnInit {
 
   private saveAsExcelFile(buffer: any, fileName: string): void {
     import("file-saver").then(FileSaver => {
-      let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'
-      let EXCEL_EXTENSION = '.xlsx'
+      const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'
+      const EXCEL_EXTENSION = '.xlsx'
       const data: Blob = new Blob([buffer], {
         type: EXCEL_TYPE
       });
@@ -137,8 +137,8 @@ export class TableComponent implements OnInit {
 
   onRowSelect(event) {
     //check if selected row is empty, if so then deselect it
-    var keys = Object.keys(event.data)
-    var nullCount = keys.map(key => event.data[key] == null ? 1 : 0).reduce((a, b) => a + b, 0) 
+    const keys = Object.keys(event.data)
+    const nullCount = keys.map(key => event.data[key] == null ? 1 : 0).reduce((a, b) => a + b, 0) 
     
     //every field is null (empty row)
     if(nullCount == keys.length) {

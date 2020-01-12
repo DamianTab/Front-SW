@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ChartService } from '../../../services/charts/chart.service';
 
 /* Example:
@@ -13,10 +13,10 @@ import { ChartService } from '../../../services/charts/chart.service';
   templateUrl: './chart-widget.component.html',
   styleUrls: ['./chart-widget.component.scss']
 })
-export class ChartWidgetComponent {
+export class ChartWidgetComponent implements OnInit {
   //date input limiters
-  private readonly _minDate: Date;
-  private readonly _maxDate: Date;
+  private _minDate: Date;
+  private _maxDate: Date = new Date();
 
   @Input() readonly title: string = "";
   @Input() readonly yLabel: string = "";
@@ -25,10 +25,8 @@ export class ChartWidgetComponent {
   private interval: ChartService.MetaData;
   private xLabel: string = "";
 
-  constructor() {
-    this._maxDate = new Date()
+  ngOnInit() {
     this._maxDate.setMinutes(0, 0, 0)
-
     this._minDate = new Date(this._maxDate)
 
     if(this._maxDate.getMonth() - 1 < 0) {
@@ -44,10 +42,10 @@ export class ChartWidgetComponent {
   }
 
   saveChartImg() {
-    var canvas = document.querySelector(`sw-chart-widget[dataType=${this.dataType}]`).getElementsByTagName('canvas').item(0)
-    var img = document.createElement('canvas')
+    const canvas = document.querySelector(`sw-chart-widget[dataType=${this.dataType}]`).getElementsByTagName('canvas').item(0)
+    const img = document.createElement('canvas')
     
-    var ctx = img.getContext('2d')
+    const ctx = img.getContext('2d')
     img.width = canvas.width 
     img.height = canvas.height
 
@@ -57,8 +55,8 @@ export class ChartWidgetComponent {
     ctx.fillRect(0, 0, img.width, img.height)
 
 
-    var url = img.toDataURL('image/png')
-    var link = document.createElement('a')
+    const url = img.toDataURL('image/png')
+    const link = document.createElement('a')
     link.setAttribute('href', url)
     link.setAttribute('download', `${this.title}.png`)
     link.click()
