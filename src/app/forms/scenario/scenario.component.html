@@ -1,1 +1,11 @@
-<p>scenario works!</p>
+<div>
+    <span>
+        <h3>Faza scenariusza:</h3>
+        <p-autoComplete  [suggestions]="results" (completeMethod)="search($event)"
+            [dropdown]="true"></p-autoComplete>
+    </span>
+    <span>
+        <h3>Czas: [minuty]</h3>
+        <p-autoComplete [suggestions]="results" (completeMethod)="search($event)"></p-autoComplete>
+    </span>
+</div>

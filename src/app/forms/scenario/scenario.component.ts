@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-scenario',
+  selector: 'sw-scenario',
   templateUrl: './scenario.component.html',
   styleUrls: ['./scenario.component.scss']
 })

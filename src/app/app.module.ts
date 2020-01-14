@@ -11,12 +11,11 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { MessagesModule } from 'primeng/messages';
 import { DashboardModule } from './shared/components/dashboard/dashboard.module';
 import { WaterModule } from './forms/water/water.module';
-import { ScenarioComponent } from './forms/scenario/scenario.component';
+import { ScenarioModule } from './forms/scenario/scenario.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ScenarioComponent
   ],
   imports: [
     BrowserModule,
@@ -28,6 +27,7 @@ import { ScenarioComponent } from './forms/scenario/scenario.component';
     FieldsetModule,
     DashboardModule,
     WaterModule,
+    ScenarioModule,
     AppRoutingModule
   ],
   providers: [],
