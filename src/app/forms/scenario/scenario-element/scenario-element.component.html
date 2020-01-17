@@ -1,0 +1,13 @@
+<div class="flex">
+    <div class="flex-elem">
+        <h3>Faza scenariusza:</h3>
+        <p-dropdown [options]="phases" [(ngModel)]="selectedValues.phase" placeholder="Wybierz fazę" [showClear]="true"></p-dropdown>
+    </div>
+    <div>
+        <h3>Czas trwania w minutach:</h3>
+        <p-spinner [(ngModel)]="selectedValues.duration" [min]="1"></p-spinner>
+    </div>
+    {{selectedValues.id || 'none'}}
+    {{selectedValues.phase || 'none'}}
+    {{selectedValues.duration || 'none'}}
+</div>

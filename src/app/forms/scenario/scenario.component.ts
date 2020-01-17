@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+
 @Component({
   selector: 'sw-scenario',
   templateUrl: './scenario.component.html',
@@ -7,7 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ScenarioComponent implements OnInit {
 
-  constructor() { }
+  elems: number[];
+
+  constructor() {
+      this.elems = [1, 2];
+  }
 
   ngOnInit() {
   }
