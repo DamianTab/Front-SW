@@ -5,6 +5,7 @@ import { ScenarioElementComponent } from './scenario-element/scenario-element.co
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 import { SpinnerModule } from 'primeng/spinner';
+import { ButtonModule } from 'primeng/button';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { SpinnerModule } from 'primeng/spinner';
     CommonModule,
     DropdownModule,
     FormsModule,
-    SpinnerModule
+    SpinnerModule,
+    ButtonModule
   ],
   exports: [ScenarioComponent]
 })

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { SelectItem } from 'primeng/api';
 
 
@@ -10,11 +10,12 @@ import { SelectItem } from 'primeng/api';
 export class ScenarioElementComponent implements OnInit {
 
   @Input() readonly elemId: number;
+  @Output() deleteElem: EventEmitter<number> = new EventEmitter();
   phases: SelectItem[];
-  selectedValues = {id:null, phase:null, duration:null};
+  selectedPhase: string;
+  selectedDuration: number;
 
-  constructor() { 
-
+  ngOnInit() {
     this.phases = [
       {label:'Nalewanie', value:'Nalewanie'},
       {label:'Napowietrzanie', value:'Napowietrzanie'},
@@ -22,11 +23,10 @@ export class ScenarioElementComponent implements OnInit {
       {label:'Filtrowanie', value:'Filtrowanie'},
       {label:'Oddzielanie', value:'Oddzielanie'}
     ];
-
   }
 
-  ngOnInit() {
-    this.selectedValues.id = this.elemId;
+  deleteElement(): void {
+    this.deleteElem.emit(this.elemId);
   }
 
 }
