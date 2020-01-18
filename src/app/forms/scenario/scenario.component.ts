@@ -1,6 +1,20 @@
 import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 import { ScenarioElementComponent } from './scenario-element/scenario-element.component';
 
+/* 
+
+Usage: as a content of sw-track-widget component, for example:
+
+<sw-dashboard show="one">
+    <sw-track name="one">
+        <sw-track-widget header="Nowy scenariusz">
+            <sw-scenario></sw-scenario>
+        </sw-track-widget>
+    </sw-track>
+</sw-dashboard> 
+
+*/
+
 
 @Component({
   selector: 'sw-scenario',
