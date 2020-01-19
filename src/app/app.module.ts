@@ -18,10 +18,12 @@ import { TemperatureChartModule } from './charts/temperature-chart/temperature-c
 import { RedoxChartModule } from './charts/redox-chart/redox-chart.module';
 import { PhChartModule } from './charts/ph-chart/ph-chart.module';
 import { TableModule } from './shared/components/table/table.module';
+import { NavbarComponent } from './shared/components/navbar/navbar.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
