@@ -47,7 +47,7 @@ export class ChartComponent {
     }
 
     ngAfterViewInit(): void {
-        var serviceData = this.getServiceData()
+        const serviceData = this.getServiceData()
         
         this.data = {
             labels: serviceData.x,
