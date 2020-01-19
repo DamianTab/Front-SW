@@ -11,6 +11,13 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { MessagesModule } from 'primeng/messages';
 import { DashboardModule } from './shared/components/dashboard/dashboard.module';
 import { WaterModule } from './forms/water/water.module';
+import { ChartModule as SwChartModule } from './charts/chart/chart.module';
+import { ChartWidgetModule } from './charts/chart-widget/chart-widget.module';
+import { OxygenChartModule } from './charts/oxygen-chart/oxygen-chart.module';
+import { TemperatureChartModule } from './charts/temperature-chart/temperature-chart.module';
+import { RedoxChartModule } from './charts/redox-chart/redox-chart.module';
+import { PhChartModule } from './charts/ph-chart/ph-chart.module';
+import { TableModule } from './shared/components/table/table.module';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 
 @NgModule({
@@ -28,7 +35,14 @@ import { NavbarComponent } from './shared/components/navbar/navbar.component';
     FieldsetModule,
     DashboardModule,
     WaterModule,
-    AppRoutingModule
+    AppRoutingModule,
+    SwChartModule,
+    ChartWidgetModule,
+    OxygenChartModule,
+    TemperatureChartModule,
+    RedoxChartModule,
+    PhChartModule,
+    TableModule
   ],
   providers: [],
   bootstrap: [AppComponent]
