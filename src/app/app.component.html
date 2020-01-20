@@ -1,4 +1,25 @@
 <sw-navbar></sw-navbar>
-<sw-water></sw-water>
+
+<sw-dashboard show="graps">
+    <sw-track name="graps">
+
+        <sw-track-widget>
+          <sw-scenario></sw-scenario>
+        </sw-track-widget>
+
+        <sw-track-widget>
+            <sw-table></sw-table>
+        </sw-track-widget>
+
+        <sw-track-widget>
+            <sw-oxygen-chart></sw-oxygen-chart>
+            <sw-oxygen-chart></sw-oxygen-chart>
+        </sw-track-widget>
+
+        <sw-track-widget>
+            <sw-oxygen-chart></sw-oxygen-chart>
+        </sw-track-widget>
+    </sw-track>
+</sw-dashboard>
 
 <router-outlet></router-outlet>

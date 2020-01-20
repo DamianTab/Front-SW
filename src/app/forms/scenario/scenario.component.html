@@ -1,0 +1,7 @@
+<div>
+    <sw-scenario-element *ngFor="let elem of elems" [elemId]="elem" (deleteElem)="deleteElement($event)"></sw-scenario-element>
+    <div class="top-margin">
+        <p-button label="Dodaj element" icon="pi pi-plus" (click)="addElement()"></p-button>
+        <p-button label="Zatwierdź scenariusz" icon="pi pi-check" iconPos="left" (click)="submitScenario()"></p-button>
+    </div>
+</div>

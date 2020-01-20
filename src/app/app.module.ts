@@ -20,6 +20,7 @@ import { PhChartModule } from './charts/ph-chart/ph-chart.module';
 import { TableModule } from './shared/components/table/table.module';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { WaterControllerModule } from './miscellaneous/water-controller/water-controller.module';
+import { ScenarioModule } from './forms/scenario/scenario.module';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,6 @@ import { WaterControllerModule } from './miscellaneous/water-controller/water-co
     FieldsetModule,
     DashboardModule,
     WaterModule,
-    AppRoutingModule,
     SwChartModule,
     ChartWidgetModule,
     OxygenChartModule,
@@ -44,7 +44,9 @@ import { WaterControllerModule } from './miscellaneous/water-controller/water-co
     RedoxChartModule,
     PhChartModule,
     TableModule,
-    WaterControllerModule
+    WaterControllerModule,
+    ScenarioModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
