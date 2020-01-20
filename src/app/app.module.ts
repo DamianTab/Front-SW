@@ -19,6 +19,7 @@ import { RedoxChartModule } from './charts/redox-chart/redox-chart.module';
 import { PhChartModule } from './charts/ph-chart/ph-chart.module';
 import { TableModule } from './shared/components/table/table.module';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
+import { ScenarioModule } from './forms/scenario/scenario.module';
 
 @NgModule({
   declarations: [
@@ -35,14 +36,15 @@ import { NavbarComponent } from './shared/components/navbar/navbar.component';
     FieldsetModule,
     DashboardModule,
     WaterModule,
-    AppRoutingModule,
     SwChartModule,
     ChartWidgetModule,
     OxygenChartModule,
     TemperatureChartModule,
     RedoxChartModule,
     PhChartModule,
-    TableModule
+    TableModule,
+    ScenarioModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
