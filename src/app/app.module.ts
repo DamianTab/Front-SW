@@ -19,11 +19,12 @@ import { RedoxChartModule } from './charts/redox-chart/redox-chart.module';
 import { PhChartModule } from './charts/ph-chart/ph-chart.module';
 import { TableModule } from './shared/components/table/table.module';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
+import { WaterControllerModule } from './miscellaneous/water-controller/water-controller.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent
+    NavbarComponent,    
   ],
   imports: [
     BrowserModule,
@@ -42,7 +43,8 @@ import { NavbarComponent } from './shared/components/navbar/navbar.component';
     TemperatureChartModule,
     RedoxChartModule,
     PhChartModule,
-    TableModule
+    TableModule,
+    WaterControllerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

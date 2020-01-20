@@ -10,6 +10,6 @@ import { TrackWidgetModule } from './trackwidget/trackwidget.module'
     CommonModule,
     TrackWidgetModule
   ],
-  exports: [TrackComponent]
+  exports: [TrackComponent, TrackWidgetModule]
 })
 export class TrackModule { }
