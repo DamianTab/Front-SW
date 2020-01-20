@@ -3,7 +3,7 @@
         <div *ngFor="let widget of track.widgets" class="sw-dashboard">
             <p-card [header]="widget.header" [subheader]="widget.subheader" [style]="widget.style" [styleClass]="widget.styleClass">
                                 
-                <ng-container class="sw-dashboard-innerHTML" *ngTemplateOutlet="widget.content"></ng-container>
+                <ng-container *ngTemplateOutlet="widget.content"></ng-container>
 
             </p-card>
         </div>

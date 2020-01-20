@@ -1,0 +1,37 @@
+<div class="p-grid">
+    <div class="p-col-12 p-sm-7">
+        <sw-chart [dataType]="dataType" [title]="title" [xLabel]="xLabel" [yLabel]="yLabel" [interval]="interval" width="auto" height="30vh"></sw-chart>
+    </div>
+
+    <table class="p-col-12 p-md-5 p-lg-5">
+        <tbody>
+            <tr>
+                <td class="spacing">
+                    <div class="ui-inputgroup">
+                        <span class="ui-inputgroup-addon">Start</span>
+                        <input type="datetime-local" [value]="intervalBegin" [min]="minDate" [max]="intervalEnd" 
+                        (change)="intervalBegin=$event.target.value">         
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="spacing">
+                    <div class="ui-inputgroup">
+                        <span class="ui-inputgroup-addon">Stop</span>
+                        <input type="datetime-local" [value]="intervalEnd" [min]="intervalBegin" [max]="maxDate" 
+                        (change)="intervalEnd=$event.target.value">         
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="spacing">
+                    <div class="ui-inputgroup">
+                        <p-button label="Zapisz" icon="pi pi-image" iconPos="left" (onClick)="saveChartImg()"></p-button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

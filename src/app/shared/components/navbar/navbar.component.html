@@ -1,0 +1,12 @@
+<nav class="navbar justify-content-center navbar-expand-sm bg-dark navbar-dark">
+  <ul class="navbar-nav" *ngFor="let page of pages">
+    <li class="nav-item dropdown">
+        <a href="#" class="nav-link dropdown-toggle" id="navbardrop" data-toggle="dropdown"
+        (click)="onClick(page.name) ">{{page.name}}</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item nav-item" href="#" *ngFor="let subpage of page.subpages"
+            (click)="onClick(subpage)">{{subpage}}</a>
+        </div>
+    </li>  
+  </ul>
+</nav>
