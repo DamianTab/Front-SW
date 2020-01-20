@@ -24,6 +24,7 @@ import { ScenarioModule } from './forms/scenario/scenario.module';
 @NgModule({
   declarations: [
     AppComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +42,7 @@ import { ScenarioModule } from './forms/scenario/scenario.module';
     TemperatureChartModule,
     RedoxChartModule,
     PhChartModule,
-    TableModule
+    TableModule,
     ScenarioModule,
     AppRoutingModule
   ],

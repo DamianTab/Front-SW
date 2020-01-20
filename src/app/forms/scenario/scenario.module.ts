@@ -17,6 +17,6 @@ import { ButtonModule } from 'primeng/button';
     SpinnerModule,
     ButtonModule
   ],
-  exports: [ScenarioComponent]
+  exports: [ScenarioComponent, ScenarioElementComponent]
 })
 export class ScenarioModule { }
