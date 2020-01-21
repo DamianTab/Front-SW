@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { RouterElement } from './models/router-element';
+import { Router } from '@angular/router';
 
 @Component({
   selector: "sw-navbar",
@@ -8,17 +10,58 @@ import { Component, OnInit } from '@angular/core';
 export class NavbarComponent implements OnInit {
 
   pages = [
-    { name: "Woda", subpages: ["Woda 1", "Woda 2", "Woda 3"] },
-    { name: "Ścieki", subpages: ["Reaktor 1", "Reaktor 2", "Reaktor 3"] },
-    { name: "Anamox", subpages: ["Reaktor 1", "Reaktor 2", "Reaktor 3"] },
-    { name: "Scenariusze", subpages: ["Dostępne scenariusze", "Dodaj nowy scenariusz", "Opcje"] },
-    { name: "Ustawienia", subpages: ["Zmień dane", "Wyloguj"] }
+    {
+      name: "Woda", subpages: [
+        new RouterElement('Woda', 'water', 1),
+        new RouterElement('Woda', 'water', 2),
+        new RouterElement('Woda', 'water', 3)]
+    },
+
+    {
+      name: "Anamox", subpages: [
+        new RouterElement('Reaktor', 'anamox', 1),
+        new RouterElement('Reaktor', 'anamox', 2),
+        new RouterElement('Reaktor', 'anamox', 3)]
+    },
+    {
+      name: "Ags", subpages: [
+        new RouterElement('Reaktor', 'ags', 1),
+        new RouterElement('Reaktor', 'ags', 2),
+        new RouterElement('Reaktor', 'ags', 3)]
+    },
+
+    {
+      name: "Scenariusz", subpages: [
+        new RouterElement('Dostępne scenariusze', 'scenario'),
+        new RouterElement('Dodaj nowy scenariusz', 'scenario/new'),
+        new RouterElement('Scenariusz', 'scenario', 1),
+        new RouterElement('Scenariusz', 'scenario', 2),
+        new RouterElement('Scenariusz', 'scenario', 3)]
+    },
+
+    {
+      name: "Ustawienia", subpages: [
+        new RouterElement('Zmień dane', 'settings/data'),
+        new RouterElement('Wyloguj', 'settings/logout')]
+    },
   ];
 
-  ngOnInit(): void {}
+  constructor(private router: Router) {
+  }
 
-  onClick(name: string): void {
-    console.log(name);
+  ngOnInit(): void { }
+
+  onClick(elemenet: RouterElement): void {
+    console.log(elemenet.name);
+    console.log(elemenet.link, elemenet.id);
+    if (elemenet.id) {
+      this.router.navigate([elemenet.link, elemenet.id]);
+      // this.router.navigateByUrl('/' + elemenet.link + '/' + elemenet.id);
+    } else {
+      this.router.navigate([elemenet.link]);
+      // this.router.navigateByUrl('/' + elemenet.link);
+    }
+    console.log(this.router.url);
   }
 
 }

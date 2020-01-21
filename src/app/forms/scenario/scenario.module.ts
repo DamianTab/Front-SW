@@ -6,6 +6,9 @@ import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 import { SpinnerModule } from 'primeng/spinner';
 import { ButtonModule } from 'primeng/button';
+import { DashboardModule } from '../../shared/components/dashboard/dashboard.module';
+import { TrackModule } from 'src/app/shared/components/dashboard/track/track.module';
+import { ScenarioRoutingModule } from './scenario-routing.module';
 
 
 @NgModule({
@@ -15,8 +18,11 @@ import { ButtonModule } from 'primeng/button';
     DropdownModule,
     FormsModule,
     SpinnerModule,
-    ButtonModule
+    ButtonModule,
+    DashboardModule,
+    TrackModule,
+    ScenarioRoutingModule
   ],
-  exports: [ScenarioComponent, ScenarioElementComponent]
+  exports: [ScenarioComponent]
 })
 export class ScenarioModule { }

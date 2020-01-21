@@ -1,11 +1,11 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
-import { ChartService } from '../../../services/charts/chart.service' 
+import { ChartService } from '../../../services/charts/chart.service'
 
 /* Example:
  * <sw-chart dataType="oxygen" [interval]="interval"></sw-chart>
- * 
+ *
  * Warning - dataType have to be named like the service accessor in the ChartService!!!
- * 
+ *
  * Additional attributes:
  * width - width of the graph
  * height - height of the graph
@@ -32,10 +32,10 @@ export class ChartComponent {
     @Input() readonly shadow: boolean = true;
     @Input() readonly xLabel: string = '';
     @Input() readonly yLabel: string = '';
-    
+
     @Input() readonly dataType: any;
     @Input() interval: ChartService.MetaData;
-    
+
     constructor(private service: ChartService) { }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -48,7 +48,7 @@ export class ChartComponent {
 
     ngAfterViewInit(): void {
         const serviceData = this.getServiceData()
-        
+
         this.data = {
             labels: serviceData.x,
             datasets: [
@@ -83,7 +83,7 @@ export class ChartComponent {
                   }
                 }]
             },
-            
+
             responsive: true,
             maintainAspectRatio: false
         }
