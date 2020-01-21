@@ -1,12 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { TableService } from '../../../../services/tables/table.service';
+import { TableService } from '../../services/tables/table.service';
 
 /* Example:
  * <sw-table></sw-table>
  *
  * Obligatory properties:
- * a) dataType - name of data type in Table Service 
- * 
+ * a) dataType - name of data type in Table Service
+ *
  * Optional properties:
  * a) name - table name, it is used for file name during export table
  * b) maxRows - maximum rows per table page
@@ -31,7 +31,7 @@ export class TableComponent implements OnInit {
   constructor(private dataSource: TableService) { }
 
   ngOnInit(): void {
-    this.loading = true 
+    this.loading = true
     this.dataSource.getData(this.dataType).then(data => {
       this.rows = this.extractRows(data)
       this.data = Object.assign([], this.rows)
@@ -80,16 +80,16 @@ export class TableComponent implements OnInit {
   exportCSV(): void {
     const rows = (this.selectedRows.length > 0 ? this.selectedRows : this.data)
     const headers = [this.cols.map(col => col.header).join(',')]
-    
+
     const csvData = (headers.concat(rows.map(row => {
       const r = []
       for(let header in row) {
-        r.push(row[header]) 
+        r.push(row[header])
       }
 
       return r.join(',')
     }))).join('\n')
-    
+
     this.saveAsCSVFile(csvData, this.name)
   }
 
@@ -103,10 +103,10 @@ export class TableComponent implements OnInit {
   exportExcel(): void {
     import("xlsx").then(xlsx => {
       const worksheet = xlsx.utils.json_to_sheet(this.selectedRows.length > 0 ? this.selectedRows : this.data)
-      const workbook = { 
-        Sheets: { 
-          'data': worksheet 
-        }, 
+      const workbook = {
+        Sheets: {
+          'data': worksheet
+        },
         SheetNames: ['data']
       };
       const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' })
@@ -138,8 +138,8 @@ export class TableComponent implements OnInit {
   onRowSelect(event) {
     //check if selected row is empty, if so then deselect it
     const keys = Object.keys(event.data)
-    const nullCount = keys.map(key => event.data[key] == null ? 1 : 0).reduce((a, b) => a + b, 0) 
-    
+    const nullCount = keys.map(key => event.data[key] == null ? 1 : 0).reduce((a, b) => a + b, 0)
+
     //every field is null (empty row)
     if(nullCount == keys.length) {
       this.selectedRows.splice(this.selectedRows.indexOf(event.data), 1)

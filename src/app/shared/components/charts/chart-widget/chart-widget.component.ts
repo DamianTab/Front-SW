@@ -20,7 +20,7 @@ export class ChartWidgetComponent implements OnInit {
 
   @Input() readonly title: string = "";
   @Input() readonly yLabel: string = "";
-  @Input() readonly dataType: any; 
+  @Input() readonly dataType: any;
 
   private interval: ChartService.MetaData;
   private xLabel: string = "";
@@ -34,7 +34,7 @@ export class ChartWidgetComponent implements OnInit {
     }
 
     this.interval = {
-      begin: this._minDate, 
+      begin: this._minDate,
       end: this._maxDate
     }
 
@@ -44,9 +44,9 @@ export class ChartWidgetComponent implements OnInit {
   saveChartImg() {
     const canvas = document.querySelector(`sw-chart-widget[dataType=${this.dataType}]`).getElementsByTagName('canvas').item(0)
     const img = document.createElement('canvas')
-    
+
     const ctx = img.getContext('2d')
-    img.width = canvas.width 
+    img.width = canvas.width
     img.height = canvas.height
 
     ctx.drawImage(canvas, 0, 0)
