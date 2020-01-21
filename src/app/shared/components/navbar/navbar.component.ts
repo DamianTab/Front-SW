@@ -55,13 +55,13 @@ export class NavbarComponent implements OnInit {
     console.log(elemenet.name);
     console.log(elemenet.link, elemenet.id);
     if (elemenet.id) {
-      this.router.navigate([elemenet.link, elemenet.id, { skipLocationChange: true }]);
+      this.router.navigate([elemenet.link, elemenet.id]);
       // this.router.navigateByUrl('/' + elemenet.link + '/' + elemenet.id);
     } else {
-      this.router.navigate([elemenet.link, { skipLocationChange: true }]);
+      this.router.navigate([elemenet.link]);
       // this.router.navigateByUrl('/' + elemenet.link);
     }
-
+    console.log(this.router.url);
   }
 
 }

@@ -8,6 +8,7 @@ import { SpinnerModule } from 'primeng/spinner';
 import { ButtonModule } from 'primeng/button';
 import { DashboardModule } from '../../shared/components/dashboard/dashboard.module';
 import { TrackModule } from 'src/app/shared/components/dashboard/track/track.module';
+import { ScenarioRoutingModule } from './scenario-routing.module';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { TrackModule } from 'src/app/shared/components/dashboard/track/track.mod
     SpinnerModule,
     ButtonModule,
     DashboardModule,
-    TrackModule
+    TrackModule,
+    ScenarioRoutingModule
   ],
   exports: [ScenarioComponent]
 })

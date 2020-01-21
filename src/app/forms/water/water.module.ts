@@ -8,6 +8,7 @@ import { RedoxChartModule } from '../../shared/components/charts/redox-chart/red
 import { TemperatureChartModule } from '../../shared/components/charts/temperature-chart/temperature-chart.module';
 import { TableModule } from '../../shared/components/table/table.module';
 import { WaterControllerModule } from '../../miscellaneous/water-controller/water-controller.module';
+import { WaterRoutingModule } from './water-routing.module';
 
 @NgModule({
   declarations: [WaterComponent],
@@ -19,7 +20,8 @@ import { WaterControllerModule } from '../../miscellaneous/water-controller/wate
     RedoxChartModule,
     TemperatureChartModule,
     TableModule,
-    WaterControllerModule
+    WaterControllerModule,
+    WaterRoutingModule
   ],
   exports: [WaterComponent]
 })
