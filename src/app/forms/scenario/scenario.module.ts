@@ -9,6 +9,7 @@ import { ButtonModule } from 'primeng/button';
 import { DashboardModule } from '../../shared/components/dashboard/dashboard.module';
 import { TrackModule } from 'src/app/shared/components/dashboard/track/track.module';
 import { ScenarioRoutingModule } from './scenario-routing.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { ScenarioRoutingModule } from './scenario-routing.module';
     ButtonModule,
     DashboardModule,
     TrackModule,
-    ScenarioRoutingModule
+    ScenarioRoutingModule,
+    BrowserAnimationsModule,
   ],
   exports: [ScenarioComponent]
 })
