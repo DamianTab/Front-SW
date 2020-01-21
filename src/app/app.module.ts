@@ -4,6 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { WaterModule } from './forms/water/water.module';
 import { NavbarModule } from './shared/components/navbar/navbar.module';
+import { ScenarioModule } from './forms/scenario/scenario.module';
 
 @NgModule({
   declarations: [
@@ -12,6 +13,7 @@ import { NavbarModule } from './shared/components/navbar/navbar.module';
   imports: [
     WaterModule,
     NavbarModule,
+    ScenarioModule,
     AppRoutingModule
   ],
   providers: [],
