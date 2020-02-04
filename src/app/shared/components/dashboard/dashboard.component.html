@@ -1,6 +1,6 @@
 <div *ngFor="let track of tracks">
-    <div *ngIf="track.name === selectedTrack">
-        <div *ngFor="let widget of track.widgets" class="sw-dashboard">
+    <div *ngIf="track.name === selectedTrack" class="sw-dashboard">
+        <div *ngFor="let widget of track.widgets" class="sw-widget">
             <p-card [header]="widget.header" [subheader]="widget.subheader" [style]="widget.style" [styleClass]="widget.styleClass">
                                 
                 <ng-container *ngTemplateOutlet="widget.content"></ng-container>
