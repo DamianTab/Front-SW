@@ -30,6 +30,14 @@ export class WaterControllerComponent implements OnInit {
       $('p-inputSwitch > div').each(function() {
         $(this).css({'float': 'right'})
       })
+
+      $(window).resize(function() {
+        $('span.ui-inputswitch-slider').each(function() {
+          const colHeight = $(this).parents('div.p-col-6').height()
+          console.log(colHeight)
+          $(this).css({'transform': `translate(0, ${colHeight/2}px)`})
+        })
+      })
     })
   }
 
