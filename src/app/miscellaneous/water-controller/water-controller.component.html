@@ -3,41 +3,73 @@
         <img src="../../../assets/waterController.svg.png" class="img-fluid">
     </div>
 
-    <div class="p-col-2">
-        <div class="p-grid p-dir-col">
-            <div class="p-col">
-                <label>Zawór P1</label>
-                <p-inputSwitch [(ngModel)]="checked.P1"></p-inputSwitch>
+    <div class="p-col-2 sw-fieldset">
+        <div class="p-grid">
+            <div class="p-col-6">
+                <label>Zablokuj</label>
+            </div>
+
+            <div class="p-col-6">
+                <p-inputSwitch [(ngModel)]="blocked"></p-inputSwitch>
             </div>
             
-            <div class="p-col">
-                <label>Zawór P2</label>
-                <p-inputSwitch [(ngModel)]="checked.P2"></p-inputSwitch>
+            <div class="p-col-12">
+                <label>Zawory</label>
             </div>
 
-            <div class="p-col">
-                <label>Zawór P3</label>
-                <p-inputSwitch [(ngModel)]="checked.P3"></p-inputSwitch>
+            <div class="p-col-6">
+                <label>P1</label>
+            </div>
+            <div class="p-col-6">
+                <p-inputSwitch [disabled]="blocked" [(ngModel)]="checked.P1"></p-inputSwitch>
+            </div>
+            
+            <div class="p-col-6">
+                <label>P2</label>
+            </div>
+            <div class="p-col-6">
+                <p-inputSwitch [disabled]="blocked" [(ngModel)]="checked.P2"></p-inputSwitch>
             </div>
 
-            <div class="p-col">
-                <label>Zawór P4</label>
-                <p-inputSwitch [(ngModel)]="checked.P4"></p-inputSwitch>
+            <div class="p-col-6">
+                <label>P3</label>
+            </div>
+            <div class="p-col-6">
+                <p-inputSwitch [disabled]="blocked" [(ngModel)]="checked.P3"></p-inputSwitch>
             </div>
 
-            <div class="p-col">
-                <label>Pompa Y1</label>
-                <p-inputSwitch [(ngModel)]="checked.P4"></p-inputSwitch>
+            <div class="p-col-6">
+                <label>P4</label>
+            </div>
+            <div class="p-col-6">
+                <p-inputSwitch [disabled]="blocked" [(ngModel)]="checked.P4"></p-inputSwitch>
+            </div>
+        </div>
+
+        <div class="p-grid" style="margin-top: 2rem;">
+            <div class="p-col-12">
+                <label>Pompy</label>
+            </div>
+            
+            <div class="p-col-6">
+                <label>Y1</label>
+            </div>
+            <div class="p-col-6">
+                <p-inputSwitch [disabled]="blocked" [(ngModel)]="checked.Y1"></p-inputSwitch>
             </div>
 
-            <div class="p-col">
-                <label>Pompa Y2</label>
-                <p-inputSwitch [(ngModel)]="checked.P4"></p-inputSwitch>
+            <div class="p-col-6">
+                <label>Y2</label>
+            </div>
+            <div class="p-col-6">
+                <p-inputSwitch [disabled]="blocked" [(ngModel)]="checked.Y2"></p-inputSwitch>
             </div>
 
-            <div class="p-col">
-                <label>Pompa Y3</label>
-                <p-inputSwitch [(ngModel)]="checked.P4"></p-inputSwitch>
+            <div class="p-col-6">
+                <label>Y3</label>
+            </div>
+            <div class="p-col-6">
+                <p-inputSwitch [disabled]="blocked" [(ngModel)]="checked.Y3"></p-inputSwitch>
             </div>
         </div>
     </div>

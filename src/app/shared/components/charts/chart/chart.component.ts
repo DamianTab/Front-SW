@@ -24,7 +24,6 @@ export class ChartComponent {
     private data: any;
     private options: any;
 
-    @Input() readonly width: string = '100vw';
     @Input() readonly height: string = '100vh';
     @Input() readonly lineColor: string = this.randomColor();
     @Input() readonly title: string = 'Oxygen';
