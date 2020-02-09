@@ -22,23 +22,29 @@ export class WaterControllerComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.setDynamicCss()
+    setDynamicCss()
   }
+}
 
-  setDynamicCss(): void {
-    $(document).ready(function() {
-      $('p-inputSwitch > div').each(function() {
-        $(this).css({'float': 'right'})
-      })
+function setDynamicCss(): void {
+  $(document).ready(function() {
+    alignSliders()
+    resizeSliders()
+    $(window).resize(resizeSliders)
+  })
+}
 
-      $(window).resize(function() {
-        $('span.ui-inputswitch-slider').each(function() {
-          const colHeight = $(this).parents('div.p-col-6').height()
-          console.log(colHeight)
-          $(this).css({'transform': `translate(0, ${colHeight/2}px)`})
-        })
-      })
-    })
-  }
+function alignSliders(): void {
+  $('p-inputSwitch > div').each(function() {
+    $(this).css({'float': 'right'})
+  })
+}
 
+function resizeSliders(): void {
+  $('span.ui-inputswitch-slider').each(function() {
+    const absHeight = $(this).parents('div[class^=p-col-]').height();
+    const elHeight  = $(this).height();
+
+    $(this).css({'transform': `translateY(${(absHeight-elHeight)/2}px)`})
+  })
 }

@@ -24,7 +24,6 @@ export class ChartComponent {
     private data: any;
     private options: any;
 
-    @Input() readonly height: string = '100vh';
     @Input() readonly lineColor: string = this.randomColor();
     @Input() readonly title: string = 'Oxygen';
     @Input() readonly fontSize: number = 16;
@@ -84,7 +83,8 @@ export class ChartComponent {
             },
 
             responsive: true,
-            maintainAspectRatio: false
+            maintainAspectRatio: true,
+            aspectRatio: 1
         }
     }
 
