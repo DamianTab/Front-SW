@@ -1,0 +1,74 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
+.logo{
+  position: relative;
+  width: 100%;
+}
+.title{
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  text-align: center;
+}
+.form {
+  position: relative;
+  z-index: 1;
+  background: #FFFFFF;
+  width: 100%;
+  padding: 3vw;
+  text-align: center;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.form .hint {
+  display: block;
+  padding-bottom: 1vh;
+}
+.form input {
+  outline: 0;
+  background: #f2f2f2;
+  width: 100%;
+  border: 0;
+  margin: 0 0 1vh;
+  padding: 1vh;
+  box-sizing: border-box;
+}
+.form button {
+  text-transform: uppercase;
+  outline: 0;
+  background: #4CAF50;
+  width: 100%;
+  border: 0;
+  padding: 1vh;
+  color: #FFFFFF;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
+.form button:hover,.form button:active,.form button:focus {
+  background: #43A047;
+}
+.all {
+  z-index: 1;
+  margin: 1.5vh 1vw;
+  align-content: center;
+}
+
+/* If the screen size is 601px wide or more, set the font-size of <div> to 80px */
+@media screen and (min-width: 601px) {
+  .text-size {
+    font-size: 1vw;
+  }
+  .h-size {
+    font-size: 2.5vw;
+  }
+}
+
+/* If the screen size is 600px wide or less, set the font-size of <div> to 30px */
+@media screen and (max-width: 600px) {
+  .text-size {
+    font-size: 3.5vw;
+  }
+  .h-size {
+    font-size: 4.5vw;
+  }
+}

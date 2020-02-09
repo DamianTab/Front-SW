@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, NgModule, OnInit} from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, UrlSegment } from '@angular/router';
+import {LoginModule} from './login/login.module';
+
+
 
 @Component({
   selector: 'app-root',

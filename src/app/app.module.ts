@@ -6,6 +6,9 @@ import { WaterModule } from './forms/water/water.module';
 import { NavbarModule } from './shared/components/navbar/navbar.module';
 import { ScenarioModule } from './forms/scenario/scenario.module';
 import { BrowserModule } from '@angular/platform-browser';
+import { LoginModule} from './login/login.module';
+import { NotExistingPageModule } from './not-existing-page/not-existing-page.module';
+import { NoConnectionModule } from './no-connection/no-connection.module';
 
 @NgModule({
   declarations: [
@@ -16,7 +19,10 @@ import { BrowserModule } from '@angular/platform-browser';
     WaterModule,
     NavbarModule,
     ScenarioModule,
-    AppRoutingModule
+    AppRoutingModule,
+    LoginModule,
+    NotExistingPageModule,
+    NoConnectionModule
   ],
   providers: [],
   bootstrap: [AppComponent]
