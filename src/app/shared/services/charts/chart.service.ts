@@ -1,34 +1,33 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ChartService {
 
-  temperature(meta: ChartService.MetaData): ChartService.Data {
-    return {
-      x: [1, 2, 3, 4, 5, 6, 7],
-      y: [65, 59, 80, 81, 56, 55, 40]
-    }
+  private readonly url = 'service/chart'
+
+  constructor(private http: HttpClient) { }
+
+  async retrieveData(dataType: string): Promise<ChartService.Data> {
+    let data: ChartService.Data;
+    await this.http.get(`${this.url}/${dataType}`).subscribe((recv: ChartService.Data) => data = recv)
+    return data
   }
 
-  oxygen(meta: ChartService.MetaData): ChartService.Data {
-    return {
-      x: [1, 2, 3, 4, 5, 6, 7],
-      y: [65, 59, 80, 81, 56, 55, 40]
-    }
+  temperature(meta: ChartService.MetaData): Promise<ChartService.Data> {
+    return this.retrieveData('temperature')
   }
 
-  redox(meta: ChartService.MetaData): ChartService.Data {
-    return {
-      x: [1, 2, 3, 4, 5, 6, 7],
-      y: [65, 59, 80, 81, 56, 55, 40]
-    }
+  oxygen(meta: ChartService.MetaData): Promise<ChartService.Data> {
+    return this.retrieveData('oxygen')
   }
 
-  pH(meta: ChartService.MetaData): ChartService.Data {
-    return {
-      x: [1, 2, 3, 4, 5, 6, 7],
-      y: [65, 59, 80, 81, 56, 55, 40]
-    }
+  redox(meta: ChartService.MetaData): Promise<ChartService.Data> {
+    return this.retrieveData('redox')
+  }
+
+  pH(meta: ChartService.MetaData): Promise<ChartService.Data> {
+    return this.retrieveData('pH')
   }
 }
 
