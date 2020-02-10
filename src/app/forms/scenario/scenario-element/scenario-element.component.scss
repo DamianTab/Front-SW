@@ -1,6 +1,7 @@
 @media screen and (min-width: 596px) {
     .flex {
-        display: flex;
+      display: flex;
+      flex-flow: row wrap;
     }
 
     .hidden {

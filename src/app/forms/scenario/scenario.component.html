@@ -1,13 +1,17 @@
-<sw-dashboard show="one">
-  <sw-track name="one">
-      <sw-track-widget header="Nowy scenariusz">
-        <div>
-          <sw-scenario-element *ngFor="let elem of elems" [elemId]="elem" (deleteElem)="deleteElement($event)"></sw-scenario-element>
-          <div class="top-margin">
-              <p-button class="padding" label="Dodaj element" icon="pi pi-plus" (click)="addElement()"></p-button>
-              <p-button label="Zatwierdź scenariusz" icon="pi pi-check" iconPos="left" (click)="submitScenario()"></p-button>
-          </div>
-      </div>
-    </sw-track-widget>
-  </sw-track>
-</sw-dashboard>
+<div class="shadow">
+  <p-card header="Nowy scenariusz">
+    <sw-dashboard >
+      <sw-track name="charts">
+        <div *ngFor="let elem of elems">
+          <sw-track-widget>
+            <sw-scenario-element [elemId]="elem" (deleteElem)="deleteElement($event)"></sw-scenario-element>
+          </sw-track-widget>
+        </div>
+      </sw-track>
+    </sw-dashboard>
+    <div class="top-margin">
+      <p-button class="padding" label="Dodaj element" icon="pi pi-plus" (click)="addElement()"></p-button>
+      <p-button label="Zatwierdź scenariusz" icon="pi pi-check" iconPos="left" (click)="submitScenario()"></p-button>
+    </div>
+  </p-card>
+</div>
