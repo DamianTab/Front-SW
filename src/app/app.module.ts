@@ -9,6 +9,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './helpers/jwt.interceptor';
 import { ErrorInterceptor } from './helpers/error.interceptor';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -20,6 +22,7 @@ import { ErrorInterceptor } from './helpers/error.interceptor';
     NavbarModule,
     ScenarioModule,
     AppRoutingModule,
+    HttpClientModule
   ],
   providers: [
   { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

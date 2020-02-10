@@ -11,7 +11,6 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     // console.log(this.location.path());
   }
-  title = 'front-app';
 
   constructor(r: ActivatedRoute) {
     r.url.subscribe((s: UrlSegment[]) => {

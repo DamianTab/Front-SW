@@ -1,11 +1,25 @@
-.flex {
-    display: flex;
+@media screen and (min-width: 596px) {
+    .flex {
+      display: flex;
+      flex-flow: row wrap;
+    }
+
+    .hidden {
+        visibility: hidden;
+    }
+}
+
+@media screen and (max-width: 595px) {
+    .hidden {
+        display: none;
+    }
 }
 
 .flex-elem {
     margin-right: 20px;
 }
 
-.hidden {
-    visibility: hidden;
+.padding {
+    padding-top: 10px;
+    padding-bottom: 10px;
 }

@@ -1,4 +1,4 @@
-<p-table [columns]="cols" [value]="rows" [paginator]="rows.length > maxRows ? true : false" [rows]="maxRows" 
+<p-table [columns]="cols" [value]="rows" [paginator]="rows ? (rows.length > maxRows ? true : false) : 0" [rows]="maxRows" 
 [resizableColumns]="true" [reorderableColumns]="true" [loading]="loading" selectionMode="multiple" 
 [(selection)]="selectedRows" (onRowSelect)="onRowSelect($event)">
     

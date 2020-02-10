@@ -10,6 +10,7 @@ import { DashboardModule } from '../../shared/components/dashboard/dashboard.mod
 import { TrackModule } from 'src/app/shared/components/dashboard/track/track.module';
 import { ScenarioRoutingModule } from './scenario-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CardModule } from 'primeng/card';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     DashboardModule,
     TrackModule,
     ScenarioRoutingModule,
+    CardModule,
     BrowserAnimationsModule,
   ],
   exports: [ScenarioComponent]

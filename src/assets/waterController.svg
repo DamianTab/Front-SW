@@ -15,7 +15,10 @@
    version="1.1"
    id="svg8"
    sodipodi:docname="waterController.svg"
-   inkscape:version="0.92.3 (2405546, 2018-03-11)">
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   inkscape:export-filename="/home/chairchandler/Desktop/SW Projekt/Front-SW/src/assets/waterController.svg.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -26,7 +29,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.088973938"
-     inkscape:cx="1849.5405"
+     inkscape:cx="-156.66496"
      inkscape:cy="3745.0904"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
@@ -49,7 +52,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -567,7 +570,7 @@
            height="143.05226"
            x="590.09052"
            y="-354.35614" /></flowRegion><flowPara
-         id="flowPara255"></flowPara></flowRoot>    <flowRoot
+         id="flowPara255" /></flowRoot>    <flowRoot
        xml:space="preserve"
        id="flowRoot257"
        style="font-style:normal;font-weight:normal;font-size:48px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
@@ -580,7 +583,7 @@
            x="831.70422"
            y="901.80853"
            style="font-size:48px" /></flowRegion><flowPara
-         id="flowPara263"></flowPara></flowRoot>    <flowRoot
+         id="flowPara263" /></flowRoot>    <flowRoot
        xml:space="preserve"
        id="flowRoot265"
        style="font-style:normal;font-weight:normal;font-size:5.33333349px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
@@ -591,7 +594,7 @@
            height="334.36758"
            x="685.59399"
            y="1002.9617" /></flowRegion><flowPara
-         id="flowPara271"></flowPara></flowRoot>    <flowRoot
+         id="flowPara271" /></flowRoot>    <flowRoot
        xml:space="preserve"
        id="flowRoot273"
        style="font-style:normal;font-weight:normal;font-size:5.33333349px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"><flowRegion
@@ -601,5 +604,5 @@
            height="432.71097"
            x="727.74121"
            y="1045.1089" /></flowRegion><flowPara
-         id="flowPara279"></flowPara></flowRoot>  </g>
+         id="flowPara279" /></flowRoot>  </g>
 </svg>
