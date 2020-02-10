@@ -1,0 +1,24 @@
+  <div class="all p-grid p-dir-col">
+      <div class="p-col-10 p-sm-8 p-md-6 p-lg-4 p-col-align-center">
+        <img src="assets/logo_wisie.png" alt="logo" class="logo">
+      </div>
+      <div class="p-col-12 p-sm-10 p-col-align-center">
+        <h2 class="title h-size">
+          Aplikacja monitorowania i sterowania stanowiskami chemicznymi
+        </h2>
+      </div>
+    <div class="p-col-2 p-sm-3 p-md-4">
+    </div>
+      <div class="p-col-12 p-sm-9 p-md-6 p-col-align-center">
+        <div class="form">
+          <label class="hint text-size">
+            Zaloguj się, aby uzyskać dostęp:
+          </label>
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <input type="text" formControlName="username" placeholder="username" class="text-size" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+            <input type="password" formControlName="password" placeholder="password" class="text-size" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+            <button class="text-size" [disabled]="loading">login</button>
+          </form>
+        </div>
+      </div>
+  </div>
