@@ -13,7 +13,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CardModule } from 'primeng/card';
 
 
-
 @NgModule({
   declarations: [ScenarioComponent, ScenarioElementComponent],
   imports: [
