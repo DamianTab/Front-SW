@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AlertService } from '../../shared/services/alert/alert.service';
 import { AuthenticationService } from '../../shared/services/authentication/authentication.service';
 
 @Component({
@@ -21,7 +20,6 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private authenticationService: AuthenticationService,
-    private alertService: AlertService
   ) {
     // redirect to home if already logged in
     // if (this.authenticationService.currentUserValue) {
@@ -35,6 +33,8 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required]
     });
 
+    //clear alert
+
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
@@ -44,9 +44,6 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-
-    // reset alerts on submit
-    this.alertService.clear();
 
     // stop here if form is invalid
     if (this.loginForm.invalid) {
@@ -68,7 +65,7 @@ export class LoginComponent implements OnInit {
     if (this.authenticationService.validate) {
       this.router.navigate([this.returnUrl]);
     } else {
-      this.alertService.error('Wrong username or password');
+      //display alert
     }
   }
 }

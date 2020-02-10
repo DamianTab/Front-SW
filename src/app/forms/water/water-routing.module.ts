@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { WaterComponent } from './water.component';
+import {AuthGuard} from '../../shared/services/authguard/auth.guard';
 
 
 const routes: Routes = [
-  { path:  'water/:id', component:  WaterComponent},
+  { path:  'water/:id', component:  WaterComponent, canActivate: [AuthGuard]},
 ];
 
 @NgModule({

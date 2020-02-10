@@ -6,7 +6,7 @@ import { NotExistingPageModule } from './forms/not-existing-page/not-existing-pa
 import { LoginModule } from './forms/login/login.module';
 import { NoConnectionComponent } from './forms/no-connection/no-connection.component';
 import { NoConnectionModule } from './forms/no-connection/no-connection.module';
-import { AuthGuard } from './helpers/auth.guard';
+import { AuthGuard } from './shared/services/authguard/auth.guard';
 import {AppComponent} from './app.component';
 
 const routes: Routes = [
