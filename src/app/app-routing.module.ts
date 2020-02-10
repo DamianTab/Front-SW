@@ -14,7 +14,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: '404', component: NotExistingPageComponent, canActivate: [AuthGuard] },
   { path: 'disconnected', component: NoConnectionComponent },
-  { path: '**', redirectTo: '404' }
+  { path: '**', redirectTo: '404', canActivate: [AuthGuard] }
 ];
 
 @NgModule({
