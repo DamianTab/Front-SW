@@ -14,20 +14,36 @@ export class ChartService {
     return data
   }
 
-  temperature(meta: ChartService.MetaData): Promise<ChartService.Data> {
-    return this.retrieveData('temperature')
+  temperature(meta: ChartService.MetaData) {
+    return {
+      x: [1,2,3],
+      y: [4,5,6]
+    }
+    //return this.retrieveData('temperature')
   }
 
-  oxygen(meta: ChartService.MetaData): Promise<ChartService.Data> {
-    return this.retrieveData('oxygen')
+  oxygen(meta: ChartService.MetaData) {
+    return {
+      x: [1,2,3],
+      y: [4,5,6]
+    }
+    //return this.retrieveData('oxygen')
   }
 
-  redox(meta: ChartService.MetaData): Promise<ChartService.Data> {
-    return this.retrieveData('redox')
+  redox(meta: ChartService.MetaData) {
+    return {
+      x: [1,2,3],
+      y: [4,5,6]
+    }
+    //return this.retrieveData('redox')
   }
 
-  pH(meta: ChartService.MetaData): Promise<ChartService.Data> {
-    return this.retrieveData('pH')
+  pH(meta: ChartService.MetaData) {
+    return {
+      x: [1,2,3],
+      y: [4,5,6]
+    }
+    //return this.retrieveData('pH')
   }
 }
 
