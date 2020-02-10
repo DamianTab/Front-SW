@@ -53,18 +53,25 @@
   align-content: center;
 }
 
-/* If the screen size is 601px wide or more, set the font-size of <div> to 80px */
-@media screen and (min-width: 601px) {
+@media screen and (min-width: 1024px){
   .text-size {
-    font-size: 1vw;
+    font-size: 2vw;
   }
   .h-size {
-    font-size: 2.5vw;
+    font-size: 3vw;
   }
 }
 
-/* If the screen size is 600px wide or less, set the font-size of <div> to 30px */
-@media screen and (max-width: 600px) {
+@media screen and (min-width: 768px) and (max-width: 1024px){
+  .text-size {
+    font-size: 2.5vw;
+  }
+  .h-size {
+    font-size: 3.5vw;
+  }
+}
+
+@media screen and (max-width: 768px) {
   .text-size {
     font-size: 3.5vw;
   }
