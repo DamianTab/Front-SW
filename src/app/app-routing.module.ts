@@ -12,7 +12,7 @@ import {AppComponent} from './app.component';
 const routes: Routes = [
   { path: '', component: AppComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
-  { path: '404', component: NotExistingPageComponent },
+  { path: '404', component: NotExistingPageComponent, canActivate: [AuthGuard] },
   { path: 'disconnected', component: NoConnectionComponent },
   { path: '**', redirectTo: '404' }
 ];

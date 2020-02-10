@@ -9,7 +9,6 @@ import { ActivatedRoute, UrlSegment } from '@angular/router';
 })
 export class AppComponent implements OnInit {
   ngOnInit(): void {
-    // console.log(this.location.path());
   }
 
   constructor(r: ActivatedRoute) {

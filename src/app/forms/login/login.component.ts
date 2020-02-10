@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { first } from 'rxjs/operators';
 import { AlertService } from '../../shared/services/alert/alert.service';
 import { AuthenticationService } from '../../shared/services/authentication/authentication.service';
 
@@ -25,9 +24,9 @@ export class LoginComponent implements OnInit {
     private alertService: AlertService
   ) {
     // redirect to home if already logged in
-    if (this.authenticationService.currentUserValue) {
-      this.router.navigate(['/']);
-    }
+    // if (this.authenticationService.currentUserValue) {
+    //   this.router.navigate(['/']);
+    // }
   }
 
   ngOnInit() {
@@ -54,16 +53,22 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    this.loading = true;
-    this.authenticationService.login(this.f.username.value, this.f.password.value)
-      .pipe(first())
-      .subscribe(
-        data => {
-          this.router.navigate([this.returnUrl]);
-        },
-        error => {
-          this.alertService.error(error);
-          this.loading = false;
-        });
+    // this.loading = true;
+    this.authenticationService.login(this.f.username.value, this.f.password.value);
+    // .pipe(first())
+    // .subscribe(
+    //   data => {
+    //     this.router.navigate([this.returnUrl]);
+    //   },
+    //   error => {
+    //     this.alertService.error(error);
+    //     this.loading = false;
+    //   });
+
+    if (this.authenticationService.validate) {
+      this.router.navigate([this.returnUrl]);
+    } else {
+      this.alertService.error('Wrong username or password');
+    }
   }
 }

@@ -1,4 +1,3 @@
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
   <div class="all p-grid p-dir-col">
       <div class="p-col-10 p-sm-8 p-md-6 p-lg-4 p-col-align-center">
         <img src="assets/logo_wisie.png" alt="logo" class="logo">
@@ -15,7 +14,7 @@
           <label class="hint text-size">
             Zaloguj się, aby uzyskać dostęp:
           </label>
-          <form>
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <input type="text" formControlName="username" placeholder="username" class="text-size" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
             <input type="password" formControlName="password" placeholder="password" class="text-size" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
             <button class="text-size" [disabled]="loading">login</button>
@@ -23,4 +22,3 @@
         </div>
       </div>
   </div>
-</form>
