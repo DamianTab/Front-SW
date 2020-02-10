@@ -31,6 +31,8 @@ export class ChartWidgetComponent implements OnInit {
 
     if(this._maxDate.getMonth() - 1 < 0) {
       this._minDate.setFullYear(this._minDate.getFullYear() - 1, 11)
+    } else {
+      this._minDate.setMonth(this._maxDate.getMonth() - 1)
     }
 
     this.interval = {

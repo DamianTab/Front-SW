@@ -21,6 +21,7 @@
     "@angular/platform-browser": "~8.2.14",
     "@angular/platform-browser-dynamic": "~8.2.14",
     "@angular/router": "~8.2.14",
+    "@types/jquery": "^3.3.32",
     "bootstrap": "^4.4.1",
     "chart.js": "^2.9.3",
     "eslint": "^5.16.0",

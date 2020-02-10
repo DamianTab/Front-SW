@@ -42,5 +42,14 @@ export class DashboardComponent {
 
   ngAfterViewInit(): void {
     this.cdr.detectChanges();
+    this.replaceInnerCssClass('ui-card', 'sw-ui-card')
+  }
+
+  replaceInnerCssClass(searchValue: string, replaceValue): void {
+    const collection = document.getElementsByClassName(searchValue)
+    for(const i in collection) {
+      const element = collection.item(Number.parseInt(i))
+      element.className = element.className.replace(searchValue, replaceValue)
+    }
   }
 }
