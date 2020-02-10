@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {NotExistingPageComponent} from './not-existing-page.component';
+import { NotExistingPageComponent } from './not-existing-page.component';
 
 
 @NgModule({

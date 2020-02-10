@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {RouterElement} from '../shared/components/navbar/models/router-element';
 
 @Component({
   selector: 'app-not-existing-page',
@@ -8,11 +7,8 @@ import {RouterElement} from '../shared/components/navbar/models/router-element';
 })
 export class NotExistingPageComponent implements OnInit {
 
-  link = new RouterElement('404', '404');
-
   constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
 }
