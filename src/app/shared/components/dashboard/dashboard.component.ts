@@ -2,8 +2,8 @@ import { Component, Input, ContentChildren, QueryList, ChangeDetectorRef } from 
 import { TrackComponent } from './track/track.component';
 
 /*
- * <sw-dashboard show="one">
- *  <sw-track name="one">
+ * <sw-dashboard>
+ *  <sw-track>
  *   <sw-track-widget header="header" subheader="subheader">
  *
  *      ...

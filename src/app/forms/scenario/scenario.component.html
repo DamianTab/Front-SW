@@ -1,7 +1,7 @@
 <div class="shadow">
   <p-card header="Nowy scenariusz">
     <sw-dashboard >
-      <sw-track name="charts">
+      <sw-track>
         <div *ngFor="let elem of elems">
           <sw-track-widget>
             <sw-scenario-element [elemId]="elem" (deleteElem)="deleteElement($event)"></sw-scenario-element>

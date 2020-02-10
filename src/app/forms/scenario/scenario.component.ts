@@ -5,8 +5,8 @@ import { ScenarioElementComponent } from './scenario-element/scenario-element.co
 
 Usage: as a content of sw-track-widget component, for example:
 
-<sw-dashboard show="one">
-    <sw-track name="one">
+<sw-dashboard>
+    <sw-track>
         <sw-track-widget header="Nowy scenariusz">
             <sw-scenario></sw-scenario>
         </sw-track-widget>
