@@ -28,8 +28,9 @@ export class WaterScenarioComponent implements OnInit {
         //wrong input data, aborting execution
         return;
       }
-    //do smth, send data to backend
     //jeśli jakiś min/max jest nezdefiniowany, przyjmujemy wykorzystanie zbiornika do minimum/maximum?
+
+    //TODO sending data to backend
   }
 
 }

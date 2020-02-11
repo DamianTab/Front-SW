@@ -1,36 +1,38 @@
-<div>
-    <div>
+<div class="p-grid p-justify-between">
+    <div class="p-col-12 p-md-6">
         <h5>Poziom wody w zbiorniku reakcji (C1):</h5>
         <input type="text" pKeyFilter="pint" placeholder="Minimum" [(ngModel)]="c1_min">
         <input type="text" pKeyFilter="pint" placeholder="Maximum" [(ngModel)]="c1_max">
     </div>
-    <div>
+    <div class="p-col-12 p-md-6">
         <h5>Poziom wody w filtrze (C2):</h5>
         <input type="text" pKeyFilter="pint" placeholder="Minimum" [(ngModel)]="c2_min">
         <input type="text" pKeyFilter="pint" placeholder="Maximum" [(ngModel)]="c2_max">
     </div>
-    <div>
+    <div class="p-col-12 p-md-6">
         <h5>Poziom wody w filtrze (C3):</h5>
         <input type="text" pKeyFilter="pint" placeholder="Minimum" [(ngModel)]="c3_min">
         <input type="text" pKeyFilter="pint" placeholder="Maximum" [(ngModel)]="c3_max">
     </div>
-    <div>
+    <div class="p-col-12 p-md-6">
         <h5>Poziom wody w filtrze (C4):</h5>
         <input type="text" pKeyFilter="pint" placeholder="Minimum" [(ngModel)]="c4_min">
         <input type="text" pKeyFilter="pint" placeholder="Maximum" [(ngModel)]="c4_max">
     </div>
-    <div>
+    <div class="p-col-12 p-md-6">
         <h5>Poziom wody w zbiorniku wody czystej (C5):</h5>
         <input type="text" pKeyFilter="pint" placeholder="Minimum" [(ngModel)]="c5_min">
         <input type="text" pKeyFilter="pint" placeholder="Maximum" [(ngModel)]="c5_max">
     </div>
-    <div>
+    <div class="p-col-12 p-md-6">
         <h5>Czas pracy dla obiegu pomiędzy zbiornikami:</h5>
         <input type="text" pKeyFilter="pint" placeholder="Czas w minutach" [(ngModel)]="total_time">
     </div>
-    <div>
+    <div class="p-col-6">
         <h5>Czas utrzymywania poziomu w filtrach:</h5>
         <input type="text" pKeyFilter="pint" placeholder="Czas w minutach" [(ngModel)]="filter_time">
     </div>
-    <p-button label="Uruchom" icon="pi pi-check" (click)="confirmScenario()"></p-button>
+    <div class="p-col-12 p-md-4">
+        <p-button label="Uruchom" icon="pi pi-check" (click)="confirmScenario()"></p-button>
+    </div>
 </div>
