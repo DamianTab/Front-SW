@@ -4,9 +4,9 @@
       <img src="../../../../assets/page-logo.png" style="width: 2rem; margin-left: 2rem; margin-right: 2rem;">
     </a>
   </div>  
-  <ul class="navbar-nav" *ngFor="let page of pages">
-    <li class="nav-item dropdown">
-        <a href="#" class="nav-link dropdown-toggle" id="navbardrop" data-toggle="dropdown">{{page.name}}</a>
+  <ul class="navbar-nav">
+    <li class="nav-item dropdown" *ngFor="let page of pages">
+        <a class="nav-link dropdown-toggle" id="navbardrop" data-toggle="dropdown">{{page.name}}</a>
         <div class="dropdown-menu">
           <a class="dropdown-item nav-item" *ngFor="let subpage of page.subpages"
             (click)="onClick(subpage)">
