@@ -7,14 +7,14 @@ import { LoginModule } from './forms/login/login.module';
 import { NoConnectionComponent } from './forms/no-connection/no-connection.component';
 import { NoConnectionModule } from './forms/no-connection/no-connection.module';
 import { AuthGuard } from './shared/services/authguard/auth.guard';
-import {AppComponent} from './app.component';
+import { HomeComponent } from './forms/home/home.component';
 
 const routes: Routes = [
-  { path: '', component: AppComponent, canActivate: [AuthGuard] },
+  { path: '', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
-  { path: '404', component: NotExistingPageComponent, canActivate: [AuthGuard] },
-  { path: 'disconnected', component: NoConnectionComponent },
-  { path: '**', redirectTo: '404', canActivate: [AuthGuard] }
+  { path: '404', component: NotExistingPageComponent},
+  { path: 'disconnected', component: NoConnectionComponent, canActivate: [AuthGuard] },
+  { path: '**', redirectTo: '404' }
 ];
 
 @NgModule({

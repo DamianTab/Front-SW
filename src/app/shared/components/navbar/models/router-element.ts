@@ -3,10 +3,9 @@ export class RouterElement {
   link = '';
   id;
 
-  // tslint:disable-next-line: variable-name
-  constructor(_name: string, _link: string, _id?: number) {
-    this.name = _name;
-    this.link = _link;
-    this.id = _id;
+  constructor(name: string, link: string, id?: number) {
+    this.name = name;
+    this.link = link;
+    this.id = id;
   }
 }

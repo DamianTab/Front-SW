@@ -6,5 +6,4 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./water.component.scss']
 })
 export class WaterComponent {
-  @Input() show: string = "charts";
 }
