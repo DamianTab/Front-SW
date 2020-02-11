@@ -6,6 +6,7 @@ import { NavbarModule } from './shared/components/navbar/navbar.module';
 import { ScenarioModule } from './forms/scenario/scenario.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
+import { HomeModule } from './forms/home/home.module';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { HttpClientModule } from '@angular/common/http';
     NavbarModule,
     ScenarioModule,
     AppRoutingModule,
+    HomeModule,
     HttpClientModule
   ],
   providers: [

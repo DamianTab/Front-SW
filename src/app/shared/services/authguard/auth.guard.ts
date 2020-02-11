@@ -11,7 +11,7 @@ export class AuthGuard implements CanActivate {
     ) {}
       //todo usunac printy
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        const currentUser = this.authenticationService.user;
+        const currentUser = this.authenticationService.subjectUser.value;
         console.log("CAN ACTIVATE DZIALA");
         if (currentUser.username === 'admin' && currentUser.password === 'admin') {
             // authorised so return true

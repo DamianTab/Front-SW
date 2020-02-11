@@ -1,26 +1,37 @@
 ﻿import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {User} from '../../models/user';
+import { User } from '../../models/user';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
 
-  user: User = new User();
+  subjectUser = new BehaviorSubject<User>(new User());
 
   constructor(private http: HttpClient) {
   }
 
   login(username: string, password: string) {
-    this.user = new User();
-    this.user.username = username;
-    this.user.password = password;
+    const user = new User();
+    user.username = username;
+    user.password = password;
+    this.subjectUser.next(user);
   }
 
   logout() {
-    this.user = new User();
+    const user = new User();
+    this.subjectUser.next(user);
   }
 
   validate(): boolean {
-    return this.user.username === 'admin' && this.user.password === 'admin';
+    if (!this.subjectUser.value) {
+      return false;
+    }
+    return this.subjectUser.value.username === 'admin' && this.subjectUser.value.password === 'admin';
   }
+
+  onUserChange(): Observable<User> {
+    return this.subjectUser.asObservable();
+  }
+
 }

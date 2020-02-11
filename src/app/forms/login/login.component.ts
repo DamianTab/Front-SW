@@ -55,9 +55,10 @@ export class LoginComponent implements OnInit {
     //     this.loading = false;
     //   });
 
-    if (this.authenticationService.validate) {
+    if (this.authenticationService.validate()) {
       this.router.navigate([this.returnUrl]);
     } else {
+      //todo alert
       //display alert
     }
   }
