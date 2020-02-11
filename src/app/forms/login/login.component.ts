@@ -45,15 +45,6 @@ export class LoginComponent implements OnInit {
     }
 
     this.authenticationService.login(this.controlForm.username.value, this.controlForm.password.value);
-    // .pipe(first())
-    // .subscribe(
-    //   data => {
-    //     this.router.navigate([this.returnUrl]);
-    //   },
-    //   error => {
-    //     this.alertService.error(error);
-    //     this.loading = false;
-    //   });
 
     if (this.authenticationService.validate()) {
       this.router.navigate([this.returnUrl]);

@@ -9,20 +9,13 @@ export class AuthGuard implements CanActivate {
         private router: Router,
         private authenticationService: AuthenticationService
     ) {}
-      //todo usunac printy
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        const currentUser = this.authenticationService.subjectUser.value;
-        console.log("CAN ACTIVATE DZIALA");
-        if (currentUser.username === 'admin' && currentUser.password === 'admin') {
-            // authorised so return true
-            console.log("CAN ACTIVATE -- TRUE");
+        if (this.authenticationService.validate()) {
             return true;
         }
 
         // not logged in so redirect to login page with the return url
         this.router.navigate(['/login'], { queryParams: { returnUrl: state.url }});
-        // this.router.navigate(['/login']);
-        console.log("CAN ACTIVATE -- FALSE");
         return false;
     }
 }

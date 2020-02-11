@@ -1,26 +1,29 @@
 ﻿import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { User } from '../../models/user';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
 
-  subjectUser = new BehaviorSubject<User>(new User());
+  private readonly COOKIE_VALUE = 'user';
 
-  constructor(private http: HttpClient) {
+  subjectUser = new BehaviorSubject<User>(JSON.parse(localStorage.getItem(this.COOKIE_VALUE)));
+
+  constructor(private router: Router) {
   }
 
   login(username: string, password: string) {
     const user = new User();
     user.username = username;
     user.password = password;
-    this.subjectUser.next(user);
+    this.setNewUser(user);
   }
 
   logout() {
     const user = new User();
-    this.subjectUser.next(user);
+    this.setNewUser(user);
+    this.router.navigate(['/login']);
   }
 
   validate(): boolean {
@@ -32,6 +35,11 @@ export class AuthenticationService {
 
   onUserChange(): Observable<User> {
     return this.subjectUser.asObservable();
+  }
+
+  private setNewUser(user: User): void {
+    localStorage.setItem(this.COOKIE_VALUE, JSON.stringify(user));
+    this.subjectUser.next(user);
   }
 
 }
