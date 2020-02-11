@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
 
 @Component({
   selector: 'sw-water-scenario',
@@ -20,16 +21,18 @@ export class WaterScenarioComponent implements OnInit {
   total_time: number;
   filter_time: number;
 
+  constructor(private toastService: ToastService) { }
+
   ngOnInit() {
   }
 
   confirmScenario(): void {
     if (this.c1_min > this.c1_max || this.c2_min > this.c2_max || this.c3_min > this.c3_max || this.c4_min > this.c4_max || this.c5_min > this.c5_max) {
-        //wrong input data, aborting execution
-        return;
-      }
+      this.toastService.error('Niepoprawe dane w scenariuszu');
+      return;
+    }
     //jeśli jakiś min/max jest nezdefiniowany, przyjmujemy wykorzystanie zbiornika do minimum/maximum?
-
+      this.toastService.success('Pomyślnie rozpoczęto scenariusz')
     //TODO sending data to backend
   }
 

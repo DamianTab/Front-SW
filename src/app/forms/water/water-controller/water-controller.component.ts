@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
 
 @Component({
   selector: 'sw-water-controller',
@@ -7,9 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WaterControllerComponent implements OnInit {
 
-  private blocked: boolean = false
+  blocked: boolean = false;
 
-  private checked: any = {
+  checked: any = {
     'P1': false,
     'P2': false,
     'P3': false,
@@ -17,34 +18,42 @@ export class WaterControllerComponent implements OnInit {
     'Y1': false,
     'Y2': false,
     'Y3': false
-  }
+  };
 
-  constructor() { }
+  constructor(private toastService: ToastService) { }
 
   ngOnInit() {
-    setDynamicCss()
+    setDynamicCss();
+  }
+
+  changeAccesStatus(value) {
+    if (value.checked) {
+      this.toastService.warn('Uzyskano dostęp wyłączny do urządzenia');
+    } else {
+      this.toastService.info('Zwolniono dostęp do urządzenia');
+    }
   }
 }
 
 function setDynamicCss(): void {
-  $(document).ready(function() {
+  $(document).ready(function () {
     alignSliders()
     resizeSliders()
     $(window).resize(resizeSliders)
-  })
+  });
 }
 
 function alignSliders(): void {
-  $('p-inputSwitch > div').each(function() {
-    $(this).css({'float': 'right'})
-  })
+  $('p-inputSwitch > div').each(function () {
+    $(this).css({ 'float': 'right' })
+  });
 }
 
 function resizeSliders(): void {
-  $('span.ui-inputswitch-slider').each(function() {
+  $('span.ui-inputswitch-slider').each(function () {
     const absHeight = $(this).parents('div[class^=p-col-]').height();
-    const elHeight  = $(this).height();
+    const elHeight = $(this).height();
 
-    $(this).css({'transform': `translateY(${(absHeight-elHeight)/2}px)`})
-  })
+    $(this).css({ 'transform': `translateY(${(absHeight - elHeight) / 2}px)` })
+  });
 }

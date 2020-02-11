@@ -2,6 +2,7 @@
 import { User } from '../../models/user';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
+import { ToastService } from '../toast/toast.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -10,7 +11,10 @@ export class AuthenticationService {
 
   subjectUser = new BehaviorSubject<User>(JSON.parse(localStorage.getItem(this.COOKIE_VALUE)));
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private toastService: ToastService
+  ) {
   }
 
   login(username: string, password: string) {
@@ -24,9 +28,11 @@ export class AuthenticationService {
     const user = new User();
     this.setNewUser(user);
     this.router.navigate(['/login']);
+    this.toastService.info('Poprawnie wylogowano');
   }
 
   validate(): boolean {
+    //todo wyscig do poprawy - DAMIAN
     if (!this.subjectUser.value) {
       return false;
     }
@@ -38,8 +44,8 @@ export class AuthenticationService {
   }
 
   private setNewUser(user: User): void {
-    localStorage.setItem(this.COOKIE_VALUE, JSON.stringify(user));
     this.subjectUser.next(user);
+    localStorage.setItem(this.COOKIE_VALUE, JSON.stringify(user));
   }
 
 }

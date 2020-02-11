@@ -6,11 +6,11 @@
     <div class="p-col-5 p-lg-3 sw-fieldset">
         <div class="p-grid">
             <div class="p-col-4 p-col-xl-8">
-                <label id="block">Dostep</label>
+                <label id="block">Dostep Wylaczny</label>
             </div>
 
             <div class="p-col-8 p-xl-8">
-                <p-inputSwitch [(ngModel)]="blocked"></p-inputSwitch>
+                <p-inputSwitch [(ngModel)]="blocked" (onChange)="changeAccesStatus($event)"></p-inputSwitch>
             </div>
         </div>
 

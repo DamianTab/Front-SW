@@ -7,6 +7,8 @@ import { ScenarioModule } from './forms/scenario/scenario.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { HomeModule } from './forms/home/home.module';
+import { ToastModule} from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -14,14 +16,16 @@ import { HomeModule } from './forms/home/home.module';
   ],
   imports: [
     BrowserModule,
+    ToastModule,
     WaterModule,
     NavbarModule,
     ScenarioModule,
-    AppRoutingModule,
     HomeModule,
-    HttpClientModule
+    HttpClientModule,
+    AppRoutingModule,
   ],
   providers: [
+    MessageService
   ],
   bootstrap: [AppComponent]
 })

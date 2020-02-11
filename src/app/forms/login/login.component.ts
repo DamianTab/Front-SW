@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../shared/services/authentication/authentication.service';
+import { ToastService } from '../../shared/services/toast/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -20,6 +21,7 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private authenticationService: AuthenticationService,
+    private toastService: ToastService
   ) {
     // redirect to home if already logged in
     if (this.authenticationService.validate()) {
@@ -48,9 +50,9 @@ export class LoginComponent implements OnInit {
 
     if (this.authenticationService.validate()) {
       this.router.navigate([this.returnUrl]);
+      this.toastService.success('Pomyślnie zalogowano');
     } else {
-      //todo alert
-      //display alert
+      this.toastService.error('Niepoprawne dane logowania');
     }
   }
 }
