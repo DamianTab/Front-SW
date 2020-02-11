@@ -17,11 +17,11 @@ export class ScenarioElementComponent implements OnInit {
 
   ngOnInit() {
     this.phases = [
-      {label:'Nalewanie', value:'Nalewanie'},
-      {label:'Napowietrzanie', value:'Napowietrzanie'},
-      {label:'Sedymentacja', value:'Sedymentacja'},
-      {label:'Filtrowanie', value:'Filtrowanie'},
-      {label:'Oddzielanie', value:'Oddzielanie'}
+      { label: 'Nalewanie', value: 'Nalewanie' },
+      { label: 'Napowietrzanie', value: 'Napowietrzanie' },
+      { label: 'Sedymentacja', value: 'Sedymentacja' },
+      { label: 'Filtrowanie', value: 'Filtrowanie' },
+      { label: 'Oddzielanie', value: 'Oddzielanie' }
     ];
   }
 

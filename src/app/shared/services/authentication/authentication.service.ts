@@ -1,6 +1,6 @@
 ﻿import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {User} from '../../../models/user';
+import {User} from '../../models/user';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -14,7 +14,6 @@ export class AuthenticationService {
     this.user = new User();
     this.user.username = username;
     this.user.password = password;
-    console.log("WPISYWANIE DANYCH DZIALA");
   }
 
   logout() {

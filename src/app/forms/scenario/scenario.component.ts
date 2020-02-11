@@ -12,7 +12,6 @@ Usage: as a content of sw-track-widget component, for example:
         </sw-track-widget>
     </sw-track>
 </sw-dashboard>
-
 */
 
 
@@ -45,6 +44,7 @@ export class ScenarioComponent implements OnInit {
     this.elements.forEach(element => {
       scenario.push({ phase: element.selectedPhase, duration: element.selectedDuration })
     });
+    //todo send
     //data ready to be send to backend
   }
 

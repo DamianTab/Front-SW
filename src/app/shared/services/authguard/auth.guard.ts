@@ -9,7 +9,7 @@ export class AuthGuard implements CanActivate {
         private router: Router,
         private authenticationService: AuthenticationService
     ) {}
-
+      //todo usunac printy
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const currentUser = this.authenticationService.user;
         console.log("CAN ACTIVATE DZIALA");
