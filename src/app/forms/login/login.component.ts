@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../shared/services/authentication/authentication.service';
+import { ToastService } from '../../shared/services/toast/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -20,11 +21,12 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private authenticationService: AuthenticationService,
+    private toastService: ToastService
   ) {
     // redirect to home if already logged in
-    // if (this.authenticationService.currentUserValue) {
-    //   this.router.navigate(['/']);
-    // }
+    if (this.authenticationService.validate()) {
+      this.router.navigate(['/']);
+    }
   }
 
   ngOnInit() {
@@ -33,39 +35,24 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required]
     });
 
-    //clear alert
-
-    // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
-  // convenience getter for easy access to form fields
-  get f() { return this.loginForm.controls; }
+  private get controlForm() { return this.loginForm.controls; }
 
   onSubmit() {
-    this.submitted = true;
-
     // stop here if form is invalid
     if (this.loginForm.invalid) {
       return;
     }
 
-    // this.loading = true;
-    this.authenticationService.login(this.f.username.value, this.f.password.value);
-    // .pipe(first())
-    // .subscribe(
-    //   data => {
-    //     this.router.navigate([this.returnUrl]);
-    //   },
-    //   error => {
-    //     this.alertService.error(error);
-    //     this.loading = false;
-    //   });
+    this.authenticationService.login(this.controlForm.username.value, this.controlForm.password.value);
 
-    if (this.authenticationService.validate) {
+    if (this.authenticationService.validate()) {
       this.router.navigate([this.returnUrl]);
+      this.toastService.success('Pomyślnie zalogowano');
     } else {
-      //display alert
+      this.toastService.error('Niepoprawne dane logowania');
     }
   }
 }

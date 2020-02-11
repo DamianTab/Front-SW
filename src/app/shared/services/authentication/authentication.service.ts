@@ -1,27 +1,51 @@
 ﻿import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import {User} from '../../../models/user';
+import { User } from '../../models/user';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
+import { ToastService } from '../toast/toast.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
 
-  user: User = new User();
+  private readonly COOKIE_VALUE = 'user';
 
-  constructor(private http: HttpClient) {
+  subjectUser = new BehaviorSubject<User>(JSON.parse(localStorage.getItem(this.COOKIE_VALUE)));
+
+  constructor(
+    private router: Router,
+    private toastService: ToastService
+  ) {
   }
 
   login(username: string, password: string) {
-    this.user = new User();
-    this.user.username = username;
-    this.user.password = password;
-    console.log("WPISYWANIE DANYCH DZIALA");
+    const user = new User();
+    user.username = username;
+    user.password = password;
+    this.setNewUser(user);
   }
 
   logout() {
-    this.user = new User();
+    const user = new User();
+    this.setNewUser(user);
+    this.router.navigate(['/login']);
+    this.toastService.info('Poprawnie wylogowano');
   }
 
   validate(): boolean {
-    return this.user.username === 'admin' && this.user.password === 'admin';
+    //todo wyscig do poprawy - DAMIAN
+    if (!this.subjectUser.value) {
+      return false;
+    }
+    return this.subjectUser.value.username === 'admin' && this.subjectUser.value.password === 'admin';
   }
+
+  onUserChange(): Observable<User> {
+    return this.subjectUser.asObservable();
+  }
+
+  private setNewUser(user: User): void {
+    this.subjectUser.next(user);
+    localStorage.setItem(this.COOKIE_VALUE, JSON.stringify(user));
+  }
+
 }

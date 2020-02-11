@@ -6,14 +6,14 @@
     <div class="p-col-5 p-lg-3 sw-fieldset">
         <div class="p-grid">
             <div class="p-col-4 p-col-xl-8">
-                <label id="block">Zablokuj</label>
+                <label id="block">Dostep Wylaczny</label>
             </div>
 
             <div class="p-col-8 p-xl-8">
-                <p-inputSwitch [(ngModel)]="blocked"></p-inputSwitch>
+                <p-inputSwitch [(ngModel)]="blocked" (onChange)="changeAccesStatus($event)"></p-inputSwitch>
             </div>
         </div>
-            
+
         <div class="p-grid" style="margin-top: 2rem;">
             <div class="p-col-12">
                 <label>Zawory</label>
@@ -23,28 +23,28 @@
                 <label>P1</label>
             </div>
             <div class="p-col-6">
-                <p-inputSwitch [disabled]="blocked" [(ngModel)]="checked.P1"></p-inputSwitch>
+                <p-inputSwitch [disabled]="!blocked" [(ngModel)]="checked.P1"></p-inputSwitch>
             </div>
-            
+
             <div class="p-col-6">
                 <label>P2</label>
             </div>
             <div class="p-col-6">
-                <p-inputSwitch [disabled]="blocked" [(ngModel)]="checked.P2"></p-inputSwitch>
+                <p-inputSwitch [disabled]="!blocked" [(ngModel)]="checked.P2"></p-inputSwitch>
             </div>
 
             <div class="p-col-6">
                 <label>P3</label>
             </div>
             <div class="p-col-6">
-                <p-inputSwitch [disabled]="blocked" [(ngModel)]="checked.P3"></p-inputSwitch>
+                <p-inputSwitch [disabled]="!blocked" [(ngModel)]="checked.P3"></p-inputSwitch>
             </div>
 
             <div class="p-col-6">
                 <label>P4</label>
             </div>
             <div class="p-col-6">
-                <p-inputSwitch [disabled]="blocked" [(ngModel)]="checked.P4"></p-inputSwitch>
+                <p-inputSwitch [disabled]="!blocked" [(ngModel)]="checked.P4"></p-inputSwitch>
             </div>
         </div>
 
@@ -52,26 +52,26 @@
             <div class="p-col-12">
                 <label>Pompy</label>
             </div>
-            
+
             <div class="p-col-6">
                 <label>Y1</label>
             </div>
             <div class="p-col-6">
-                <p-inputSwitch [disabled]="blocked" [(ngModel)]="checked.Y1"></p-inputSwitch>
+                <p-inputSwitch [disabled]="!blocked" [(ngModel)]="checked.Y1"></p-inputSwitch>
             </div>
 
             <div class="p-col-6">
                 <label>Y2</label>
             </div>
             <div class="p-col-6">
-                <p-inputSwitch [disabled]="blocked" [(ngModel)]="checked.Y2"></p-inputSwitch>
+                <p-inputSwitch [disabled]="!blocked" [(ngModel)]="checked.Y2"></p-inputSwitch>
             </div>
 
             <div class="p-col-6">
                 <label>Y3</label>
             </div>
             <div class="p-col-6">
-                <p-inputSwitch [disabled]="blocked" [(ngModel)]="checked.Y3"></p-inputSwitch>
+                <p-inputSwitch [disabled]="!blocked" [(ngModel)]="checked.Y3"></p-inputSwitch>
             </div>
         </div>
     </div>
