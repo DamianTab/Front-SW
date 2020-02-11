@@ -9,6 +9,7 @@ import { TemperatureChartModule } from '../../shared/components/charts/temperatu
 import { TableModule } from '../../shared/components/table/table.module';
 import { WaterControllerModule } from './water-controller/water-controller.module';
 import { WaterRoutingModule } from './water-routing.module';
+import { WaterScenarioModule } from '../water-scenario/water-scenario.module'
 
 @NgModule({
   declarations: [WaterComponent],
@@ -21,6 +22,7 @@ import { WaterRoutingModule } from './water-routing.module';
     TemperatureChartModule,
     TableModule,
     WaterControllerModule,
+    WaterScenarioModule,
     WaterRoutingModule
   ],
   exports: [WaterComponent]
