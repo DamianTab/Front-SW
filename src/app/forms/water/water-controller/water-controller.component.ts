@@ -39,6 +39,7 @@ function setDynamicCss(): void {
   $(document).ready(function () {
     alignSliders()
     resizeSliders()
+    handleButtonsStyle()
     $(window).resize(resizeSliders)
   });
 }
@@ -56,4 +57,34 @@ function resizeSliders(): void {
 
     $(this).css({ 'transform': `translateY(${(absHeight - elHeight) / 2}px)` })
   });
+}
+
+function handleButtonsStyle() { 
+  $("#img-buttons").on("click", (event) => alert(event.target.id))
+  
+  let orig_width = $("#img-water").width();    
+  $(window).resize(sizing);
+
+  function sizing() { 
+      const pic = $('#img-water');
+      const curr_width =  pic.width();      
+      const ratio = Math.round((curr_width / orig_width) * 100)/100;
+    alert(1)
+      $("area").each(function() {
+        const pairs = $(this).attr("coords").split(', ');
+        
+        for(let i=0; i<pairs.length; i++) {
+          const nums = pairs[i].split(',').map(val => Number.parseInt(val)); 
+
+          for(let j=0; j<nums.length; j++) { 
+            nums[j] = nums[j] * ratio; 
+          }
+          pairs[i] = nums.join(',');
+        }
+          
+        $(this).attr("coords", pairs.join(","));
+      }); 
+      
+      orig_width = curr_width;
+  }
 }

@@ -8,3 +8,11 @@
 #block{
   font-size: small;
 }
+
+.triangle {
+  border-color: transparent transparent red transparent;
+  border-style: solid;
+  border-width: 0px 50px 50px 50px;
+  height: 0px;
+  width: 0px;
+}
