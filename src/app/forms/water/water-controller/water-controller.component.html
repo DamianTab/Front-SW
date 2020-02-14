@@ -1,87 +1,27 @@
-<div class="p-grid">
-    <div class="p-col-12 p-lg-9">
-        <img src="../../../assets/waterController.svg.png" class="img-fluid" usemap="#img-buttons" id="img-water">
+<div class="p-grid p-dir-col">
+    <div class="p-col" style="position: relative;">
+        <canvas id="canvas-buttons" width="7530" height="5895" class="img-canvas"></canvas>
+        <img src="../../../assets/waterController.svg.png" class="img-fluid selectDisable" usemap="#img-buttons" id="img-water">
         <map name="img-buttons" id="img-buttons">
-            <area coords="3892,5670, 4190,5830, 4194,5517" id="P1-Button">
-            <area coords="2820,1775, 2641,2029, 2989,2034" id="P2-Button">
-            <area coords="3506,1770, 3341,2027, 3677,2029" id="P3-Button">
-            <area coords="4201,1764, 4038,2025, 4373,2026" id="P4-Button">
+            <area shape="poly" coords="3892,5670, 4190,5830, 4194,5517" id="P1-Button" data-button="P1">
+            <area shape="poly" coords="2820,1775, 2641,2029, 2989,2034" id="P2-Button" data-button="P2">
+            <area shape="poly" coords="3506,1770, 3341,2027, 3677,2029" id="P3-Button" data-button="P3">
+            <area shape="poly" coords="4201,1764, 4038,2025, 4373,2026" id="P4-Button" data-button="P4">
 
-            <!-- <area coords="0,0, 82,126" id="Y1-Button">
-            <area coords="0,0, 82,126" id="Y2-Button">
-            <area coords="0,0, 82,126" id="Y3-Button"> -->
+            <area shape="poly" coords="5023,2270, 5259,2667, 5030,2665, 5258,2274" id="Y1-Button" data-button="Y1">
+            <area shape="poly" coords="5975,2267, 6213,2664, 5982,2660, 6210,2270" id="Y2-Button" data-button="Y2">
+            <area shape="poly" coords="6929,2268, 7166,2663, 6936,2662, 7165,2272" id="Y3-Button" data-button="Y3">
         </map>
     </div>
 
-    <div class="p-col-5 p-lg-3 sw-fieldset">
+    <div class="p-col sw-fieldset">
         <div class="p-grid">
-            <div class="p-col-4 p-col-xl-8">
-                <label id="block">Dostep Wylaczny</label>
+            <div class="p-col-4">
+                <label id="block">Dostęp Wyłączny</label>
             </div>
 
-            <div class="p-col-8 p-xl-8">
+            <div class="p-col-8">
                 <p-inputSwitch [(ngModel)]="blocked" (onChange)="changeAccesStatus($event)"></p-inputSwitch>
-            </div>
-        </div>
-
-        <div class="p-grid" style="margin-top: 2rem;">
-            <div class="p-col-12">
-                <label>Zawory</label>
-            </div>
-
-            <div class="p-col-6">
-                <label>P1</label>
-            </div>
-            <div class="p-col-6">
-                <p-inputSwitch [disabled]="!blocked" [(ngModel)]="checked.P1"></p-inputSwitch>
-            </div>
-
-            <div class="p-col-6">
-                <label>P2</label>
-            </div>
-            <div class="p-col-6">
-                <p-inputSwitch [disabled]="!blocked" [(ngModel)]="checked.P2"></p-inputSwitch>
-            </div>
-
-            <div class="p-col-6">
-                <label>P3</label>
-            </div>
-            <div class="p-col-6">
-                <p-inputSwitch [disabled]="!blocked" [(ngModel)]="checked.P3"></p-inputSwitch>
-            </div>
-
-            <div class="p-col-6">
-                <label>P4</label>
-            </div>
-            <div class="p-col-6">
-                <p-inputSwitch [disabled]="!blocked" [(ngModel)]="checked.P4"></p-inputSwitch>
-            </div>
-        </div>
-
-        <div class="p-grid" style="margin-top: 2rem;">
-            <div class="p-col-12">
-                <label>Pompy</label>
-            </div>
-
-            <div class="p-col-6">
-                <label>Y1</label>
-            </div>
-            <div class="p-col-6">
-                <p-inputSwitch [disabled]="!blocked" [(ngModel)]="checked.Y1"></p-inputSwitch>
-            </div>
-
-            <div class="p-col-6">
-                <label>Y2</label>
-            </div>
-            <div class="p-col-6">
-                <p-inputSwitch [disabled]="!blocked" [(ngModel)]="checked.Y2"></p-inputSwitch>
-            </div>
-
-            <div class="p-col-6">
-                <label>Y3</label>
-            </div>
-            <div class="p-col-6">
-                <p-inputSwitch [disabled]="!blocked" [(ngModel)]="checked.Y3"></p-inputSwitch>
             </div>
         </div>
     </div>
