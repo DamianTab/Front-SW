@@ -16,8 +16,8 @@
           </label>
           <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <!-- todo do poprawy is-valid -->
-            <input type="text" formControlName="username" placeholder="username" class="text-size" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
-            <input type="password" formControlName="password" placeholder="password" class="text-size" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+            <input type="text" formControlName="username" placeholder="username" class="text-size" />
+            <input type="password" formControlName="password" placeholder="password" class="text-size" />
             <button class="text-size" [disabled]="loading">login</button>
           </form>
         </div>

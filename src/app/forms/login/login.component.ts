@@ -13,7 +13,6 @@ import { ToastService } from '../../shared/services/toast/toast.service';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   loading = false;
-  submitted = false;
   returnUrl: string;
 
   constructor(
@@ -43,6 +42,7 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     // stop here if form is invalid
     if (this.loginForm.invalid) {
+      this.toastService.error('Login ani hasło nie mogą być puste');
       return;
     }
 
