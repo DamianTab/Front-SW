@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthenticationService } from '../../shared/services/authentication/authentication.service';
+import { ToastService } from '../../shared/services/toast/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -7,9 +11,48 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class LoginComponent implements OnInit {
+  loginForm: FormGroup;
+  loading = false;
+  returnUrl: string;
 
-  constructor() { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router,
+    private authenticationService: AuthenticationService,
+    private toastService: ToastService
+  ) {
+    // redirect to home if already logged in
+    if (this.authenticationService.validate()) {
+      this.router.navigate(['/']);
+    }
+  }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.loginForm = this.formBuilder.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required]
+    });
 
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+  }
+
+  private get controlForm() { return this.loginForm.controls; }
+
+  onSubmit() {
+    // stop here if form is invalid
+    if (this.loginForm.invalid) {
+      this.toastService.error('Login ani hasło nie mogą być puste');
+      return;
+    }
+
+    this.authenticationService.login(this.controlForm.username.value, this.controlForm.password.value);
+
+    if (this.authenticationService.validate()) {
+      this.router.navigate([this.returnUrl]);
+      this.toastService.success('Pomyślnie zalogowano');
+    } else {
+      this.toastService.error('Niepoprawne dane logowania');
+    }
+  }
 }

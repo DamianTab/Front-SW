@@ -1,6 +1,5 @@
 import { Component, OnInit, ContentChildren, QueryList, Input } from '@angular/core';
 import { TrackWidgetComponent }from './trackwidget/trackwidget.component'
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'sw-track',

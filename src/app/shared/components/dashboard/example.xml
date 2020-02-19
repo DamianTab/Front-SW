@@ -1,5 +1,5 @@
-<sw-dashboard show="one">
-    <sw-track name="one">
+<sw-dashboard>
+    <sw-track>
         <sw-track-widget header="header" subheader="subheader">
             <input type="text">
         </sw-track-widget>
@@ -30,37 +30,37 @@
         </sw-track-widget>
 
         <sw-track-widget>
-            asdasdasd sad asd asd 
+            asdasdasd sad asd asd
         </sw-track-widget>
         <sw-track-widget>
-            asdasdasd sad asd asd 
+            asdasdasd sad asd asd
         </sw-track-widget>
         <sw-track-widget>
-            asdasdasd sad asd asd 
+            asdasdasd sad asd asd
         </sw-track-widget>
         <sw-track-widget>
-            asdasdasd sad asd asd 
+            asdasdasd sad asd asd
         </sw-track-widget>
         <sw-track-widget>
-            asdasdasd sad asd asd 
+            asdasdasd sad asd asd
         </sw-track-widget>
         <sw-track-widget>
-            asdasdasd sad asd asd 
+            asdasdasd sad asd asd
         </sw-track-widget>
         <sw-track-widget>
-            asdasdasd sad asd asd 
+            asdasdasd sad asd asd
         </sw-track-widget>
         <sw-track-widget>
-            asdasdasd sad asd asd 
+            asdasdasd sad asd asd
         </sw-track-widget>
         <sw-track-widget>
-            asdasdasd sad asd asd 
+            asdasdasd sad asd asd
         </sw-track-widget>
         <sw-track-widget>
-            asdasdasd sad asd asd 
+            asdasdasd sad asd asd
         </sw-track-widget>
         <sw-track-widget>
-            asdasdasd sad asd asd 
+            asdasdasd sad asd asd
         </sw-track-widget>
     </sw-track>
 </sw-dashboard>

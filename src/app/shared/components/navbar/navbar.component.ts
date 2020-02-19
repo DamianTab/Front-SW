@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterElement } from './models/router-element';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '../../services/authentication/authentication.service';
 
 @Component({
   selector: "sw-navbar",
@@ -46,22 +47,20 @@ export class NavbarComponent implements OnInit {
     },
   ];
 
-  constructor(private router: Router) {
+  constructor(private router: Router,
+              private auth: AuthenticationService) {
   }
 
   ngOnInit(): void { }
 
   onClick(elemenet: RouterElement): void {
-    console.log(elemenet.name);
-    console.log(elemenet.link, elemenet.id);
     if (elemenet.id) {
       this.router.navigate([elemenet.link, elemenet.id]);
-      // this.router.navigateByUrl('/' + elemenet.link + '/' + elemenet.id);
+    } else if (elemenet.link === 'settings/logout') {
+      this.auth.logout();
     } else {
       this.router.navigate([elemenet.link]);
-      // this.router.navigateByUrl('/' + elemenet.link);
     }
-    console.log(this.router.url);
   }
 
 }

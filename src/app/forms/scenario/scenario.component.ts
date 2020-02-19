@@ -1,18 +1,18 @@
 import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 import { ScenarioElementComponent } from './scenario-element/scenario-element.component';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
 
-/* 
+/*
 
 Usage: as a content of sw-track-widget component, for example:
 
-<sw-dashboard show="one">
-    <sw-track name="one">
+<sw-dashboard>
+    <sw-track>
         <sw-track-widget header="Nowy scenariusz">
             <sw-scenario></sw-scenario>
         </sw-track-widget>
     </sw-track>
-</sw-dashboard> 
-
+</sw-dashboard>
 */
 
 
@@ -26,12 +26,14 @@ export class ScenarioComponent implements OnInit {
   @ViewChildren(ScenarioElementComponent) readonly elements: QueryList<ScenarioElementComponent>;
   elems: number[];
 
+  constructor(private toastService: ToastService) { }
+
   ngOnInit() {
     this.elems = [1, 2];
   }
 
   addElement(): void {
-    this.elems.push(Math.max.apply(null, this.elems)+1);
+    this.elems.push(Math.max.apply(null, this.elems) + 1);
   }
 
   deleteElement(elemId: number): void {
@@ -41,11 +43,12 @@ export class ScenarioComponent implements OnInit {
   }
 
   submitScenario(): void {
-    let scenario = [];
+    const scenario = [];
     this.elements.forEach(element => {
-      scenario.push({phase: element.selectedPhase, duration: element.selectedDuration})
+      scenario.push({ phase: element.selectedPhase, duration: element.selectedDuration })
     });
-    console.log(scenario);
+    this.toastService.success('Pomyślnie stworzono scenariusz');
+    //todo send
     //data ready to be send to backend
   }
 

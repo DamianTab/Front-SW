@@ -1,22 +1,29 @@
-import {Component, OnInit} from '@angular/core';
-import { ActivatedRoute, UrlSegment } from '@angular/router';
-
-
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { AuthenticationService } from './shared/services/authentication/authentication.service';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
-  ngOnInit(): void {
-    // console.log(this.location.path());
-  }
-  title = 'front-app';
+export class AppComponent implements OnInit, OnDestroy {
 
-  constructor(r: ActivatedRoute) {
-    r.url.subscribe((s: UrlSegment[]) => {
-      console.log("url", s);
+  isAuthenticated = false;
+  subscription: Subscription;
+
+  constructor(public auth: AuthenticationService) {
+  }
+
+  ngOnInit(): void {
+    this.subscription = this.auth.onUserChange().subscribe(() => {
+      this.isAuthenticated = this.auth.validate();
     });
   }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+
 }

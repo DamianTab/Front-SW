@@ -3,3 +3,16 @@
     display: flex;
     justify-content: space-between;
 }
+
+.padding {
+    padding-right: 10px;
+}
+
+:host ::ng-deep .sw-widget{
+  margin: 1px !important;
+}
+
+.shadow {
+  margin: 2rem;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
