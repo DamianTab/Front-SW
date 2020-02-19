@@ -152,20 +152,20 @@ class WaterControllerCss {
       'height': current.height / this.img.height
     };
 
-    for (const area of this.clickableAreas) {
+    for (const { 'ID': areaID, 'points': points, 'circleSubArea': circle } of this.points) {
       const coords: string[] = [];
 
       {
-        let copy = Object.assign({}, area.circleSubArea);
+        let copy = Object.assign({}, circle);
         copy.x *= ratio.width;
         copy.y *= ratio.height;
         copy.radius *= ratio.width;
 
-        $(`#${area.ID}`).attr('coords', [copy.x, copy.y, copy.radius].join(","));
+        $(`#${areaID}`).attr('coords', [copy.x, copy.y, copy.radius].join(","));
       }
 
 
-      for (const p of area.points) {
+      for (const p of points) {
         let [x, y] = [p.x, p.y];
 
         x *= ratio.width;
@@ -174,7 +174,7 @@ class WaterControllerCss {
         coords.push(`${x},${y}`);
       }
 
-      $(`#${area.ID}`).attr('data-triangle-coords', coords.join(", "));
+      $(`#${areaID}`).attr('data-triangle-coords', coords.join(", "));
     }
 
     this.drawButtons();
@@ -187,7 +187,7 @@ class WaterControllerCss {
     const water = this;
     $("area").each(function () {
       const pairs = $(this).attr('data-triangle-coords').split(', ');
-      const [startX, startY] = pairs[0].split(',').map(val => Number.parseFloat(val));
+      const [startX, startY] = pairs[0].split(',').map((val) => Number.parseFloat(val));
 
       let state = water.isBlocked() ? 'inactive' : 'active';
       ctx.fillStyle = water.checked[$(this).attr('data-button')] ? water.colors[state].on : water.colors[state].off;
