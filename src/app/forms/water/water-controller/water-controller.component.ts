@@ -51,7 +51,7 @@ export class WaterControllerComponent implements OnInit {
 }
 
 class WaterControllerCss {
-  private points: WaterControllerCss.Area[] = [];
+  private clickableAreas: WaterControllerCss.Area[] = [];
   private colors = {
     'active': {
       'on': '#00FF0D',
@@ -117,20 +117,20 @@ class WaterControllerCss {
     $('area').each(function () {
       const pairs = $(this).attr('data-triangle-coords').split(', ');
       const points = pairs.map((point) => {
-        const [x, y] = point.split(',');
+        const [x, y] = point.split(',').map(val => Number.parseFloat(val));
         return {
-          'x': Number.parseFloat(x),
-          'y': Number.parseFloat(y)
+          'x': x,
+          'y': y
         }
       });
-      const [x, y, radius] = $(this).attr('coords').split(',');
-      water.points.push({
+      const [x, y, radius] = $(this).attr('coords').split(',').map(val => Number.parseFloat(val));
+      water.clickableAreas.push({
         'ID': $(this).attr('id'),
         'points': points,
         'circleSubArea': {
-          'x': Number.parseFloat(x),
-          'y': Number.parseFloat(y),
-          'radius': Number.parseFloat(radius)
+          'x': x,
+          'y': y,
+          'radius': radius
         }
       });
     }).promise().done(water.resizeButtons);
@@ -196,7 +196,7 @@ class WaterControllerCss {
       ctx.moveTo(startX, startY);
 
       for (let i = 1; i < pairs.length; i++) {
-        const [x, y] = pairs[i].split(',').map((val) => Number.parseFloat(val));
+        const [x, y] = pairs[i].split(',').map(val => Number.parseFloat(val));
         ctx.lineTo(x, y);
       }
 
