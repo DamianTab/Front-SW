@@ -152,20 +152,20 @@ class WaterControllerCss {
       'height': current.height / this.img.height
     };
 
-    for (const { 'ID': areaID, 'points': points, 'circleSubArea': circle } of this.points) {
+    for (const area of this.clickableAreas) {
       const coords: string[] = [];
 
       {
-        let copy = Object.assign({}, circle);
+        let copy = Object.assign({}, area.circleSubArea);
         copy.x *= ratio.width;
         copy.y *= ratio.height;
         copy.radius *= ratio.width;
 
-        $(`#${areaID}`).attr('coords', [copy.x, copy.y, copy.radius].join(","));
+        $(`#${area.ID}`).attr('coords', [copy.x, copy.y, copy.radius].join(","));
       }
 
 
-      for (const p of points) {
+      for (const p of area.points) {
         let [x, y] = [p.x, p.y];
 
         x *= ratio.width;
@@ -174,7 +174,7 @@ class WaterControllerCss {
         coords.push(`${x},${y}`);
       }
 
-      $(`#${areaID}`).attr('data-triangle-coords', coords.join(", "));
+      $(`#${area.ID}`).attr('data-triangle-coords', coords.join(", "));
     }
 
     this.drawButtons();
