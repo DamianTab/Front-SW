@@ -51,7 +51,7 @@ export class WaterControllerComponent implements OnInit {
 }
 
 class WaterControllerCss {
-  private points: WaterControllerCss.Areas = [];
+  private points: WaterControllerCss.Area[] = [];
   private colors = {
     'active': {
       'on': '#00FF0D',
@@ -65,7 +65,7 @@ class WaterControllerCss {
 
   constructor(private checked: any, private isBlocked: WaterControllerCss.Predicate, private img: WaterControllerCss.Image) {
     this.bindMethods();
-    
+
     $(document).ready(() => {
       $('#img-buttons').on('click', this.buttonClicked);
       this.alignSliders();
@@ -81,14 +81,14 @@ class WaterControllerCss {
   }
 
   private bindMethods(): void {
-    for(let method of Object.getOwnPropertyNames(Object.getPrototypeOf(this))) {
+    for (let method of Object.getOwnPropertyNames(Object.getPrototypeOf(this))) {
       this[method] = this[method].bind(this);
     }
   }
 
   private buttonClicked(event: JQuery.ClickEvent<HTMLElement, undefined, HTMLElement, HTMLElement>): void {
     const button = event.target.attributes.getNamedItem('data-button').value;
-    if(!this.isBlocked()) {
+    if (!this.isBlocked()) {
       this.checked[button] = !this.checked[button];
     }
     this.drawButtons();
@@ -114,8 +114,8 @@ class WaterControllerCss {
     $('#canvas-buttons').attr('height', this.img.height);
 
     const water = this;
-    $('area').each(function() {
-      const pairs = $(this).attr('coords').split(', ');
+    $('area').each(function () {
+      const pairs = $(this).attr('data-triangle-coords').split(', ');
       const points = pairs.map((point) => {
         const [x, y] = point.split(',');
         return {
@@ -123,7 +123,16 @@ class WaterControllerCss {
           'y': Number.parseFloat(y)
         }
       });
-      water.points.push([$(this).attr('id'), points]);
+      const [x, y, radius] = $(this).attr('coords').split(',');
+      water.points.push({
+        'ID': $(this).attr('id'),
+        'points': points,
+        'circleSubArea': {
+          'x': Number.parseFloat(x),
+          'y': Number.parseFloat(y),
+          'radius': Number.parseFloat(radius)
+        }
+      });
     }).promise().done(water.resizeButtons);
   }
 
@@ -134,7 +143,7 @@ class WaterControllerCss {
       'width': $pic.width(),
       'height': $pic.height()
     }
-    
+
     $('#canvas-buttons').attr('width', current.width);
     $('#canvas-buttons').attr('height', current.height);
 
@@ -143,8 +152,18 @@ class WaterControllerCss {
       'height': current.height / this.img.height
     };
 
-    for (const [areaID, points] of this.points) {
+    for (const { 'ID': areaID, 'points': points, 'circleSubArea': circle } of this.points) {
       const coords: string[] = [];
+
+      {
+        let copy = Object.assign({}, circle);
+        copy.x *= ratio.width;
+        copy.y *= ratio.height;
+        copy.radius *= ratio.width;
+
+        $(`#${areaID}`).attr('coords', [copy.x, copy.y, copy.radius].join(","));
+      }
+
 
       for (const p of points) {
         let [x, y] = [p.x, p.y];
@@ -155,7 +174,7 @@ class WaterControllerCss {
         coords.push(`${x},${y}`);
       }
 
-      $(`#${areaID}`).attr("coords", coords.join(", "));
+      $(`#${areaID}`).attr('data-triangle-coords', coords.join(", "));
     }
 
     this.drawButtons();
@@ -167,7 +186,7 @@ class WaterControllerCss {
 
     const water = this;
     $("area").each(function () {
-      const pairs = $(this).attr('coords').split(', ');
+      const pairs = $(this).attr('data-triangle-coords').split(', ');
       const [startX, startY] = pairs[0].split(',').map((val) => Number.parseFloat(val));
 
       let state = water.isBlocked() ? 'inactive' : 'active';
@@ -193,9 +212,17 @@ namespace WaterControllerCss {
     'height': number
   }
 
-  type Point = {'x': number, 'y': number};
-  type ID = string;
-  export type Areas = [ID, Point[]][];
+  type Point = { 'x': number, 'y': number };
+
+  export interface Area {
+    ID: string,
+    points: Point[],
+    circleSubArea: {
+      x: number,
+      y: number,
+      radius: number
+    }
+  }
 
   export type Predicate = (...args: any[]) => boolean;
 }
