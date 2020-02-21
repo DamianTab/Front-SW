@@ -3,21 +3,22 @@
         <sw-chart [dataType]="dataType" [title]="title" [xLabel]="xLabel" [yLabel]="yLabel" [interval]="interval"></sw-chart>
     </div>
 
-    
+
     <div class="p-col-12 p-grid p-dir-col">
         <div class="p-col spacing">
             <div class="ui-inputgroup">
                 <span class="ui-inputgroup-addon">Start</span>
-                <input type="datetime-local" [value]="intervalBegin" [min]="minDate" [max]="intervalEnd" 
-                    (change)="intervalBegin=$event.target.value">         
+              <p-calendar [(ngModel)]="startTime" [showTime]="true" [minDate]="_minDate" [maxDate]="intervalEnd"
+                          (ngModelChange)="intervalBegin=startTime; console.log(intervalBegin)">
+              </p-calendar>
             </div>
         </div>
 
         <div class="p-col spacing">
             <div class="ui-inputgroup">
                 <span class="ui-inputgroup-addon">Stop</span>
-                <input type="datetime-local" [value]="intervalEnd" [min]="intervalBegin" [max]="maxDate" 
-                    (change)="intervalEnd=$event.target.value">         
+                <p-calendar [(ngModel)]="endTime" [showTime]="true" [minDate]="intervalBegin" [maxDate]="_maxDate"
+                    (ngModelChange)="intervalEnd=endTime; console.log(intervalEnd)"></p-calendar>
             </div>
         </div>
 
