@@ -5,10 +5,11 @@ import { WaterModule } from './forms/water/water.module';
 import { NavbarModule } from './shared/components/navbar/navbar.module';
 import { ScenarioModule } from './forms/scenario/scenario.module';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { HomeModule } from './forms/home/home.module';
 import { ToastModule} from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { NoResponseInterceptor } from './shared/services/no-response-interceptor/no-response.interceptor';
 
 @NgModule({
   declarations: [
@@ -25,8 +26,9 @@ import { MessageService } from 'primeng/api';
     AppRoutingModule,
   ],
   providers: [
-    MessageService
+    MessageService,
+    { provide: HTTP_INTERCEPTORS, useClass: NoResponseInterceptor, multi: true }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
