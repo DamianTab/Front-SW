@@ -5,7 +5,7 @@ import { WaterModule } from './forms/water/water.module';
 import { NavbarModule } from './shared/components/navbar/navbar.module';
 import { ScenarioModule } from './forms/scenario/scenario.module';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
 import { HomeModule } from './forms/home/home.module';
 import { ToastModule} from 'primeng/toast';
 import { MessageService } from 'primeng/api';
@@ -22,6 +22,14 @@ import { MessageService } from 'primeng/api';
     ScenarioModule,
     HomeModule,
     HttpClientModule,
+    HttpClientXsrfModule.withOptions({
+      cookieName: 'csrftoken',
+      headerName: 'X-CSRFToken',
+    }),
+    HttpClientXsrfModule.withOptions({
+      cookieName: 'sessionid',
+      headerName: 'sessionid',
+    }),
     AppRoutingModule,
   ],
   providers: [

@@ -3,6 +3,7 @@ import { User } from '../../models/user';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { ToastService } from '../toast/toast.service';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -13,8 +14,10 @@ export class AuthenticationService {
 
   constructor(
     private router: Router,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private http: HttpClient
   ) {
+
   }
 
   login(username: string, password: string) {
@@ -36,6 +39,11 @@ export class AuthenticationService {
     if (!this.subjectUser.value) {
       return false;
     }
+    this.http.post('http://127.0.0.1:8000/admin', {
+      'username': this.subjectUser.value.username,
+      'password': this.subjectUser.value.password,
+      'next': '/admin/'
+    }).subscribe(recv => console.log(recv));
     return this.subjectUser.value.username === 'admin' && this.subjectUser.value.password === 'admin';
   }
 
