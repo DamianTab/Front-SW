@@ -44,36 +44,36 @@ export class AuthenticationService {
     //a middlewaretoken wyciagamy z inputu zapytania z formatki django
 
 
-    const isLogged = [];
-    this.http.get('/api-auth/login/', {'responseType': 'text'}).toPromise()
-    .then(html => {
-        const middlewaretoken = $('<div>').append(html).addBack().find('input[name="csrfmiddlewaretoken"]').val().toString(); 
-        
+    this.http.get('/api-auth/login/', { 'responseType': 'text' }).toPromise()
+      .then(html => {
+        const middlewaretoken = $('<div>')
+          .append(html)
+          .addBack()
+          .find('input[name="csrfmiddlewaretoken"]')
+          .val()
+          .toString();
+
         let params = new HttpParams();
-        params = params.append('username', this.subjectUser.value.username)
-        .append('password', this.subjectUser.value.password)
-        .append('next', '')
-        .append('csrfmiddlewaretoken', middlewaretoken)
-        .append('submit', 'Log in');
+        params = params
+          .append('username', this.subjectUser.value.username)
+          .append('password', this.subjectUser.value.password)
+          .append('next', '')
+          .append('csrfmiddlewaretoken', middlewaretoken)
+          .append('submit', 'Log in');
 
-        return this.http.post('/api-auth/login/', params, {'responseType': 'text'}).toPromise();
+        //logujemy się do django
+        return this.http.post('/api-auth/login/', params, { 'responseType': 'text' }).toPromise();
       })
-      .then(recv => isLogged.push(parseResponse(recv).logged))
-      .catch(error => isLogged.push(parseResponse(error.error).logged));
+      .then(recv => this.parseResponse(recv).logged)
+      .catch(error => {
+        this.parseResponse(error.error).logged;
 
-    while(!isLogged.length) {
-      console.log(isLogged);
-    }
-    
-      function parseResponse(recv) {
-        const txt = recv.toString();
-        return {
-          'logged': !txt.includes('text-error') && txt.includes('Page not found') //przejscie z formatki loginu
-        }
-      }
-    
+        //sprawdzamy czy jestesmy adminem
+        return this.http.get('/admin/auth/user/', { 'responseType': 'text' }).toPromise()
+      })
+      .then(recv => console.log(`IS ADMIN: ${recv.includes('Welcome')}`));
 
-    return isLogged[0];
+    return false;
   }
 
   onUserChange(): Observable<User> {
@@ -83,6 +83,13 @@ export class AuthenticationService {
   private setNewUser(user: User): void {
     this.subjectUser.next(user);
     localStorage.setItem(this.COOKIE_VALUE, JSON.stringify(user));
+  }
+
+  private parseResponse(recv) {
+    const txt = recv.toString();
+    return {
+      'logged': !txt.includes('text-error') && txt.includes('Page not found') //przejscie z formatki loginu
+    }
   }
 
 }
