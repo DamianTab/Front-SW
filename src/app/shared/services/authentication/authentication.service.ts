@@ -41,10 +41,17 @@ export class AuthenticationService {
     }
 
     let params = new HttpParams();
-    params = params.append('username', this.subjectUser.value.username).append('password', this.subjectUser.value.password).append('csrfmiddlewaretoken', '5NgsJTP0O2TyMkEmS8jB8ZKNZE87Kj3cG5SVm3bRYAdWYxroO7zBcEltLK1qgu39').append('next', '/admin/');
+    params = params.append('username', this.subjectUser.value.username)
+    .append('password', this.subjectUser.value.password)
+    .append('csrfmiddlewaretoken', '5NgsJTP0O2TyMkEmS8jB8ZKNZE87Kj3cG5SVm3bRYAdWYxroO7zBcEltLK1qgu39')
+    .append('next', '/admin/');
     document.cookie = 'csrftoken=mrXYBjIeXFASUuxYcwtPzqTjPtTG1YzwXJzret457dUg6Hk08vJPD5uZBzMZx9zt';
 
-    this.http.post('/api-auth/login/', params, { 'responseType': 'text'}).subscribe(recv => console.log(recv.toString().includes('text-error')));
+    this.http.post('/api-auth/login/', params, {'responseType': 'text'}).subscribe(recv => { 
+      console.log(`IS-LOGGED:${!recv.toString().includes('text-error')}`)
+      this.http.post('/admin/auth/user/', params, {'responseType': 'text'}).subscribe(() => console.log('END'));
+    });
+
     return this.subjectUser.value.username === 'admin' && this.subjectUser.value.password === 'admin';
   }
 
