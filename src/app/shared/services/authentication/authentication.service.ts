@@ -40,19 +40,40 @@ export class AuthenticationService {
       return false;
     }
 
-    let params = new HttpParams();
-    params = params.append('username', this.subjectUser.value.username)
-    .append('password', this.subjectUser.value.password)
-    .append('csrfmiddlewaretoken', '5NgsJTP0O2TyMkEmS8jB8ZKNZE87Kj3cG5SVm3bRYAdWYxroO7zBcEltLK1qgu39')
-    .append('next', '/admin/');
-    document.cookie = 'csrftoken=mrXYBjIeXFASUuxYcwtPzqTjPtTG1YzwXJzret457dUg6Hk08vJPD5uZBzMZx9zt';
+    //logowanie powtarza sie 2krotnie z powodu authguard, dostajemy automatycznie przypisywany csrf token
+    //a middlewaretoken wyciagamy z inputu zapytania z formatki django
 
-    this.http.post('/api-auth/login/', params, {'responseType': 'text'}).subscribe(recv => { 
-      console.log(`IS-LOGGED:${!recv.toString().includes('text-error')}`)
-      this.http.post('/admin/auth/user/', params, {'responseType': 'text'}).subscribe(() => console.log('END'));
-    });
 
-    return this.subjectUser.value.username === 'admin' && this.subjectUser.value.password === 'admin';
+    const isLogged = [];
+    this.http.get('/api-auth/login/', {'responseType': 'text'}).toPromise()
+    .then(html => {
+        const middlewaretoken = $('<div>').append(html).addBack().find('input[name="csrfmiddlewaretoken"]').val().toString(); 
+        
+        let params = new HttpParams();
+        params = params.append('username', this.subjectUser.value.username)
+        .append('password', this.subjectUser.value.password)
+        .append('next', '')
+        .append('csrfmiddlewaretoken', middlewaretoken)
+        .append('submit', 'Log in');
+
+        return this.http.post('/api-auth/login/', params, {'responseType': 'text'}).toPromise();
+      })
+      .then(recv => isLogged.push(parseResponse(recv).logged))
+      .catch(error => isLogged.push(parseResponse(error.error).logged));
+
+    while(!isLogged.length) {
+      console.log(isLogged);
+    }
+    
+      function parseResponse(recv) {
+        const txt = recv.toString();
+        return {
+          'logged': !txt.includes('text-error') && txt.includes('Page not found') //przejscie z formatki loginu
+        }
+      }
+    
+
+    return isLogged[0];
   }
 
   onUserChange(): Observable<User> {
