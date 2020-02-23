@@ -3,7 +3,7 @@ import { User } from '../../models/user';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { ToastService } from '../toast/toast.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -39,11 +39,12 @@ export class AuthenticationService {
     if (!this.subjectUser.value) {
       return false;
     }
-    this.http.post('http://127.0.0.1:8000/admin', {
-      'username': this.subjectUser.value.username,
-      'password': this.subjectUser.value.password,
-      'next': '/admin/'
-    }).subscribe(recv => console.log(recv));
+
+    let params = new HttpParams();
+    params = params.append('username', this.subjectUser.value.username).append('password', this.subjectUser.value.password).append('csrfmiddlewaretoken', '5NgsJTP0O2TyMkEmS8jB8ZKNZE87Kj3cG5SVm3bRYAdWYxroO7zBcEltLK1qgu39').append('next', '/admin/');
+    document.cookie = 'csrftoken=mrXYBjIeXFASUuxYcwtPzqTjPtTG1YzwXJzret457dUg6Hk08vJPD5uZBzMZx9zt';
+
+    this.http.post('/admin/login/', params).subscribe(recv => console.log(recv));
     return this.subjectUser.value.username === 'admin' && this.subjectUser.value.password === 'admin';
   }
 

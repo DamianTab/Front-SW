@@ -24,7 +24,7 @@ import { MessageService } from 'primeng/api';
     HttpClientModule,
     HttpClientXsrfModule.withOptions({
       cookieName: 'csrftoken',
-      headerName: 'X-CSRFToken',
+      headerName: 'csrfmiddlewaretoken',
     }),
     HttpClientXsrfModule.withOptions({
       cookieName: 'sessionid',
