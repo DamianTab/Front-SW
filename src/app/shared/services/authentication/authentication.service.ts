@@ -3,6 +3,7 @@ import { User } from '../../models/user';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { ToastService } from '../toast/toast.service';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -13,7 +14,8 @@ export class AuthenticationService {
 
   constructor(
     private router: Router,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private httpClient: HttpClient
   ) {
   }
 
@@ -22,6 +24,9 @@ export class AuthenticationService {
     user.username = username;
     user.password = password;
     this.setNewUser(user);
+    this.httpClient.get('/admin').subscribe(() => {
+      console.log("LOLLLLLLLLLLLLLLLLLL")
+    });
   }
 
   logout() {
