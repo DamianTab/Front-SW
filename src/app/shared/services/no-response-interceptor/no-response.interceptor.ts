@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError, TimeoutError } from 'rxjs';
 import { Router } from '@angular/router';
 import { catchError, timeout } from 'rxjs/operators';
 
@@ -11,6 +11,11 @@ export class NoResponseInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).
-      pipe(timeout(10000), catchError(() => { this.router.navigate(['/disconnected']); return of(null); }));
+      pipe(catchError(err => {
+        if (err instanceof TimeoutError || err.status === 504) {
+          this.router.navigate(['/disconnected']);
+        }
+        return throwError(err);
+      }));
   }
 }

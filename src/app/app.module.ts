@@ -10,6 +10,7 @@ import { HomeModule } from './forms/home/home.module';
 import { ToastModule} from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { NoResponseInterceptor } from './shared/services/no-response-interceptor/no-response.interceptor';
+import { ErrorInterceptor } from './shared/services/error-interceptor/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,9 @@ import { NoResponseInterceptor } from './shared/services/no-response-interceptor
   ],
   providers: [
     MessageService,
-    { provide: HTTP_INTERCEPTORS, useClass: NoResponseInterceptor, multi: true }
+    // Kolejnosc ma znaczenie !!! Jak zamienicie to nie bedzie wykrywał timeout'u !!!
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: NoResponseInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })
