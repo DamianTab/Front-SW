@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { WaterModule } from './forms/water/water.module';
@@ -9,8 +9,9 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { HomeModule } from './forms/home/home.module';
 import { ToastModule} from 'primeng/toast';
 import { MessageService } from 'primeng/api';
-import { NoResponseInterceptor } from './shared/services/no-response-interceptor/no-response.interceptor';
-import { ErrorInterceptor } from './shared/services/error-interceptor/error.interceptor';
+import { NoResponseInterceptor } from './shared/services/error-handling/no-response.interceptor';
+import { ExternalErrorHandler } from './shared/services/error-handling/error.interceptor';
+import { InternalErrorHandler } from './shared/services/error-handling/internal-error-handler';
 
 @NgModule({
   declarations: [
@@ -29,8 +30,9 @@ import { ErrorInterceptor } from './shared/services/error-interceptor/error.inte
   providers: [
     MessageService,
     // Kolejnosc ma znaczenie !!! Jak zamienicie to nie bedzie wykrywał timeout'u !!!
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ExternalErrorHandler, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: NoResponseInterceptor, multi: true },
+    { provide: ErrorHandler, useClass: InternalErrorHandler },
   ],
   bootstrap: [AppComponent],
 })
