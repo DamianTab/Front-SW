@@ -4,10 +4,11 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { AuthenticationService } from '../authentication/authentication.service';
+import { ToastService } from '../toast/toast.service';
 
 @Injectable()
-export class ErrorInterceptor implements HttpInterceptor {
-    constructor(private authenticationService: AuthenticationService) {}
+export class ExternalErrorHandler implements HttpInterceptor {
+    constructor(private authenticationService: AuthenticationService, private toastService: ToastService) {}
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).pipe(catchError(err => {
@@ -16,7 +17,15 @@ export class ErrorInterceptor implements HttpInterceptor {
                 this.authenticationService.logout();
                 location.reload(true);
             }
-
+            else {
+                if (err.status  >= 500 && err.status < 600) {
+                    this.toastService.error("Server error: " + err.error.message);   
+                } else if (err.status >= 400) {
+                    this.toastService.error("Client error: " + err.error.message);
+                } else {
+                    this.toastService.error("Network error: " + err.error.message);
+                }
+            }
             const error = err.error.message || err.statusText;
             return throwError(error);
         }));
