@@ -19,15 +19,15 @@ export class ExternalErrorHandler implements HttpInterceptor {
             }
             else {
                 if (err.status  >= 500 && err.status < 600) {
-                    this.toastService.error("Server error: " + err.error.message);   
+                    this.toastService.error("Server error: " + err.message);   
                 } else if (err.status >= 400) {
-                    this.toastService.error("Client error: " + err.error.message);
+                    this.toastService.error("Client error: " + err.message);
                 } else {
-                    this.toastService.error("Network error: " + err.error.message);
+                    this.toastService.error("Error: " + err.message);
                 }
             }
             const error = err.error.message || err.statusText;
-            return throwError(error);
+            return throwError(err);
         }));
     }
 }
