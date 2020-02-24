@@ -24,6 +24,7 @@ export class AuthenticationService {
     user.username = username;
     user.password = password;
     this.setNewUser(user);
+    //todo do usuniecia
     this.httpClient.get('/admin').subscribe(() => {
       console.log("LOLLLLLLLLLLLLLLLLLL")
     });
