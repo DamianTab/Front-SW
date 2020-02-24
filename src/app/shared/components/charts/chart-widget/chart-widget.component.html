@@ -8,7 +8,7 @@
         <div class="p-col spacing">
             <div class="ui-inputgroup">
                 <span class="ui-inputgroup-addon">Start</span>
-              <p-calendar [(ngModel)]="startTime" [showTime]="true" [minDate]="_minDate" [maxDate]="intervalEnd" [readonlyInput]="true"
+              <p-calendar [(ngModel)]="startTime" [showSeconds]="true" [showTime]="true" [minDate]="_minDate" [maxDate]="intervalEnd" [readonlyInput]="true"
                           (ngModelChange)="intervalBegin=startTime; console.log(intervalBegin)">
               </p-calendar>
             </div>
@@ -17,7 +17,7 @@
         <div class="p-col spacing">
             <div class="ui-inputgroup">
                 <span class="ui-inputgroup-addon">Stop</span>
-                <p-calendar [(ngModel)]="endTime" [showTime]="true" [minDate]="intervalBegin" [maxDate]="_maxDate" [readonlyInput]="true"
+                <p-calendar [(ngModel)]="endTime" [showSeconds]="true" [showTime]="true" [minDate]="intervalBegin" [maxDate]="_maxDate" [readonlyInput]="true"
                     (ngModelChange)="intervalEnd=endTime; console.log(intervalEnd)"></p-calendar>
             </div>
         </div>

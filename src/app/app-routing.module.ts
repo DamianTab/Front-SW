@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: '404', component: NotExistingPageComponent},
-  { path: 'disconnected', component: NoConnectionComponent, canActivate: [AuthGuard] },
+  { path: 'disconnected', component: NoConnectionComponent},
   { path: '**', redirectTo: '404' }
 ];
 
