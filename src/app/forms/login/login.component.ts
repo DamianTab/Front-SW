@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../shared/services/authentication/authentication.service';
 import { ToastService } from '../../shared/services/toast/toast.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +11,9 @@ import { ToastService } from '../../shared/services/toast/toast.service';
   styleUrls: ['./login.component.scss']
 })
 
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
+  private _subscription: Subscription;
+
   loginForm: FormGroup;
   loading = false;
   returnUrl: string;
@@ -35,9 +38,22 @@ export class LoginComponent implements OnInit {
     });
 
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+
+    this._subscription = this.authenticationService.isLogIn$.subscribe(isLogin => {
+      if (isLogin) {
+        this.router.navigate([this.returnUrl]);
+        this.toastService.success('Pomyślnie zalogowano');
+      } else {
+        this.toastService.error('Niepoprawne dane logowania');
+      }
+    });
   }
 
-  private get controlForm() { return this.loginForm.controls; }
+  ngOnDestroy(): void {
+    if (this._subscription) {
+      this._subscription.unsubscribe();
+    }
+  }
 
   onSubmit() {
     // stop here if form is invalid
@@ -47,12 +63,9 @@ export class LoginComponent implements OnInit {
     }
 
     this.authenticationService.login(this.controlForm.username.value, this.controlForm.password.value);
-
-    if (this.authenticationService.validate()) {
-      this.router.navigate([this.returnUrl]);
-      this.toastService.success('Pomyślnie zalogowano');
-    } else {
-      this.toastService.error('Niepoprawne dane logowania');
-    }
   }
+
+
+  private get controlForm() { return this.loginForm.controls; }
+
 }
