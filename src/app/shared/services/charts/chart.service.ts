@@ -10,7 +10,7 @@ export class ChartService {
 
   async retrieveData(dataType: string): Promise<ChartService.Data> {
     let data: ChartService.Data;
-    await this.http.get(`${this.url}/${dataType}`).subscribe((recv: ChartService.Data) => data = recv)
+    await this.http.get(`${this.url}/${dataType}`).subscribe((recv: ChartService.Data) => data = recv);
     return data
   }
 

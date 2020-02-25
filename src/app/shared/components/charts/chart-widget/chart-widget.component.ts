@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ChartService } from '../../../services/charts/chart.service';
+import {InputSwitch} from 'primeng';
 
 /* Example:
  * <sw-chart-widget dataType="oxygen"></sw-chart-widget>
@@ -27,6 +28,10 @@ export class ChartWidgetComponent implements OnInit {
   startTime: Date;
   endTime: Date;
   console = console;
+  pl: any = {
+    firstDay : 1
+  };
+  periodTypeSwitch: boolean;
 
   ngOnInit() {
     this._maxDate.setMinutes(0, 0, 0);
@@ -77,6 +82,19 @@ export class ChartWidgetComponent implements OnInit {
 
   get intervalBegin(): Date {
     return this.interval.begin;
+  }
+
+  parse(date: Date) {
+    return {
+      begin: {
+        second: date.getSeconds(),
+        minute: date.getMinutes(),
+        hour: date.getHours(),
+        day: date.getDay(),
+        month: date.getMonth(),
+        year: date.getFullYear()
+      }
+    };
   }
 
   set intervalBegin(val: Date) {

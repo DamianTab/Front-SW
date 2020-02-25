@@ -6,21 +6,40 @@
 
     <div class="p-col-12 p-grid p-dir-col">
         <div class="p-col spacing">
-            <div class="ui-inputgroup">
-                <span class="ui-inputgroup-addon">Start</span>
-              <p-calendar [(ngModel)]="startTime" [showSeconds]="true" [showTime]="true" [minDate]="_minDate" [maxDate]="intervalEnd" [readonlyInput]="true"
-                          (ngModelChange)="intervalBegin=startTime; console.log(intervalBegin)">
-              </p-calendar>
-            </div>
+          <div class="p-col-4">
+            <label id="block">Pokaz LIVE</label>
+          </div>
+          <div class="period-or-live p-col spacing">
+            <p-inputSwitch [(ngModel)]="periodTypeSwitch"></p-inputSwitch>
+          </div>
+        </div>
+      <div *ngIf="periodTypeSwitch" class="p-col spacing">
+        <div class="p-col spacing">
+          <div class="ui-inputgroup">
+            <span class="ui-inputgroup-addon">Start</span>
+            <p-calendar [(ngModel)]="startTime" [locale]="pl" [showTime]="true" [minDate]="_minDate" [maxDate]="intervalEnd" [readonlyInput]="true"
+                        (ngModelChange)="intervalBegin=startTime; console.log(intervalBegin)">
+            </p-calendar>
+          </div>
         </div>
 
         <div class="p-col spacing">
-            <div class="ui-inputgroup">
-                <span class="ui-inputgroup-addon">Stop</span>
-                <p-calendar [(ngModel)]="endTime" [showSeconds]="true" [showTime]="true" [minDate]="intervalBegin" [maxDate]="_maxDate" [readonlyInput]="true"
-                    (ngModelChange)="intervalEnd=endTime; console.log(intervalEnd)"></p-calendar>
-            </div>
+          <div class="ui-inputgroup">
+            <span class="ui-inputgroup-addon">Stop</span>
+            <p-calendar [(ngModel)]="endTime" [showTime]="true" [minDate]="intervalBegin" [maxDate]="_maxDate" [readonlyInput]="true"
+                        (ngModelChange)="intervalEnd=endTime; console.log(intervalEnd)"></p-calendar>
+          </div>
         </div>
+      </div>
+      <div *ngIf="!periodTypeSwitch" class="p-col spacing">
+        <div class="p-col spacing">
+          <div class="ui-inputgroup">
+            <span class="ui-inputgroup-addon">Przekrój czasu (sekundy)</span>
+            <input>
+          </div>
+        </div>
+      </div>
+
 
         <div class="p-col spacing">
             <div class="ui-inputgroup">
