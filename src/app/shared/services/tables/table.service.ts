@@ -17,8 +17,28 @@ export class TableService {
         // let data;
         // await this.http.get(`${this.url}/${dataType}`).subscribe((recv) => data = recv)
         // return data
-        if (dataType === 'valves') {
-            this.reqService.getValvesStates(1).then(data => {return data;})
+        if (dataType === "valves") {
+          let timestamps: string[] = [];
+          let valve1: boolean[] = [];
+          let valve2: boolean[] = [];
+          let valve3: boolean[] = [];
+          this.reqService.getValveStates(1, 1).subscribe(data => {
+            console.log(data);
+            data.results.forEach(elem => {
+              timestamps.push(elem.timestamp);
+              valve1.push(elem.valve_open);
+            });
+            this.reqService.getValveStates(1, 2).subscribe(data => {
+              console.log(data);
+              data.results.forEach(elem => valve2.push(elem.valve_open));
+              this.reqService.getValveStates(1, 3).subscribe(data => {
+                console.log(data);
+                data.results.forEach(elem => valve3.push(elem.valve_open));
+                let result = { 'Czas' : timestamps, 'Y1' : valve1, 'Y2' : valve2, 'Y3' : valve3 };
+                return result;
+              });
+            });
+          });
         }
 
         return {

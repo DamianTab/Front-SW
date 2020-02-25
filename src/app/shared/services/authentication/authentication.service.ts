@@ -6,6 +6,7 @@ import { ToastService } from '../toast/toast.service';
 import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { CookieService } from '../cookie/cookie.service';
 import { CookieName } from '../../models/cookie-name';
+import {first} from "rxjs/operators";
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -13,7 +14,7 @@ export class AuthenticationService {
   private subjectUser = new BehaviorSubject<User>(new User());
   private subjectIsLogIn = new BehaviorSubject<boolean>(false);
 
-  public isLogIn$ = this.subjectIsLogIn.asObservable();
+  public isLogIn$ = this.subjectIsLogIn.asObservable().pipe(first());
 
 
   constructor(
