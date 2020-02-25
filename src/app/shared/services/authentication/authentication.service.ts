@@ -1,14 +1,17 @@
 ﻿import { Injectable } from '@angular/core';
 import { User } from '../../models/user';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { ToastService } from '../toast/toast.service';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
 
   private readonly COOKIE_VALUE = 'user';
+  private isLogInSubject = new BehaviorSubject<boolean>(false);
+
+  public isLogIn$ = this.isLogInSubject.asObservable();
 
   subjectUser = new BehaviorSubject<User>(JSON.parse(localStorage.getItem(this.COOKIE_VALUE)));
 
@@ -25,6 +28,8 @@ export class AuthenticationService {
     user.username = username;
     user.password = password;
     this.setNewUser(user);
+
+    this.tokens();
   }
 
   logout() {
@@ -39,45 +44,56 @@ export class AuthenticationService {
     if (!this.subjectUser.value) {
       return false;
     }
-
-    //logowanie powtarza sie 2krotnie z powodu authguard, dostajemy automatycznie przypisywany csrf token
-    //a middlewaretoken wyciagamy z inputu zapytania z formatki django
-
-
-    this.http.get('/api-auth/login/', { 'responseType': 'text' }).toPromise()
-      .then(html => {
-        const middlewaretoken = $('<div>')
-          .append(html)
-          .addBack()
-          .find('input[name="csrfmiddlewaretoken"]')
-          .val()
-          .toString();
-
-        let params = new HttpParams();
-        params = params
-          .append('username', this.subjectUser.value.username)
-          .append('password', this.subjectUser.value.password)
-          .append('next', '')
-          .append('csrfmiddlewaretoken', middlewaretoken)
-          .append('submit', 'Log in');
-
-        //logujemy się do django
-        return this.http.post('/api-auth/login/', params, { 'responseType': 'text' }).toPromise();
-      })
-      .then(recv => this.parseResponse(recv).logged)
-      .catch(error => {
-        this.parseResponse(error.error).logged;
-
-        //sprawdzamy czy jestesmy adminem
-        return this.http.get('/admin/auth/user/', { 'responseType': 'text' }).toPromise()
-      })
-      .then(recv => console.log(`IS ADMIN: ${recv.includes('Welcome')}`));
-
-    return false;
+    console.log('WALIDACJA JEST TAKA:' + this.isLogInSubject.value)
+    return this.isLogInSubject.value;
   }
 
   onUserChange(): Observable<User> {
     return this.subjectUser.asObservable();
+  }
+
+  private tokens(){
+    //logowanie powtarza sie 2krotnie z powodu authguard, dostajemy automatycznie przypisywany csrf token
+    //a middlewaretoken wyciagamy z inputu zapytania z formatki django
+
+
+    this.http.get('/api-auth/login/', { responseType: 'text' }).subscribe(html => {
+      const middlewaretoken = $('<div>')
+        .append(html)
+        .addBack()
+        .find('input[name="csrfmiddlewaretoken"]')
+        .val()
+        .toString();
+
+      let params = new HttpParams();
+      params = params
+        .append('username', this.subjectUser.value.username)
+        .append('password', this.subjectUser.value.password)
+        .append('csrfmiddlewaretoken', middlewaretoken);
+
+      //logujemy się do django
+      return this.http.post('/api-auth/login/', params, { responseType: 'text' }).subscribe(recv => {
+        console.log('CZY JEST ZALOGOWANY NORM: ' + this.parseResponse(recv));
+        this.isLogInSubject.next(false);
+
+        // return this.parseResponse(recv).logged ? true : false;
+
+        // //sprawdzamy czy jestesmy adminem
+        // return this.http.get('/admin/auth/user/', { responseType: 'text' }).subscribe(recv => {
+        //   console.log(`IS ADMIN: ${recv.includes('Welcome')}`);
+        // });
+      }, err => {
+        let lol = err as HttpErrorResponse;
+        lol = lol.error;
+
+        // console.log('CZY JEST to taka klasa: ' + lol);
+        console.log('CZY JEST ZALOGOWANY ERR: ' + this.parseResponse(lol));
+        console.log('CZY JEST text error: ' + lol.toString().includes('text-error'));
+        console.log('CZY JEST page not found: ' + lol.toString().includes('Page not found'));
+        // console.log(err)
+        this.isLogInSubject.next(true);
+      });
+    });
   }
 
   private setNewUser(user: User): void {
@@ -87,9 +103,7 @@ export class AuthenticationService {
 
   private parseResponse(recv) {
     const txt = recv.toString();
-    return {
-      'logged': !txt.includes('text-error') && txt.includes('Page not found') //przejscie z formatki loginu
-    }
+    return !txt.includes('text-error') && txt.includes('Page not found') //przejscie z formatki loginu
   }
 
 }
