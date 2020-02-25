@@ -4,24 +4,32 @@ import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { ToastService } from '../toast/toast.service';
 import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { CookieService } from '../cookie/cookie.service';
+import { CookieName } from '../../models/cookie-name';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
 
-  private readonly COOKIE_VALUE = 'user';
-  private subjectUser = new BehaviorSubject<User>(JSON.parse(localStorage.getItem(this.COOKIE_VALUE)));
-  private isLogInSubject = new BehaviorSubject<boolean>(false);
+  private subjectUser = new BehaviorSubject<User>(new User());
+  private subjectIsLogIn = new BehaviorSubject<boolean>(false);
 
-  public subjectUser$ = this.subjectUser.asObservable();
-  public isLogIn$ = this.isLogInSubject.asObservable();
+  public isLogIn$ = this.subjectIsLogIn.asObservable();
 
 
   constructor(
     private router: Router,
     private toastService: ToastService,
-    private http: HttpClient
+    private http: HttpClient,
+    private cookieService: CookieService
   ) {
-
+    const userCookieValue = this.cookieService.getCookieValue(CookieName.USER);
+    if (userCookieValue) {
+      this.subjectUser.next(JSON.parse(userCookieValue));
+    }
+    const isLogInCookieValue = this.cookieService.getCookieValue(CookieName.ISAUTHENTICATE);
+    if (isLogInCookieValue) {
+      this.subjectIsLogIn.next(JSON.parse(isLogInCookieValue));
+    }
   }
 
   login(username: string, password: string) {
@@ -34,8 +42,9 @@ export class AuthenticationService {
   }
 
   logout() {
-    const user = new User();
-    this.setNewUser(user);
+    this.subjectUser.next(new User());
+    this.subjectIsLogIn.next(false);
+    this.cookieService.clearAllCookies();
     this.router.navigate(['/login']);
     this.toastService.info('Poprawnie wylogowano');
   }
@@ -45,14 +54,13 @@ export class AuthenticationService {
     if (!this.subjectUser.value) {
       return false;
     }
-    console.log('WALIDACJA JEST TAKA:' + this.isLogInSubject.value)
-    return this.isLogInSubject.value;
+    console.log('WALIDACJA JEST TAKA:' + this.subjectIsLogIn.value)
+    return this.subjectIsLogIn.value;
   }
 
-  private tokens(){
+  private tokens() {
     //logowanie powtarza sie 2krotnie z powodu authguard, dostajemy automatycznie przypisywany csrf token
     //a middlewaretoken wyciagamy z inputu zapytania z formatki django
-
 
     this.http.get('/api-auth/login/', { responseType: 'text' }).subscribe(html => {
       const middlewaretoken = $('<div>')
@@ -70,8 +78,8 @@ export class AuthenticationService {
 
       //logujemy się do django
       return this.http.post('/api-auth/login/', params, { responseType: 'text' }).subscribe(recv => {
-        console.log('CZY JEST ZALOGOWANY NORM: ' + this.parseResponse(recv));
-        this.isLogInSubject.next(false);
+        console.log('CZY JEST ZALOGOWANY NORM: ' + this.checkIfIsLogin(recv));
+        this.setAuthentication(false);
 
         // return this.parseResponse(recv).logged ? true : false;
 
@@ -82,25 +90,29 @@ export class AuthenticationService {
       }, err => {
         let lol = err as HttpErrorResponse;
         lol = lol.error;
-
-        // console.log('CZY JEST to taka klasa: ' + lol);
-        console.log('CZY JEST ZALOGOWANY ERR: ' + this.parseResponse(lol));
+        console.log('CZY JEST ZALOGOWANY ERR: ' + this.checkIfIsLogin(lol));
         console.log('CZY JEST text error: ' + lol.toString().includes('text-error'));
         console.log('CZY JEST page not found: ' + lol.toString().includes('Page not found'));
-        // console.log(err)
-        this.isLogInSubject.next(true);
+        this.setAuthentication(true);
       });
     });
   }
 
   private setNewUser(user: User): void {
+    this.cookieService.setCookieValue(CookieName.USER, JSON.stringify(user));
     this.subjectUser.next(user);
-    localStorage.setItem(this.COOKIE_VALUE, JSON.stringify(user));
   }
 
-  private parseResponse(recv) {
+  private setAuthentication(isAuthenticate: boolean): void {
+    this.cookieService.setCookieValue(CookieName.ISAUTHENTICATE, JSON.stringify(isAuthenticate));
+    this.subjectIsLogIn.next(isAuthenticate);
+  }
+
+  private checkIfIsLogin(recv) {
     const txt = recv.toString();
-    return !txt.includes('text-error') && txt.includes('Page not found') //przejscie z formatki loginu
+    return !txt.includes('text-error') &&
+      // przejscie z formatki loginu
+      txt.includes('Page not found');
   }
 
 }
