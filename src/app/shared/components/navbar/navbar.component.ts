@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { RouterElement } from './models/router-element';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
+import { DbPageIterator } from '../../services/db-page/db-page-iterator.service';
+import { WaterContainer } from '../../models/water-container';
 
 @Component({
   selector: "sw-navbar",
@@ -15,7 +17,8 @@ export class NavbarComponent implements OnInit {
       name: "Woda", subpages: [
         new RouterElement('Woda', 'water', 1),
         new RouterElement('Woda', 'water', 2),
-        new RouterElement('Woda', 'water', 3)]
+        new RouterElement('Woda', 'water', 3)
+      ]
     },
 
     {
@@ -48,10 +51,15 @@ export class NavbarComponent implements OnInit {
   ];
 
   constructor(private router: Router,
-              private auth: AuthenticationService) {
-  }
+    private auth: AuthenticationService,
+    private pageIterator: DbPageIterator<WaterContainer>) { 
+      
+    }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.pageIterator.init('/water/')
+      .then(it => this.initWater(it));
+  }
 
   onClick(elemenet: RouterElement): void {
     if (elemenet.id) {
@@ -63,4 +71,9 @@ export class NavbarComponent implements OnInit {
     }
   }
 
+  private initWater(pagesIterator: DbPageIterator<WaterContainer>): void {
+    for (let val of pagesIterator.results) {
+      this.pages[0].subpages.push(new RouterElement('Woda', 'water', val.id));
+    }
+  }
 }
