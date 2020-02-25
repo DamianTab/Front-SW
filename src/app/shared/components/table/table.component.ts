@@ -37,11 +37,11 @@ export class TableComponent implements OnInit {
       this.data = Object.assign([], this.rows)
 
       const empty = {}
-      for(let key in this.rows[0]) {
+      for (let key in this.rows[0]) {
         empty[key] = null
       }
 
-      for(let i=0; i<(this.rows.length % this.maxRows); i++) {
+      for (let i = 0; i < (this.rows.length % this.maxRows); i++) {
         this.rows.push(empty)
       }
 
@@ -54,10 +54,10 @@ export class TableComponent implements OnInit {
 
     //create rows
     const rows = []
-    for(let i=0; i<length; i++) {
+    for (let i = 0; i < length; i++) {
       let row = {}
 
-      for(let key in data) {
+      for (let key in data) {
         row[key] = undefined
       }
 
@@ -65,14 +65,14 @@ export class TableComponent implements OnInit {
     }
 
     //assign values to rows
-    for(let key in data) {
+    for (let key in data) {
       this.cols.push({ field: key, header: key })
-      for(let colIndx in data[key]) {
+      for (let colIndx in data[key]) {
         rows[colIndx][key] = data[key][colIndx]
       }
     }
 
-    this.exportColumns = this.cols.map(col => ({title: col.header, dataKey: col.field}))
+    this.exportColumns = this.cols.map(col => ({ title: col.header, dataKey: col.field }))
 
     return rows
   }
@@ -83,7 +83,7 @@ export class TableComponent implements OnInit {
 
     const csvData = (headers.concat(rows.map(row => {
       const r = []
-      for(let header in row) {
+      for (let header in row) {
         r.push(row[header])
       }
 
@@ -128,11 +128,11 @@ export class TableComponent implements OnInit {
   exportPdf(): void {
     import("jspdf").then(jsPDF => {
       import("jspdf-autotable").then(x => {
-          const doc = new jsPDF.default(0,0)
-          doc.autoTable(this.exportColumns, this.selectedRows.length > 0 ? this.selectedRows : this.data)
-          doc.save(`${this.name}.pdf`)
+        const doc = new jsPDF.default(0, 0)
+        doc.autoTable(this.exportColumns, this.selectedRows.length > 0 ? this.selectedRows : this.data)
+        doc.save(`${this.name}.pdf`)
       })
-  })
+    })
   }
 
   onRowSelect(event) {
@@ -141,7 +141,7 @@ export class TableComponent implements OnInit {
     const nullCount = keys.map(key => event.data[key] == null ? 1 : 0).reduce((a, b) => a + b, 0)
 
     //every field is null (empty row)
-    if(nullCount == keys.length) {
+    if (nullCount == keys.length) {
       this.selectedRows.splice(this.selectedRows.indexOf(event.data), 1)
     }
   }

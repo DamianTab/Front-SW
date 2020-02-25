@@ -23,7 +23,6 @@
         <tr [pSelectableRow]="row" [pSelectableRowIndex]="rowIndex">
             <td *ngFor="let col of columns" [ngClass]="row[col.field] == null ? 'emptyCell': null">
                     {{row[col.field] == null? '_' : row[col.field]}}
-              {{zmienna$ | async}}
             </td>
         </tr>
     </ng-template>
