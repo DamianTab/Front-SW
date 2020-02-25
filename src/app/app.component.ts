@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthenticationService } from './shared/services/authentication/authentication.service';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -16,8 +16,8 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subscription = this.auth.onUserChange().subscribe(() => {
-      this.isAuthenticated = this.auth.validate();
+    this.subscription = this.auth.isLogIn$.subscribe((isLogIn) => {
+      this.isAuthenticated = isLogIn;
     });
   }
 

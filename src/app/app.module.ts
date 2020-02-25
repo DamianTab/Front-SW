@@ -9,6 +9,7 @@ import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
 import { HomeModule } from './forms/home/home.module';
 import { ToastModule} from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { MessageService } from 'primeng/api';
     AppRoutingModule,
   ],
   providers: [
-    MessageService
+    MessageService,
+    CookieService
   ],
   bootstrap: [AppComponent]
 })

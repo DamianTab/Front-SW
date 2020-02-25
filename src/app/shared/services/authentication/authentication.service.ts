@@ -1,6 +1,6 @@
 ﻿import { Injectable } from '@angular/core';
 import { User } from '../../models/user';
-import { Observable, BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { ToastService } from '../toast/toast.service';
 import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
@@ -9,11 +9,12 @@ import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http'
 export class AuthenticationService {
 
   private readonly COOKIE_VALUE = 'user';
+  private subjectUser = new BehaviorSubject<User>(JSON.parse(localStorage.getItem(this.COOKIE_VALUE)));
   private isLogInSubject = new BehaviorSubject<boolean>(false);
 
+  public subjectUser$ = this.subjectUser.asObservable();
   public isLogIn$ = this.isLogInSubject.asObservable();
 
-  subjectUser = new BehaviorSubject<User>(JSON.parse(localStorage.getItem(this.COOKIE_VALUE)));
 
   constructor(
     private router: Router,
@@ -46,10 +47,6 @@ export class AuthenticationService {
     }
     console.log('WALIDACJA JEST TAKA:' + this.isLogInSubject.value)
     return this.isLogInSubject.value;
-  }
-
-  onUserChange(): Observable<User> {
-    return this.subjectUser.asObservable();
   }
 
   private tokens(){
