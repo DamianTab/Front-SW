@@ -38,7 +38,7 @@ import { CookieService } from 'ngx-cookie-service';
   ],
   providers: [
     MessageService,
-    CookieService
+    CookieService,
     // Kolejnosc ma znaczenie !!! Jak zamienicie to nie bedzie wykrywał timeout'u !!!
     { provide: HTTP_INTERCEPTORS, useClass: ExternalErrorHandler, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: NoResponseInterceptor, multi: true },
