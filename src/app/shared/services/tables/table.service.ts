@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { RequestService } from 'src/app/forms/water/request.service';
 
 @Injectable()
 export class TableService {
     private readonly url = 'service/table'
 
-    constructor(private http: HttpClient) { }
+    constructor(private reqService: RequestService) { }
 
     async getData(dataType: string): Promise<any> {
         // const data = []
@@ -16,6 +17,9 @@ export class TableService {
         // let data;
         // await this.http.get(`${this.url}/${dataType}`).subscribe((recv) => data = recv)
         // return data
+        if (dataType === 'valves') {
+            this.reqService.getValvesStates(1).then(data => {return data;})
+        }
 
         return {
             'A': [1, 2, 'EXAMPLE_STRING', 2, 'EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING'],
