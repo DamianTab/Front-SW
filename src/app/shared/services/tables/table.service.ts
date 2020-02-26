@@ -20,21 +20,22 @@ export class TableService {
 
     if (dataType === "valves") {
       let timestamps: string[] = [];
-      let valve1: boolean[] = [];
-      let valve2: boolean[] = [];
-      let valve3: boolean[] = [];
+      let valve1: string[] = [];
+      let valve2: string[] = [];
+      let valve3: string[] = [];
       await this.reqService.getValveStates(1, 1).toPromise().then(data => {
         console.log(data);
         data.results.forEach(elem => {
-          timestamps.push(elem.timestamp);
-          valve1.push(elem.valve_open);
+          let date = new Date(elem.timestamp);
+          timestamps.push(`${date.getUTCFullYear()}-${date.getUTCMonth()+1}-${date.getUTCDate()} ${date.getUTCHours()}:${date.getUTCMinutes()}:${date.getUTCSeconds()}.${date.getUTCMilliseconds()}`);
+          valve1.push(elem.valve_open ? 'otwarty' : 'zamknięty');
         });
         return this.reqService.getValveStates(1, 2).toPromise().then(data => {
           console.log(data);
-          data.results.forEach(elem => valve2.push(elem.valve_open));
+          data.results.forEach(elem => valve2.push(elem.valve_open ? 'otwarty' : 'zamknięty'));
           return this.reqService.getValveStates(1, 3).toPromise().then(data => {
             console.log(data);
-            data.results.forEach(elem => valve3.push(elem.valve_open));
+            data.results.forEach(elem => valve3.push(elem.valve_open ? 'otwarty' : 'zamknięty'));
             result = { 'Czas': timestamps, 'Y1': valve1, 'Y2': valve2, 'Y3': valve3 };
           });
         });
