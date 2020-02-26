@@ -1,0 +1,1 @@
+export type SteeringState = 'AU' | 'RM' | 'LM' | 'ID' | 'OF';
