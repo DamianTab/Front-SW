@@ -10,15 +10,15 @@ export class DbPageIterator<T> {
     constructor(private retrieveData: DbPageFetchService<T>) { }
 
     init(url: string, callback: Function): this {
-        return this.do(url, callback);
+        return this.download(url, callback);
     }
 
     loadNext(callback: Function): this {
-        return this.do(this.page.next, callback);
+        return this.download(this.page.next, callback);
     }
 
     loadPrevious(callback: Function): this {
-        return this.do(this.page.previous, callback);
+        return this.download(this.page.previous, callback);
     }
 
     hasNext(): Boolean {
@@ -30,14 +30,12 @@ export class DbPageIterator<T> {
     }
 
     get results(): T[] {
-        console.log();
         return this.page.results;
     }
 
-    private do(url: string, callback: Function): this {
+    private download(url: string, callback: Function): this {
         let subscription = this.retrieveData.fetch(url).pipe(first()).subscribe(data => {
             this.page = data;
-            console.log(data.results);
             callback();
             subscription.unsubscribe();
         });
