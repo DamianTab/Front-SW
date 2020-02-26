@@ -1,21 +1,14 @@
 import { Injectable } from '@angular/core';
 import { RequestService } from 'src/app/forms/water/request.service';
+import {BehaviorSubject, Observable} from "rxjs";
 
 @Injectable()
 export class TableService {
-  private readonly url = 'service/table';
 
   constructor(private reqService: RequestService) { }
 
-  async getData(dataType: string): Promise<any> {
-    // const data = []
-    // for(let i=0; i<1000; i++) {
-    //     data.push(i)
-    // }
+  getData(dataType: string): Observable<any> {
 
-    // let data;
-    // await this.http.get(`${this.url}/${dataType}`).subscribe((recv) => data = recv)
-    // return data
     let result;
 
     if (dataType === "valves") {
@@ -23,27 +16,33 @@ export class TableService {
       let valve1: string[] = [];
       let valve2: string[] = [];
       let valve3: string[] = [];
-      await this.reqService.getValveStates(1, 1).toPromise().then(data => {
-        console.log(data);
-        data.results.forEach(elem => {
-          let date = new Date(elem.timestamp);
-          timestamps.push(`${date.getUTCFullYear()}-${date.getUTCMonth()+1}-${date.getUTCDate()} ${date.getUTCHours()}:${date.getUTCMinutes()}:${date.getUTCSeconds()}.${date.getUTCMilliseconds()}`);
-          valve1.push(elem.valve_open ? 'otwarty' : 'zamknięty');
-        });
-        return this.reqService.getValveStates(1, 2).toPromise().then(data => {
+
+      return new Observable(observer => {
+        this.reqService.getValveAllStates(1, 1).subscribe(data => {
           console.log(data);
-          data.results.forEach(elem => valve2.push(elem.valve_open ? 'otwarty' : 'zamknięty'));
-          return this.reqService.getValveStates(1, 3).toPromise().then(data => {
+          data.forEach(elem => {
+            let date = new Date(elem.timestamp);
+            timestamps.push(`${date.getUTCFullYear()}-${date.getUTCMonth()+1}-${date.getUTCDate()} ${date.getUTCHours()}:${date.getUTCMinutes()}:${date.getUTCSeconds()}.${date.getUTCMilliseconds()}`);
+            valve1.push(elem.valve_open ? 'otwarty' : 'zamknięty');
+          });
+          console.log(timestamps, valve1, valve2, valve3);
+          this.reqService.getValveAllStates(1, 2).subscribe(data => {
             console.log(data);
-            data.results.forEach(elem => valve3.push(elem.valve_open ? 'otwarty' : 'zamknięty'));
-            result = { 'Czas': timestamps, 'Y1': valve1, 'Y2': valve2, 'Y3': valve3 };
+            data.forEach(elem => valve2.push(elem.valve_open ? 'otwarty' : 'zamknięty'));
+            console.log(timestamps, valve1, valve2, valve3);
+            this.reqService.getValveAllStates(1, 3).subscribe(data => {
+              console.log(data);
+              data.forEach(elem => valve3.push(elem.valve_open ? 'otwarty' : 'zamknięty'));
+              console.log(timestamps, valve1, valve2, valve3);
+              result = { 'Czas': timestamps, 'Y1': valve1, 'Y2': valve2, 'Y3': valve3 };
+              console.log(result);
+              observer.next(result);
+              observer.complete();
+            });
           });
         });
       });
     }
-
-    console.log(result);
-    return result;
 
     // return {
     //   'A': [1, 2, 'EXAMPLE_STRING', 2, 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING'],
