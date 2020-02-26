@@ -14,11 +14,7 @@ export class NavbarComponent implements OnInit {
 
   pages = [
     {
-      name: "Woda", subpages: [
-        new RouterElement('Woda', 'water', 1),
-        new RouterElement('Woda', 'water', 2),
-        new RouterElement('Woda', 'water', 3)
-      ]
+      name: "Woda", subpages: []
     },
 
     {
@@ -57,8 +53,7 @@ export class NavbarComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    this.pageIterator.init('/water/')
-      .then(it => this.initWater(it));
+    this.pageIterator.init('/water/', () => this.initWater());
   }
 
   onClick(elemenet: RouterElement): void {
@@ -71,8 +66,8 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-  private initWater(pagesIterator: DbPageIterator<WaterContainer>): void {
-    for (let val of pagesIterator.results) {
+  private initWater(): void {
+    for (let val of this.pageIterator.results) {
       this.pages[0].subpages.push(new RouterElement('Woda', 'water', val.id));
     }
   }
