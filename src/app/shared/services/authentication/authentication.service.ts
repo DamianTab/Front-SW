@@ -25,7 +25,7 @@ export class AuthenticationService {
     private router: Router,
     private toastService: ToastService,
     private http: HttpClient,
-    private cookieService: CookieService
+    private cookieService: CookieService,
   ) {
     const userCookieValue = this.cookieService.getCookieValue(CookieName.USER);
     if (userCookieValue) {
@@ -60,10 +60,12 @@ export class AuthenticationService {
   }
 
   validate(): boolean {
-    //todo wyscig do poprawy - DAMIAN
     if (!this.subjectUser.value) {
       return false;
     }
+
+
+
     console.log('WALIDACJA JEST TAKA:' + this.subjectIsLogIn.value);
     return this.subjectIsLogIn.value;
   }
@@ -105,7 +107,6 @@ export class AuthenticationService {
         } else {
           this.setAuthentication(false);
         }
-        // this.setAuthentication(true);
       });
     });
   }
