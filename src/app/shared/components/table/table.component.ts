@@ -19,7 +19,7 @@ import { TableService } from '../../services/tables/table.service';
 export class TableComponent implements OnInit {
   @Input() readonly name: string = 'untitled';
   @Input() readonly maxRows: number = 10;
-  @Input() readonly limit: number = 2;
+  @Input() readonly pageMaxNumber: number = 2;
   @Input() readonly dataType: string;
 
   private cols: any[] = [];
@@ -33,7 +33,7 @@ export class TableComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading = true
-    this.dataSource.getData(this.dataType, this.limit).subscribe(data => {
+    this.dataSource.getData(this.dataType, this.pageMaxNumber).subscribe(data => {
       this.rows = this.extractRows(data)
       this.data = Object.assign([], this.rows)
 

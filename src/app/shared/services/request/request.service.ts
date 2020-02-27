@@ -10,11 +10,11 @@ export class RequestService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getStates(endpoint: string, limit: number): Observable<any> {
+  getStates(endpoint: string, pageMaxNumber: number): Observable<any> {
     return new Observable(subscriber => {
       this.httpClient.get<Page<any>>(endpoint).subscribe(data => {
-        if (data.next !== null && --limit > 0) {
-          this.getStates(data.next.split('00')[1], limit).subscribe(childData => {
+        if (data.next !== null && --pageMaxNumber > 0) {
+          this.getStates(data.next.split('00')[1], pageMaxNumber).subscribe(childData => {
             subscriber.next(data.results.concat(childData));
             subscriber.complete();
           });

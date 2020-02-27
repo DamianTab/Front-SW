@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { RequestService } from 'src/app/forms/water/request.service'
+import { RequestService } from 'src/app/shared/services/request/request.service'
 import { Observable } from "rxjs";
 
 @Injectable()
@@ -7,23 +7,23 @@ export class TableService {
 
   constructor(private reqService: RequestService) { }
 
-  getData(dataType: string, limit: number = 1): Observable<any> {
+  getData(dataType: string, pageMaxNumber: number = 1): Observable<any> {
     let stationNumber = 1; //TODO dynamiczne pobieranie numeru stacji
     let valvesCounter = 3; //TODO dynamiczne pobieranie ilości zaworów
     let pumpsCounter = 4;  //TODO dynamiczne pobieranie ilości pomp
     let containersCounter = 5;  //TODO dynamiczne pobieranie ilości zbiorników
 
-    if (dataType === 'valve') return this.getElementsData(dataType, stationNumber, valvesCounter, valvesCounter, limit);
-    if (dataType === 'pump') return this.getElementsData(dataType, stationNumber, pumpsCounter, pumpsCounter, limit);
-    if (dataType === 'container') return this.getElementsData(dataType, stationNumber, containersCounter, containersCounter, limit);
+    if (dataType === 'valve') return this.getElementsData(dataType, stationNumber, valvesCounter, valvesCounter, pageMaxNumber);
+    if (dataType === 'pump') return this.getElementsData(dataType, stationNumber, pumpsCounter, pumpsCounter, pageMaxNumber);
+    if (dataType === 'container') return this.getElementsData(dataType, stationNumber, containersCounter, containersCounter, pageMaxNumber);
   }
 
 
-  private getElementsData(dataType: string, stationId: number, totalElementCounter: number, elementLimit: number, pageLimit: number): Observable<any> {
+  private getElementsData(dataType: string, stationId: number, totalElementCounter: number, elementLimit: number, pageMaxNumber: number): Observable<any> {
     return new Observable(subscriber => {
-      this.reqService.getStates(`/water/${stationId}/${dataType}/${elementLimit--}/states/`, pageLimit).subscribe(data => {
+      this.reqService.getStates(`/water/${stationId}/${dataType}/${elementLimit--}/states/`, pageMaxNumber).subscribe(data => {
         if (elementLimit > 0) {
-          this.getElementsData(dataType, stationId, totalElementCounter, elementLimit, pageLimit).subscribe(childData => {
+          this.getElementsData(dataType, stationId, totalElementCounter, elementLimit, pageMaxNumber).subscribe(childData => {
             this.fillWithData(childData, data, dataType, elementLimit+1);
             subscriber.next(childData);
             subscriber.complete();
