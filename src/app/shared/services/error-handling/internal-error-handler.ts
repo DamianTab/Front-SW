@@ -7,5 +7,6 @@ export class InternalErrorHandler implements ErrorHandler {
 
     handleError(error: Error) {
         this.toastService.error(error.name + ": " + error.message);
+        console.log(error.name + ": " + error.message);
     }
 }

@@ -1,1 +1,7 @@
-export type SteeringState = 'AU' | 'RM' | 'LM' | 'ID' | 'OF';
+export enum SteeringState {
+    'AU',
+    'RM',
+    'LM',
+    'ID',
+    'OF'
+}

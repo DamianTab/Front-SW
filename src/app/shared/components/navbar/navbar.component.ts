@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 import { DbPageIterator } from '../../services/db-page/db-page-iterator.service';
 import { WaterContainer } from '../../models/water-container';
+import { DbPageFetchService } from '../../services/db-page/db-page-fetch.service';
 
 @Component({
   selector: "sw-navbar",
@@ -46,14 +47,17 @@ export class NavbarComponent implements OnInit {
     },
   ];
 
+  private pageIterator: DbPageIterator<WaterContainer>;
+
   constructor(private router: Router,
     private auth: AuthenticationService,
-    private pageIterator: DbPageIterator<WaterContainer>) { 
-      
-    }
+    private dbfetch: DbPageFetchService<WaterContainer>
+  ) {
+    this.pageIterator = new DbPageIterator<WaterContainer>(dbfetch);
+  }
 
   ngOnInit(): void {
-    this.pageIterator.init('/water/', () => this.initWater());
+    this.pageIterator.init('/water/', () => this.initWater()).loadNext(() => { console.log(this.pageIterator.results) });
   }
 
   onClick(elemenet: RouterElement): void {
