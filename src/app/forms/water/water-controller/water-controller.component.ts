@@ -43,7 +43,7 @@ export class WaterControllerComponent implements OnInit {
 
   changeAccesStatus(value): void {
     if (value.checked) {
-      this.toastService.warn('Uzyskano dostęp wyłączny do urządzenia');
+      this.toastService.info('Uzyskano dostęp wyłączny do urządzenia');
     } else {
       this.toastService.info('Zwolniono dostęp do urządzenia');
     }
