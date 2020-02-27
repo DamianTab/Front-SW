@@ -13,6 +13,7 @@ import { Subscription } from 'rxjs';
 
 export class LoginComponent implements OnInit, OnDestroy {
   private _subscription: Subscription;
+  private _firstLoading = true;
 
   loginForm: FormGroup;
   loading = false;
@@ -44,7 +45,11 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.router.navigate([this.returnUrl]);
         this.toastService.success('Pomyślnie zalogowano');
       } else {
-        this.toastService.error('Niepoprawne dane logowania');
+        if (this._firstLoading) {
+          this._firstLoading = false;
+        } else {
+          this.toastService.warn('Niepoprawne dane logowania');
+        }
       }
     });
   }
@@ -58,7 +63,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   onSubmit() {
     // stop here if form is invalid
     if (this.loginForm.invalid) {
-      this.toastService.error('Login ani hasło nie mogą być puste');
+      this.toastService.warn('Login ani hasło nie mogą być puste');
       return;
     }
 
