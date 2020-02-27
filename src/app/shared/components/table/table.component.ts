@@ -32,7 +32,7 @@ export class TableComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading = true
-    this.dataSource.getData(this.dataType).subscribe(data => {
+    this.dataSource.getData(this.dataType, 3).subscribe(data => {
       this.rows = this.extractRows(data)
       this.data = Object.assign([], this.rows)
 
@@ -46,7 +46,7 @@ export class TableComponent implements OnInit {
       }
 
       this.loading = false
-    })
+    });
   }
 
   private extractRows(data: any): any {

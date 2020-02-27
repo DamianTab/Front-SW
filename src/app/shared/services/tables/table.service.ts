@@ -1,41 +1,18 @@
 import { Injectable } from '@angular/core';
 import { RequestService } from 'src/app/forms/water/request.service'
-import { Observable} from "rxjs";
+import { Observable } from "rxjs";
 
 @Injectable()
 export class TableService {
 
   constructor(private reqService: RequestService) { }
 
-  getData(dataType: string): Observable<any> {
-
-    let result;
-
+  getData(dataType: string, limit: number = 1): Observable<any> {
     if (dataType === "valves") {
-      let timestamps: string[] = [];
-      let valve1: string[] = [];
-      let valve2: string[] = [];
-      let valve3: string[] = [];
+      let stationNumber = 1; //TODO dynamiczne pobieranie numeru stacji
+      let valvesCounter = 3; //TODO dynamiczne pobieranie ilości zaworów
 
-      return new Observable(observer => {
-        this.reqService.getValveAllStates(1, 1).subscribe(data => {
-          data.forEach(elem => {
-            let date = new Date(elem.timestamp);
-            timestamps.push(`${date.getUTCFullYear()}-${date.getUTCMonth()+1}-${date.getUTCDate()} ${date.getUTCHours()}:${date.getUTCMinutes()}:${date.getUTCSeconds()}.${date.getUTCMilliseconds()}`);
-            valve1.push(elem.valve_open ? 'otwarty' : 'zamknięty');
-          });
-          this.reqService.getValveAllStates(1, 2).subscribe(data => {
-            data.forEach(elem => valve2.push(elem.valve_open ? 'otwarty' : 'zamknięty'));
-            this.reqService.getValveAllStates(1, 3).subscribe(data => {
-              data.forEach(elem => valve3.push(elem.valve_open ? 'otwarty' : 'zamknięty'));
-              result = { 'Czas': timestamps, 'Y1': valve1, 'Y2': valve2, 'Y3': valve3 };
-              console.log(result);
-              observer.next(result);
-              observer.complete();
-            });
-          });
-        });
-      });
+      return this.getSingleValveData(stationNumber, valvesCounter, valvesCounter, limit);
     }
 
     // return {
@@ -49,5 +26,33 @@ export class TableService {
       // 'Kolumna 3': data.map(val => val + '^2'),
       // 'Kolumna 4': data.map(val => val + '^2').reverse()
     // }
+  }
+
+
+  getSingleValveData(stationId: number, totalValveCounter: number, valveLimit: number, pageLimit: number): Observable<any> {
+    return new Observable(subscriber => {
+      this.reqService.getValveStates(`/water/${stationId}/valve/${valveLimit--}/states/`, pageLimit).subscribe(data => {
+        if (valveLimit > 0) {
+          this.getSingleValveData(stationId, totalValveCounter, valveLimit, pageLimit).subscribe(childData => {
+            childData[`Y${valveLimit+1}`] = [];
+            data.forEach(elem => {
+              childData[`Y${valveLimit+1}`].push(elem.valve_open ? 'otwarty' : 'zamknięty');
+            });
+            subscriber.next(childData);
+            subscriber.complete();
+          })
+        } else {
+          let result = {"Czas": []};
+          result[`Y${valveLimit+1}`] = [];
+          data.forEach(elem => {
+            let date = new Date(elem.timestamp);
+            result["Czas"].push(`${date.getUTCFullYear()}-${date.getUTCMonth()+1}-${date.getUTCDate()} ${date.getUTCHours()}:${date.getUTCMinutes()}:${date.getUTCSeconds()}.${date.getUTCMilliseconds()}`);
+            result[`Y${valveLimit+1}`].push(elem.valve_open ? 'otwarty' : 'zamknięty');
+          })
+          subscriber.next(result);
+          subscriber.complete();
+        }
+      });
+    });
   }
 }
