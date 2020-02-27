@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { RouterElement } from './models/router-element';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: "sw-navbar",
@@ -48,7 +49,8 @@ export class NavbarComponent implements OnInit {
   ];
 
   constructor(private router: Router,
-              private auth: AuthenticationService) {
+              private auth: AuthenticationService,
+              @Inject(DOCUMENT) private document: Document) {
   }
 
   ngOnInit(): void { }
@@ -58,6 +60,8 @@ export class NavbarComponent implements OnInit {
       this.router.navigate([elemenet.link, elemenet.id]);
     } else if (elemenet.link === 'settings/logout') {
       this.auth.logout();
+    } else if (elemenet.link === 'settings/data') {
+      this.document.location.href = 'http://localhost:8000/admin/';
     } else {
       this.router.navigate([elemenet.link]);
     }
