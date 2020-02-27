@@ -10,7 +10,7 @@
             <br>
             <label>STATIC / LIVE</label>
             <br>
-            <p-inputSwitch [(ngModel)]="isLive"></p-inputSwitch>
+            <p-inputSwitch [(ngModel)]="isLive" (onChange)="changeMode()"></p-inputSwitch>
         </div>
       <div *ngIf="!isLive" class="p-col spacing">
         <div class="p-col spacing">
@@ -35,9 +35,9 @@
           <div class="ui-inputgroup">
             <label>Przekrój czasu</label>
             <span class="ui-inputgroup-addon">minuty</span>
-            <input type="text" (focusout)="zeroWhenEmpty(minDuration)" pKeyFilter="pint" [(ngModel)]="minDuration">
+            <input type="text" (focusout)="zeroWhenEmpty(minDuration)" pKeyFilter="pint" [(ngModel)]="minDuration" (ngModelChange)="changeMode()">
             <span class="ui-inputgroup-addon">sekundy</span>
-            <input type="text" (focusout)="zeroWhenEmpty(secDuration)" pKeyFilter="pint" [(ngModel)]="secDuration">
+            <input type="text" (focusout)="zeroWhenEmpty(secDuration)" pKeyFilter="pint" [(ngModel)]="secDuration" (ngModelChange)="changeMode()">
           </div>
         </div>
 

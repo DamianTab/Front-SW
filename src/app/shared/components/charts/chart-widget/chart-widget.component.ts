@@ -142,4 +142,22 @@ export class ChartWidgetComponent implements OnInit {
       }
     }
   }
+
+  private setLiveInterval() {
+    if (this.isLive) {
+      this.intervalEnd = new Date(Date.now());
+      const miliDuration: number = Number(this.minDuration) * 60000 + Number(this.secDuration) * 1000;
+      this.intervalBegin = new Date(Date.now() - miliDuration);
+      window.setTimeout(this.setLiveInterval, 1000);
+    }
+  }
+
+  changeMode() {
+    if (this.isLive) {
+      this.setLiveInterval();
+    } else {
+      this.changeStart();
+      this.changeEnd();
+    }
+  }
 }
