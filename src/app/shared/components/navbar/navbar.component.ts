@@ -79,7 +79,7 @@ export class NavbarComponent implements OnInit {
 
   private initWater(): void {
     for (let val of this.pageIterator.results) {
-      this.pages[0].subpages.push(new RouterElement('Woda', 'container-water', val.id));
+      this.pages[0].subpages.push(new RouterElement('Woda', 'water', val.id));
     }
   }
 

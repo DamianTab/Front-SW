@@ -20,8 +20,6 @@ export class WaterScenarioComponent implements OnInit {
   c4_max: number;
   c5_min: number;
   c5_max: number;
-  // total_time: number;
-  // filter_time: number;
 
   private waterID: number;
 
@@ -40,11 +38,6 @@ export class WaterScenarioComponent implements OnInit {
         return;
       }
     }
-
-    // if (this.total_time) {
-    //   this.toastService.error('Niepoprawe dane w scenariuszu');
-    //   return;
-    // }
 
     const scenario: TempScenario = {
       'C_min': [this.c1_min, this.c2_min, this.c3_min, this.c4_min, this.c5_min],

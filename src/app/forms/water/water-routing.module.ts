@@ -5,7 +5,7 @@ import {AuthGuard} from '../../shared/services/authguard/auth.guard';
 
 
 const routes: Routes = [
-  { path:  'container-water/:id', component:  WaterComponent, canActivate: [AuthGuard]},
+  { path:  'water/:id', component:  WaterComponent, canActivate: [AuthGuard]},
 ];
 
 @NgModule({
