@@ -15,58 +15,58 @@ export class DbPageIterator<T> {
     }
 
     //load only one page on url
-    init(url: string, callback?: Function, errorCallback?: Function): this {
+    init(url: string, { callback, errorCallback }: { callback?: Function; errorCallback?: Function; }): this {
         this.addSyncTask(async () => {
-            await this.download(url, callback, errorCallback);
+            await this.download({ url, callback, errorCallback });
         });
         return this;
     }
 
     //load all pages on source url
-    loadAll(url: string, callback?: Function, errorCallback?: Function): this {
+    loadAll({ url, callback, errorCallback }: { url: string; callback?: Function; errorCallback?: Function; }): this {
         this.addSyncTask(async () => {
-            
+
             this.init(url, async () => {
 
-                    const start = this.page.results;
+                const start = this.page.results;
 
-                    this.page = {
-                        'count': 0,
-                        'next': null,
-                        'previous': null,
-                        'results': []
-                    };
-                    
-                    const prev = [], next = [];
+                this.page = {
+                    'count': 0,
+                    'next': null,
+                    'previous': null,
+                    'results': []
+                };
 
-                    while (await this.hasNext()) {
-                        this.loadNext(() => next.push(...this.results), 1, errorCallback);
-                    }
+                const prev = [], next = [];
 
-                    this.init(url, undefined, errorCallback);
-                    while (await this.hasPrevious()) {
-                        this.loadPrevious(() => prev.push(...this.results), 1, errorCallback);
-                    }
+                while (await this.hasNext()) {
+                    this.loadNext({ callback: () => next.push(...this.results), offset: 1, errorCallback });
+                }
 
-                    this.page.results = [...prev, ...start, ...next];
-                    this.page.count = this.page.results.length;
-                    console.log(`${prev}, ${start} ${next}`);
-                    await callback();
-                }, errorCallback);
+                this.init(url, undefined, errorCallback);
+                while (await this.hasPrevious()) {
+                    this.loadPrevious({ callback: () => prev.push(...this.results), offset: 1, errorCallback });
+                }
+
+                this.page.results = [...prev, ...start, ...next];
+                this.page.count = this.page.results.length;
+                console.log(`${prev}, ${start} ${next}`);
+                await callback();
+            }, errorCallback);
         });
         return this;
     }
 
-    loadNext(callback?: Function, offset?: number, errorCallback?: Function): this {
+    loadNext({ callback, offset, errorCallback }: { callback?: Function; offset?: number; errorCallback?: Function; } = {}): this {
         this.addSyncTask(async () => {
             let offsetArg: number = offset === undefined ? 1 : offset;
 
             for (let i = 0; i < offsetArg; i++) {
                 if (await this.hasNext()) {
                     if (i + 1 === offset) {
-                        await this.download(this.page.next, callback, errorCallback);
+                        await this.download({ url: this.page.next, callback, errorCallback });
                     } else {
-                        await this.download(this.page.next, undefined, errorCallback);
+                        await this.download({ url: this.page.next, callback: undefined, errorCallback });
                     }
                 } else {
                     throw Error(`Null next page link${offset !== undefined ? `, page: ${i}/${offsetArg}` : ''}`);
@@ -76,16 +76,16 @@ export class DbPageIterator<T> {
         return this;
     }
 
-    loadPrevious(callback?: Function, offset?: number, errorCallback?: Function): this {
+    loadPrevious({ callback, offset, errorCallback }: { callback?: Function; offset?: number; errorCallback?: Function; } = {}): this {
         this.addSyncTask(async () => {
             let offsetArg: number = offset === undefined ? 1 : offset;
 
             for (let i = 0; i < offsetArg; i++) {
                 if (await this.hasNext()) {
                     if (i + 1 === offset) {
-                        await this.download(this.page.previous, callback, errorCallback);
+                        await this.download({ url: this.page.previous, callback, errorCallback });
                     } else {
-                        await this.download(this.page.previous, undefined, errorCallback);
+                        await this.download({ url: this.page.previous, callback: undefined, errorCallback });
                     }
                 } else {
                     throw Error(`Null previous page link${offset !== undefined ? `, page: ${i}/${offsetArg}` : ''}`);
@@ -120,7 +120,7 @@ export class DbPageIterator<T> {
         })());
     }
 
-    private async download(url: string, callback?: Function, errorCallback?: Function): Promise<void> {
+    private async download({ url, callback, errorCallback }: { url: string; callback?: Function; errorCallback?: Function; }): Promise<void> {
         return this.retrieveData.fetch(url)
             .catch(reason => { if (errorCallback !== undefined) errorCallback(reason) })
             .then((data: DbPage<T>) => {

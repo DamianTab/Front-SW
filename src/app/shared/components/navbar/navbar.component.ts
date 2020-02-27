@@ -50,10 +50,10 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.pageIterator
-      .init('/water/', () => this.initWater())
-      .init('/anamox/', () => this.initAnamox())
-      .init('/ags/', () => this.initAgs())
-      .init('/scenario/', () => this.initScenario());
+      .init('/water/', { 'callback': () => this.initWater() })
+      .init('/anamox/', { 'callback': () => this.initAnamox() })
+      .init('/ags/', { 'callback': () => this.initAgs() })
+      .init('/scenario/', { 'callback': () => this.initScenario() });
   }
 
   onClick(elemenet: RouterElement): void {
