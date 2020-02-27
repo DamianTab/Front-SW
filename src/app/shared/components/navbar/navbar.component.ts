@@ -19,25 +19,17 @@ export class NavbarComponent implements OnInit {
     },
 
     {
-      name: "Anamox", subpages: [
-        new RouterElement('Reaktor', 'anamox', 1),
-        new RouterElement('Reaktor', 'anamox', 2),
-        new RouterElement('Reaktor', 'anamox', 3)]
+      name: "Anamox", subpages: []
     },
     {
-      name: "Ags", subpages: [
-        new RouterElement('Reaktor', 'ags', 1),
-        new RouterElement('Reaktor', 'ags', 2),
-        new RouterElement('Reaktor', 'ags', 3)]
+      name: "Ags", subpages: []
     },
 
     {
       name: "Scenariusz", subpages: [
         new RouterElement('Dostępne scenariusze', 'scenario'),
         new RouterElement('Dodaj nowy scenariusz', 'scenario/new'),
-        new RouterElement('Scenariusz', 'scenario', 1),
-        new RouterElement('Scenariusz', 'scenario', 2),
-        new RouterElement('Scenariusz', 'scenario', 3)]
+      ]
     },
 
     {
@@ -51,13 +43,17 @@ export class NavbarComponent implements OnInit {
 
   constructor(private router: Router,
     private auth: AuthenticationService,
-    private dbfetch: DbPageFetchService<WaterContainer>
+    dbfetch: DbPageFetchService<WaterContainer>
   ) {
     this.pageIterator = new DbPageIterator<WaterContainer>(dbfetch);
   }
 
   ngOnInit(): void {
-    this.pageIterator.init('/water/', () => this.initWater()).loadNext(() => { console.log(this.pageIterator.results) });
+    this.pageIterator
+      .init('/water/', () => this.initWater())
+      .init('/anamox/', () => this.initAnamox())
+      .init('/ags/', () => this.initAgs())
+      .init('/scenario/', () => this.initScenario());
   }
 
   onClick(elemenet: RouterElement): void {
@@ -73,6 +69,24 @@ export class NavbarComponent implements OnInit {
   private initWater(): void {
     for (let val of this.pageIterator.results) {
       this.pages[0].subpages.push(new RouterElement('Woda', 'container-water', val.id));
+    }
+  }
+
+  private initAnamox(): void {
+    for (let val of this.pageIterator.results) {
+      this.pages[1].subpages.push(new RouterElement('Reaktor', 'anamox', val.id));
+    }
+  }
+
+  private initAgs(): void {
+    for (let val of this.pageIterator.results) {
+      this.pages[2].subpages.push(new RouterElement('Reaktor', 'ags', val.id));
+    }
+  }
+
+  private initScenario(): void {
+    for (let val of this.pageIterator.results) {
+      this.pages[3].subpages.push(new RouterElement('Scenariusz', 'scenario', val.id));
     }
   }
 }
