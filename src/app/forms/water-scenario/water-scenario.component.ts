@@ -20,7 +20,7 @@ export class WaterScenarioComponent implements OnInit {
   c4_max: number;
   c5_min: number;
   c5_max: number;
-  total_time: number;
+  // total_time: number;
   // filter_time: number;
 
   private waterID: number;
@@ -41,34 +41,14 @@ export class WaterScenarioComponent implements OnInit {
       }
     }
 
-    if (this.total_time) {
-      this.toastService.error('Niepoprawe dane w scenariuszu');
-      return;
-    }
+    // if (this.total_time) {
+    //   this.toastService.error('Niepoprawe dane w scenariuszu');
+    //   return;
+    // }
 
     const scenario: TempScenario = {
-      'C1': {
-        'min': this.c1_min,
-        'max': this.c1_max
-      },
-      'C2': {
-        'min': this.c2_min,
-        'max': this.c2_max
-      },
-      'C3': {
-        'min': this.c3_min,
-        'max': this.c3_max
-      },
-      'C4': {
-        'min': this.c3_min,
-        'max': this.c3_max
-      },
-      'C5': {
-        'min': this.c4_min,
-        'max': this.c4_max
-      },
-      'total_time': this.total_time,
-      // 'filter_time': this.filter_time
+      'C_min': [this.c1_min, this.c2_min, this.c3_min, this.c4_min, this.c5_min],
+      'C_max': [this.c1_max, this.c2_max, this.c3_max, this.c4_max, this.c5_max]
     }
 
     this.http.post(`/water/${this.waterID}/automatic/`, scenario).subscribe((response: any) => {
