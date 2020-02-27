@@ -26,7 +26,7 @@ export class DbPageIterator<T> {
     loadAll({ url, callback, errorCallback }: { url: string; callback?: Function; errorCallback?: Function; }): this {
         this.addSyncTask(async () => {
 
-            this.init(url, async () => {
+            this.init(url, {'callback': async () => {
 
                 const start = this.page.results;
 
@@ -43,7 +43,7 @@ export class DbPageIterator<T> {
                     this.loadNext({ callback: () => next.push(...this.results), offset: 1, errorCallback });
                 }
 
-                this.init(url, undefined, errorCallback);
+                this.init(url, {'callback': errorCallback});
                 while (await this.hasPrevious()) {
                     this.loadPrevious({ callback: () => prev.push(...this.results), offset: 1, errorCallback });
                 }
@@ -52,7 +52,8 @@ export class DbPageIterator<T> {
                 this.page.count = this.page.results.length;
                 console.log(`${prev}, ${start} ${next}`);
                 await callback();
-            }, errorCallback);
+
+            }, 'errorCallback': errorCallback});
         });
         return this;
     }
