@@ -10,45 +10,27 @@ export class TableService {
   getData(dataType: string, limit: number = 1): Observable<any> {
     let stationNumber = 1; //TODO dynamiczne pobieranie numeru stacji
     let valvesCounter = 3; //TODO dynamiczne pobieranie ilości zaworów
-    let pumpsCounter = 3;  //TODO dynamiczne pobieranie ilości pomp
+    let pumpsCounter = 4;  //TODO dynamiczne pobieranie ilości pomp
+    let containersCounter = 5;  //TODO dynamiczne pobieranie ilości zbiorników
 
-    if (dataType === "valves") return this.getValvesData(stationNumber, valvesCounter, valvesCounter, limit);
-    if (dataType === "pumps") return this.getPumpsData(stationNumber, pumpsCounter, pumpsCounter, limit);
-
-    // return {
-    //   'A': [1, 2, 'EXAMPLE_STRING', 2, 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING'],
-    //   'B': [2, 3, 'EXAMPLE_STRING', 2, 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING'],
-    //   'C': [3, 1, 'EXAMPLE_STRING', 2, 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING', 'EXAMPLE_STRING']
-
-
-      // 'Kolumna 1': data,
-      // 'Kolumna 2': Array.from(data).reverse(),
-      // 'Kolumna 3': data.map(val => val + '^2'),
-      // 'Kolumna 4': data.map(val => val + '^2').reverse()
-    // }
+    if (dataType === 'valve') return this.getElementsData(dataType, stationNumber, valvesCounter, valvesCounter, limit);
+    if (dataType === 'pump') return this.getElementsData(dataType, stationNumber, pumpsCounter, pumpsCounter, limit);
+    if (dataType === 'container') return this.getElementsData(dataType, stationNumber, containersCounter, containersCounter, limit);
   }
 
 
-  getValvesData(stationId: number, totalValveCounter: number, valveLimit: number, pageLimit: number): Observable<any> {
+  private getElementsData(dataType: string, stationId: number, totalElementCounter: number, elementLimit: number, pageLimit: number): Observable<any> {
     return new Observable(subscriber => {
-      this.reqService.getStates(`/water/${stationId}/valve/${valveLimit--}/states/`, pageLimit).subscribe(data => {
-        if (valveLimit > 0) {
-          this.getValvesData(stationId, totalValveCounter, valveLimit, pageLimit).subscribe(childData => {
-            childData[`Y${valveLimit+1}`] = [];
-            data.forEach(elem => {
-              childData[`Y${valveLimit+1}`].push(elem.valve_open ? 'otwarty' : 'zamknięty');
-            });
+      this.reqService.getStates(`/water/${stationId}/${dataType}/${elementLimit--}/states/`, pageLimit).subscribe(data => {
+        if (elementLimit > 0) {
+          this.getElementsData(dataType, stationId, totalElementCounter, elementLimit, pageLimit).subscribe(childData => {
+            this.fillWithData(childData, data, dataType, elementLimit+1);
             subscriber.next(childData);
             subscriber.complete();
           })
         } else {
-          let result = {"Czas": []};
-          result[`Y${valveLimit+1}`] = [];
-          data.forEach(elem => {
-            let date = new Date(elem.timestamp);
-            result["Czas"].push(`${date.getUTCFullYear()}-${date.getUTCMonth()+1}-${date.getUTCDate()} ${date.getUTCHours()}:${date.getUTCMinutes()}:${date.getUTCSeconds()}.${date.getUTCMilliseconds()}`);
-            result[`Y${valveLimit+1}`].push(elem.valve_open ? 'otwarty' : 'zamknięty');
-          })
+          let result = {};
+          this.fillWithData(result, data, dataType, elementLimit+1, true);
           subscriber.next(result);
           subscriber.complete();
         }
@@ -56,30 +38,36 @@ export class TableService {
     });
   }
 
-  getPumpsData(stationId: number, totalPumpCounter: number, pumpLimit: number, pageLimit: number): Observable<any> {
-    return new Observable(subscriber => {
-      this.reqService.getStates(`/water/${stationId}/pump/${pumpLimit--}/states/`, pageLimit).subscribe(data => {
-        if (pumpLimit > 0) {
-          this.getValvesData(stationId, totalPumpCounter, pumpLimit, pageLimit).subscribe(childData => {
-            childData[`P${pumpLimit+1}`] = [];
-            data.forEach(elem => {
-              childData[`P${pumpLimit+1}`].push(elem.pump_state ? 'włączona' : 'wyłączona');
-            });
-            subscriber.next(childData);
-            subscriber.complete();
-          })
-        } else {
-          let result = {"Czas": []};
-          result[`P${pumpLimit+1}`] = [];
-          data.forEach(elem => {
-            let date = new Date(elem.timestamp);
-            result["Czas"].push(`${date.getUTCFullYear()}-${date.getUTCMonth()+1}-${date.getUTCDate()} ${date.getUTCHours()}:${date.getUTCMinutes()}:${date.getUTCSeconds()}.${date.getUTCMilliseconds()}`);
-            result[`P${pumpLimit+1}`].push(elem.pump_state ? 'włączona' : 'wyłączona');
-          })
-          subscriber.next(result);
-          subscriber.complete();
-        }
+
+  private fillWithData(result: any, data: any[], dataType: string, number: number, first: boolean = false): void {
+    if (first) {
+      result["Czas"] = [];
+      data.forEach(elem => {
+        let date = new Date(elem.timestamp);
+        result["Czas"].push(`${date.getUTCFullYear()}-${date.getUTCMonth()+1}-${date.getUTCDate()} ${date.getUTCHours()}:${date.getUTCMinutes()}:${date.getUTCSeconds()}.${date.getUTCMilliseconds()}`);
+      })
+    }
+    if (dataType === 'valve') {
+      result[`Y${number}`] = [];
+      data.forEach(elem => {
+        result[`Y${number}`].push(elem.valve_open ? 'otwarty' : 'zamknięty');
       });
-    });
+      return;
+    }
+    if (dataType === 'pump') {
+      result[`P${number}`] = [];
+      data.forEach(elem => {
+        result[`P${number}`].push(elem.pump_state ? 'włączona' : 'wyłączona');
+      });
+      return;
+    }
+    if (dataType === 'container') {
+      result[`C${number}`] = [];
+      data.forEach(elem => {
+        result[`C${number}`].push(elem.container_state);
+      });
+      return;
+    }
   }
+
 }
