@@ -6,7 +6,7 @@ import { MessageService } from 'primeng/api';
 })
 export class ToastService {
 
-  private readonly LIFE_TIME = 1500;
+  private readonly LIFE_TIME = 5000;
 
   constructor(private messageService: MessageService) { }
 
