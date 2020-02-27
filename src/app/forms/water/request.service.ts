@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, observable, Observable} from 'rxjs';
+import { Observable } from 'rxjs';
 import { Page } from 'src/app/models/page';
 import { Valve } from 'src/app/models/water/valve';
 import { HttpClient } from '@angular/common/http';
@@ -9,34 +9,33 @@ import { HttpClient } from '@angular/common/http';
 })
 export class RequestService {
 
-  private result: Valve[] = [];
+  // private result: Valve[] = [];
 
   constructor(private httpClient: HttpClient) { }
 
-  getValveStates(stationId: number, valveId: number, page: string): Observable<null> {
+  getValveStates(endpoint: string, limit: number): Observable<any> {
+    console.log(limit);
     return new Observable(subscriber => {
-      this.httpClient.get<Page<Valve>>(page === 'smth' ? `/water/${stationId}/valve/${valveId}/states/` : page).subscribe(data => {
-        this.result.push(...data.results);
-        if (data.next !== null) {
-          this.getValveStates(stationId, valveId, data.next.split('00')[1]).subscribe(()=>{}, ()=>{}, () => {
-            console.log("One of them completed");
+      this.httpClient.get<Page<any>>(endpoint).subscribe(data => {
+        if (data.next !== null && limit > 0) {
+          this.getValveStates(data.next.split('00')[1], --limit).subscribe(childData => {
+            subscriber.next(data.results.concat(childData));
             subscriber.complete();
           });
         } else {
-          console.log("last one completed");
+          subscriber.next(data.results);
           subscriber.complete();
         }
       });
     })
   }
 
-  getValveAllStates(stationId: number, valveId: number): Observable<Valve[]> {
-    this.result = [];
+  getValveAllStates(stationId: number, valveId: number, limit: number = 1): Observable<Valve[]> {
     return new Observable(subscriber => {
-      this.getValveStates(stationId, valveId, 'smth').subscribe(()=>{}, ()=>{}, () => {
-        subscriber.next(this.result);
+      this.getValveStates(`/water/${stationId}/valve/${valveId}/states/`, limit).subscribe(data =>{
+        subscriber.next(data);
         subscriber.complete();
-      })
+      });
     })
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { RequestService } from 'src/app/forms/water/request.service';
-import {BehaviorSubject, Observable} from "rxjs";
+import { RequestService } from 'src/app/forms/water/request.service'
+import { Observable} from "rxjs";
 
 @Injectable()
 export class TableService {
@@ -19,21 +19,15 @@ export class TableService {
 
       return new Observable(observer => {
         this.reqService.getValveAllStates(1, 1).subscribe(data => {
-          console.log(data);
           data.forEach(elem => {
             let date = new Date(elem.timestamp);
             timestamps.push(`${date.getUTCFullYear()}-${date.getUTCMonth()+1}-${date.getUTCDate()} ${date.getUTCHours()}:${date.getUTCMinutes()}:${date.getUTCSeconds()}.${date.getUTCMilliseconds()}`);
             valve1.push(elem.valve_open ? 'otwarty' : 'zamknięty');
           });
-          console.log(timestamps, valve1, valve2, valve3);
           this.reqService.getValveAllStates(1, 2).subscribe(data => {
-            console.log(data);
             data.forEach(elem => valve2.push(elem.valve_open ? 'otwarty' : 'zamknięty'));
-            console.log(timestamps, valve1, valve2, valve3);
             this.reqService.getValveAllStates(1, 3).subscribe(data => {
-              console.log(data);
               data.forEach(elem => valve3.push(elem.valve_open ? 'otwarty' : 'zamknięty'));
-              console.log(timestamps, valve1, valve2, valve3);
               result = { 'Czas': timestamps, 'Y1': valve1, 'Y2': valve2, 'Y3': valve3 };
               console.log(result);
               observer.next(result);
