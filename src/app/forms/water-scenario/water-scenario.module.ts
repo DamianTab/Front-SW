@@ -5,6 +5,7 @@ import { KeyFilterModule } from 'primeng/keyfilter';
 import { ButtonModule } from 'primeng/button';
 
 import { WaterScenarioComponent } from './water-scenario.component';
+import {InputSwitchModule} from 'primeng';
 
 
 
@@ -14,7 +15,8 @@ import { WaterScenarioComponent } from './water-scenario.component';
     CommonModule,
     FormsModule,
     KeyFilterModule,
-    ButtonModule
+    ButtonModule,
+    InputSwitchModule
   ],
   exports: [WaterScenarioComponent]
 })

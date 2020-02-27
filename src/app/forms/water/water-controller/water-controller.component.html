@@ -1,3 +1,14 @@
+<div class="p-col sw-fieldset">
+  <div class="p-grid">
+    <div class="p-col-4">
+      <label id="block">Dostęp Wyłączny</label>
+    </div>
+
+    <div class="p-col-8">
+      <p-inputSwitch [(ngModel)]="blocked" (onChange)="changeAccesStatus($event)"></p-inputSwitch>
+    </div>
+  </div>
+</div>
 <div class="p-grid p-dir-col">
     <div class="p-col" style="position: relative;">
         <canvas id="canvas-buttons" width="7530" height="5895" class="img-canvas"></canvas>
@@ -12,17 +23,5 @@
             <area shape="circle" coords="6095,2465,300" data-triangle-coords="5975,2267, 6213,2664, 5982,2660, 6210,2270" id="Y2-Button" data-button="Y2">
             <area shape="circle" coords="7049,2466,300" data-triangle-coords="6929,2268, 7166,2663, 6936,2662, 7165,2272" id="Y3-Button" data-button="Y3">
         </map>
-    </div>
-
-    <div class="p-col sw-fieldset">
-        <div class="p-grid">
-            <div class="p-col-4">
-                <label id="block">Dostęp Wyłączny</label>
-            </div>
-
-            <div class="p-col-8">
-                <p-inputSwitch [(ngModel)]="blocked" (onChange)="changeAccesStatus($event)"></p-inputSwitch>
-            </div>
-        </div>
     </div>
 </div>

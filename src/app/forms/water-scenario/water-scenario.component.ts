@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 
 @Component({
@@ -20,6 +20,7 @@ export class WaterScenarioComponent implements OnInit {
   c5_max: number;
   total_time: number;
   filter_time: number;
+  blocked: boolean;
 
   constructor(private toastService: ToastService) { }
 
@@ -36,4 +37,8 @@ export class WaterScenarioComponent implements OnInit {
     //TODO sending data to backend
   }
 
+  changeAccessStatus() {
+    this.c1_max
+
+  }
 }
