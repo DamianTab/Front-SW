@@ -45,7 +45,7 @@ export class NavbarComponent implements OnInit {
     private auth: AuthenticationService,
     dbfetch: DbPageFetchService<WaterContainer>
   ) {
-    this.pageIterator = new DbPageIterator<WaterContainer>(dbfetch);
+    this.pageIterator = new DbPageIterator<WaterContainer>(dbfetch, true);
   }
 
   ngOnInit(): void {
