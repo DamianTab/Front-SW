@@ -1,7 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ChartService } from '../../../services/charts/chart.service';
-import {Calendar} from 'primeng';
-import {$e} from 'codelyzer/angular/styles/chars';
 
 /* Example:
  * <sw-chart-widget dataType="oxygen"></sw-chart-widget>
@@ -28,6 +26,7 @@ export class ChartWidgetComponent implements OnInit {
   isLive: boolean;
   secDuration: string;
   minDuration: string;
+  timerOn: boolean;
 
   ngOnInit() {
 
@@ -42,6 +41,8 @@ export class ChartWidgetComponent implements OnInit {
 
     this.minDuration = '1';
     this.secDuration = '0';
+
+    this.timerOn = false;
 
     this.checkXLabel();
   }
@@ -149,11 +150,17 @@ export class ChartWidgetComponent implements OnInit {
       const miliDuration: number = Number(this.minDuration) * 60000 + Number(this.secDuration) * 1000;
       this.intervalBegin = new Date(this.intervalEnd.getTime() - miliDuration);
       setTimeout(() => this.setLiveInterval(), 1500);
+      this.timerOn = true;
+    } else {
+      this.timerOn = false;
     }
   }
 
   changeMode() {
     if (this.isLive) {
+      if (this.timerOn) {
+        return;
+      }
       this.setLiveInterval();
     } else {
       this.changeStart();

@@ -36,7 +36,11 @@
           <div class="ui-inputgroup">
             <span class="ui-inputgroup-addon">minuty</span>
             <input type="text" (focusout)="zeroWhenEmpty(minDuration)" pKeyFilter="pint" [(ngModel)]="minDuration">
-            <span class="ui-inputgroup-addon">sekundy</span>
+          </div>
+        </div>
+        <div class="p-col">
+          <div class="ui-inputgroup">
+          <span class="ui-inputgroup-addon">sekundy</span>
             <input type="text" (focusout)="zeroWhenEmpty(secDuration)" pKeyFilter="pint" [(ngModel)]="secDuration">
           </div>
         </div>
