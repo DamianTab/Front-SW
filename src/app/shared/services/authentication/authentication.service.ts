@@ -13,7 +13,7 @@ export class AuthenticationService {
   private subjectUser = new BehaviorSubject<User>(new User());
   private subjectIsLogIn = new BehaviorSubject<boolean>(false);
 
-  public isLogIn$ = this.subjectIsLogIn.asObservable().pipe();
+  public isLogIn$ = this.subjectIsLogIn.asObservable();
 
 
   constructor(
