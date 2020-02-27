@@ -20,5 +20,5 @@ export class TempScenario {
         'max': number
     };
     'total_time': number;
-    'filter_time': number;
+    // 'filter_time': number;
 }
