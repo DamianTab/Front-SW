@@ -5,20 +5,19 @@
 
 
     <div class="p-col-12 p-grid p-dir-col">
-        <div class="p-col spacing">
           <div class="p-col-4">
-            <label id="block">Pokaz LIVE</label>
-          </div>
-          <div class="period-or-live p-col spacing">
-            <p-inputSwitch [(ngModel)]="periodTypeSwitch"></p-inputSwitch>
-          </div>
+            <label>Wybierz tryb:</label>
+            <br>
+            <label>STATIC / LIVE</label>
+            <br>
+            <p-inputSwitch [(ngModel)]="isLive"></p-inputSwitch>
         </div>
-      <div *ngIf="periodTypeSwitch" class="p-col spacing">
+      <div *ngIf="!isLive" class="p-col spacing">
         <div class="p-col spacing">
           <div class="ui-inputgroup">
             <span class="ui-inputgroup-addon">Start</span>
-            <p-calendar [(ngModel)]="startTime" [locale]="pl" [showTime]="true" [minDate]="_minDate" [maxDate]="intervalEnd" [readonlyInput]="true"
-                        (ngModelChange)="intervalBegin=startTime; console.log(intervalBegin)">
+            <p-calendar [(ngModel)]="startTime" [showSeconds]="true" [showTime]="true" [readonlyInput]="true"
+                        (ngModelChange)="changeStart()">
             </p-calendar>
           </div>
         </div>
@@ -26,21 +25,23 @@
         <div class="p-col spacing">
           <div class="ui-inputgroup">
             <span class="ui-inputgroup-addon">Stop</span>
-            <p-calendar [(ngModel)]="endTime" [showTime]="true" [minDate]="intervalBegin" [maxDate]="_maxDate" [readonlyInput]="true"
-                        (ngModelChange)="intervalEnd=endTime; console.log(intervalEnd)"></p-calendar>
+            <p-calendar [(ngModel)]="endTime" [showSeconds]="true" [showTime]="true" [readonlyInput]="true"
+                        (ngModelChange)="changeEnd()"></p-calendar>
           </div>
         </div>
       </div>
-      <div *ngIf="!periodTypeSwitch" class="p-col spacing">
+      <div *ngIf="isLive" class="p-col spacing">
         <div class="p-col spacing">
           <div class="ui-inputgroup">
-            <span class="ui-inputgroup-addon">Przekrój czasu (sekundy)</span>
-            <input>
+            <label>Przekrój czasu</label>
+            <span class="ui-inputgroup-addon">minuty</span>
+            <input type="text" (focusout)="zeroWhenEmpty(minDuration)" pKeyFilter="pint" [(ngModel)]="minDuration">
+            <span class="ui-inputgroup-addon">sekundy</span>
+            <input type="text" (focusout)="zeroWhenEmpty(secDuration)" pKeyFilter="pint" [(ngModel)]="secDuration">
           </div>
         </div>
+
       </div>
-
-
         <div class="p-col spacing">
             <div class="ui-inputgroup">
                 <p-button label="Zapisz" icon="pi pi-image" iconPos="left" (onClick)="saveChartImg()"></p-button>
