@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ChartService } from '../../../services/charts/chart.service';
+import {Calendar} from 'primeng';
 
 /* Example:
  * <sw-chart-widget dataType="oxygen"></sw-chart-widget>
@@ -14,9 +15,6 @@ import { ChartService } from '../../../services/charts/chart.service';
   styleUrls: ['./chart-widget.component.scss']
 })
 export class ChartWidgetComponent implements OnInit {
-  // date input limiters
-  private _minDate: Date;
-  private _maxDate: Date = new Date();
 
   @Input() readonly title: string = '';
   @Input() readonly yLabel: string = '';
@@ -29,19 +27,15 @@ export class ChartWidgetComponent implements OnInit {
   console = console;
 
   ngOnInit() {
-    this._maxDate.setMinutes(0, 0, 0);
-    this._minDate = new Date(this._maxDate);
-
-    if (this._maxDate.getMonth() - 1 < 0) {
-      this._minDate.setFullYear(this._minDate.getFullYear() - 1, 11);
-    } else {
-      this._minDate.setMonth(this._maxDate.getMonth() - 1);
-    }
 
     this.interval = {
-      begin: this._minDate,
-      end: this._maxDate
+      begin: new Date(Date.now()),
+      end: new Date(Date.now())
     };
+    this.intervalBegin.setDate( this.intervalBegin.getDate() - 7 );
+
+    this.startTime = new Date(this.intervalBegin);
+    this.endTime = new Date(this.intervalEnd);
 
     this.checkXLabel();
   }
@@ -65,14 +59,6 @@ export class ChartWidgetComponent implements OnInit {
     link.setAttribute('href', url);
     link.setAttribute('download', `${this.title}.png`);
     link.click();
-  }
-
-  get minDate(): Date {
-    return this._minDate;
-  }
-
-  get maxDate(): Date {
-    return this._maxDate;
   }
 
   get intervalBegin(): Date {
@@ -117,5 +103,27 @@ export class ChartWidgetComponent implements OnInit {
     return a.getFullYear() == b.getFullYear() &&
     a.getMonth() == b.getMonth() &&
     a.getDate() == b.getDate();
+  }
+
+  changeStart() {
+    if (this.startTime <= this.endTime) {
+      this.intervalBegin = this.startTime;
+    } else {
+      this.startTime = new Date(this.endTime);
+      this.intervalBegin = this.startTime;
+    }
+  }
+
+  changeEnd() {
+    if (this.endTime >= this.startTime) {
+      if (this.endTime > new Date(Date.now())) {
+        this.endTime = new Date(Date.now());
+      } else {
+          this.intervalEnd = this.endTime;
+      }
+    } else {
+      this.endTime = new Date(this.startTime);
+      this.intervalEnd = this.endTime;
+    }
   }
 }
