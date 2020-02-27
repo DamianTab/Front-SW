@@ -59,7 +59,7 @@ export class AuthenticationService {
   }
 
   private tokens() {
-    //logowanie powtarza sie 2krotnie z powodu authguard, dostajemy automatycznie przypisywany csrf token
+    //logowanie, dostajemy automatycznie przypisywany csrf token
     //a middlewaretoken wyciagamy z inputu zapytania z formatki django
 
     this.http.get('/api-auth/login/', { responseType: 'text' }).subscribe(html => {
