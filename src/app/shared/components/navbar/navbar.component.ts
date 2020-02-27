@@ -19,16 +19,27 @@ export class NavbarComponent implements OnInit {
     },
 
     {
-      name: "Anamox", subpages: []
+      name: "Anamox", subpages: [
+        new RouterElement('Reaktor', 'anamox', 1),
+        new RouterElement('Reaktor', 'anamox', 2),
+        new RouterElement('Reaktor', 'anamox', 3),
+      ]
     },
     {
-      name: "Ags", subpages: []
+      name: "Ags", subpages: [
+        new RouterElement('Reaktor', 'ags', 1),
+        new RouterElement('Reaktor', 'ags', 2),
+        new RouterElement('Reaktor', 'ags', 3)
+      ]
     },
 
     {
       name: "Scenariusz", subpages: [
         new RouterElement('Dostępne scenariusze', 'scenario'),
         new RouterElement('Dodaj nowy scenariusz', 'scenario/new'),
+        new RouterElement('Scenariusz', 'scenario', 1),
+        new RouterElement('Scenariusz', 'scenario', 2),
+        new RouterElement('Scenariusz', 'scenario', 3)
       ]
     },
 
@@ -51,9 +62,9 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
     this.pageIterator
       .init('/water/', { 'callback': () => this.initWater() })
-      .init('/anamox/', { 'callback': () => this.initAnamox() })
-      .init('/ags/', { 'callback': () => this.initAgs() })
-      .init('/scenario/', { 'callback': () => this.initScenario() });
+      // .init('/anamox/', { 'callback': () => this.initAnamox() })
+      // .init('/ags/', { 'callback': () => this.initAgs() })
+      // .init('/scenario/', { 'callback': () => this.initScenario() });
   }
 
   onClick(elemenet: RouterElement): void {

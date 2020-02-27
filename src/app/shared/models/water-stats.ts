@@ -3,7 +3,9 @@ import { SteeringState } from './steering-state';
 export class WaterStats {
     steering_state: SteeringState;
     timestamp: string;
-    valves: Valve[] | Container[] | Pump[];
+    valves: Valve[];
+    containers: Container[];
+    pumps: Pump[];
 }
 
 class Valve {

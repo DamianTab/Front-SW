@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
+import { HttpClient } from '@angular/common/http';
+import { TempScenario } from '../../shared/models/temp-scenario';
 
 @Component({
   selector: 'sw-water-scenario',
@@ -21,19 +23,57 @@ export class WaterScenarioComponent implements OnInit {
   total_time: number;
   filter_time: number;
 
-  constructor(private toastService: ToastService) { }
+  private waterID: number;
+
+  constructor(private toastService: ToastService,
+    private http: HttpClient) { }
 
   ngOnInit() {
+    
   }
 
   confirmScenario(): void {
-    if (this.c1_min > this.c1_max || this.c2_min > this.c2_max || this.c3_min > this.c3_max || this.c4_min > this.c4_max || this.c5_min > this.c5_max) {
-      this.toastService.error('Niepoprawe dane w scenariuszu');
-      return;
+    for(let i=1; i<=5; i++) {
+      const [min, max] = [`c${i}_min`, `c${i}_max`]
+      if(this[min] > this[max] || this[min] === undefined || this[max] === undefined) {
+        this.toastService.error('Niepoprawe dane w scenariuszu');
+        return;
+      }
     }
-    //jeśli jakiś min/max jest nezdefiniowany, przyjmujemy wykorzystanie zbiornika do minimum/maximum?
-      this.toastService.success('Pomyślnie rozpoczęto scenariusz')
-    //TODO sending data to backend
+
+    const scenario: TempScenario = {
+      'C1': {
+        'min': this.c1_min,
+        'max': this.c1_max
+      },
+      'C2': {
+        'min': this.c2_min,
+        'max': this.c2_max
+      },
+      'C3': {
+        'min': this.c3_min,
+        'max': this.c3_max
+      },
+      'C4': {
+        'min': this.c3_min,
+        'max': this.c3_max
+      },
+      'C5': {
+        'min': this.c4_min,
+        'max': this.c4_max
+      },
+      'total_time': this.total_time,
+      'filter_time': this.filter_time
+    }
+
+    this.http.post(`/water/${1}/temp-scenario/`, scenario).subscribe((response: any) => {
+      if(response.error) {
+        this.toastService.error('Nie udało się rozpocząć scenariusz');
+      } else {
+        this.toastService.success('Pomyślnie rozpoczęto scenariusz');
+      }
+    })
+    //jeśli jakiś min/max jest nezdefiniowany, przyjmujemy wykorzystanie zbiornika do minimum/maximum? ~ Nie, wszystkie inputy musza byc zdefiniowane [Adam]
   }
 
 }
