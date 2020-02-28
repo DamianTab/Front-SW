@@ -54,7 +54,6 @@ export class NavbarComponent implements OnInit {
   ];
 
   constructor(private router: Router,
-              private auth: AuthenticationService,
               @Inject(DOCUMENT) private document: Document,
               private auth: AuthenticationService,
               dbfetch: DbPageFetchService<WaterContainer>)
