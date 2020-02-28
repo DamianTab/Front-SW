@@ -1,4 +1,5 @@
 export enum CookieName {
   USER = 'User',
-  ISAUTHENTICATE = 'IsAuthenticate'
+  ISAUTHENTICATE = 'Authenticate',
+  ISADMIN = 'Admin'
 }

@@ -7,11 +7,12 @@ import { ScenarioModule } from './forms/scenario/scenario.module';
 import { BrowserModule } from '@angular/platform-browser';
 import {HTTP_INTERCEPTORS, HttpClientModule, HttpClientXsrfModule} from '@angular/common/http';
 import { HomeModule } from './forms/home/home.module';
-import { ToastModule} from 'primeng/toast';
+import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { NoResponseInterceptor } from './shared/services/error-handling/no-response.interceptor';
 import { ExternalErrorHandler } from './shared/services/error-handling/error.interceptor';
 import { InternalErrorHandler } from './shared/services/error-handling/internal-error-handler';
+import { DbPageFetchService } from './shared/services/db-page/db-page-fetch.service';
 import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
