@@ -43,13 +43,5 @@ export class WaterScenarioComponent implements OnInit {
     } else {
       this.toastService.info('Zwolniono dostęp do urządzenia');
     }
-
-  }
-  changeAccesStatus(value): void {
-    if (value.checked) {
-      this.toastService.info('Uzyskano dostęp wyłączny do urządzenia');
-    } else {
-      this.toastService.info('Zwolniono dostęp do urządzenia');
-    }
   }
 }
