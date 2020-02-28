@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { HttpClient } from '@angular/common/http';
 import { TempScenario } from '../../shared/models/temp-scenario';
@@ -20,6 +20,9 @@ export class WaterScenarioComponent implements OnInit {
   c4_max: number;
   c5_min: number;
   c5_max: number;
+  total_time: number;
+  filter_time: number;
+  blocked: boolean;
 
   private waterID: number;
 
@@ -52,4 +55,11 @@ export class WaterScenarioComponent implements OnInit {
     //jeśli jakiś min/max jest nezdefiniowany, przyjmujemy wykorzystanie zbiornika do minimum/maximum? ~ Nie, wszystkie inputy musza byc zdefiniowane [Adam]
   }
 
+  changeAccessStatus() {
+    if (this.blocked) {
+      this.toastService.info('Uzyskano dostęp wyłączny do urządzenia');
+    } else {
+      this.toastService.info('Zwolniono dostęp do urządzenia');
+    }
+  }
 }

@@ -1,30 +1,40 @@
+<div class="p-col sw-fieldset">
+  <div class="p-grid">
+    <div class="p-col-4">
+      <label id="block">Dostęp Wyłączny</label>
+    </div>
+    <div class="p-col-8">
+      <p-inputSwitch [(ngModel)]="blocked" (onChange)="changeAccessStatus()"></p-inputSwitch>
+    </div>
+  </div>
+</div>
 <div class="p-grid p-justify-between">
     <div class="p-col-12 p-sm-6">
         <h5>Poziom wody w zbiorniku reakcji (C1):</h5>
-        <input type="text" pKeyFilter="pint" placeholder="Minimum" [(ngModel)]="c1_min">
-        <input type="text" pKeyFilter="pint" placeholder="Maximum" [(ngModel)]="c1_max">
+        <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Minimum" [(ngModel)]="c1_min">
+        <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Maximum" [(ngModel)]="c1_max">
     </div>
     <div class="p-col-12 p-sm-6">
         <h5>Poziom wody w filtrze (C2):</h5>
-        <input type="text" pKeyFilter="pint" placeholder="Minimum" [(ngModel)]="c2_min">
-        <input type="text" pKeyFilter="pint" placeholder="Maximum" [(ngModel)]="c2_max">
+        <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Minimum" [(ngModel)]="c2_min">
+        <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Maximum" [(ngModel)]="c2_max">
     </div>
     <div class="p-col-12 p-sm-6">
         <h5>Poziom wody w filtrze (C3):</h5>
-        <input type="text" pKeyFilter="pint" placeholder="Minimum" [(ngModel)]="c3_min">
-        <input type="text" pKeyFilter="pint" placeholder="Maximum" [(ngModel)]="c3_max">
+        <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Minimum" [(ngModel)]="c3_min">
+        <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Maximum" [(ngModel)]="c3_max">
     </div>
     <div class="p-col-12 p-sm-6">
         <h5>Poziom wody w filtrze (C4):</h5>
-        <input type="text" pKeyFilter="pint" placeholder="Minimum" [(ngModel)]="c4_min">
-        <input type="text" pKeyFilter="pint" placeholder="Maximum" [(ngModel)]="c4_max">
+        <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Minimum" [(ngModel)]="c4_min">
+        <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Maximum" [(ngModel)]="c4_max">
     </div>
     <div class="p-col-12 p-sm-6">
         <h5>Poziom wody w zbiorniku wody czystej (C5):</h5>
-        <input type="text" pKeyFilter="pint" placeholder="Minimum" [(ngModel)]="c5_min">
-        <input type="text" pKeyFilter="pint" placeholder="Maximum" [(ngModel)]="c5_max">
+        <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Minimum" [(ngModel)]="c5_min">
+        <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Maximum" [(ngModel)]="c5_max">
     </div>
     <div class="p-col-12 p-sm-4">
-        <p-button label="Uruchom" icon="pi pi-check" (click)="confirmScenario()"></p-button>
+        <p-button [disabled]="!blocked" label="Uruchom" icon="pi pi-check" (onClick)="confirmScenario()"></p-button>
     </div>
 </div>

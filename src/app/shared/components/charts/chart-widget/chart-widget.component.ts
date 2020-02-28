@@ -14,9 +14,6 @@ import { ChartService } from '../../../services/charts/chart.service';
   styleUrls: ['./chart-widget.component.scss']
 })
 export class ChartWidgetComponent implements OnInit {
-  // date input limiters
-  private _minDate: Date;
-  private _maxDate: Date = new Date();
 
   @Input() readonly title: string = '';
   @Input() readonly yLabel: string = '';
@@ -26,22 +23,26 @@ export class ChartWidgetComponent implements OnInit {
   private xLabel = '';
   startTime: Date;
   endTime: Date;
-  console = console;
+  isLive: boolean;
+  secDuration: string;
+  minDuration: string;
+  timerOn: boolean;
 
   ngOnInit() {
-    this._maxDate.setMinutes(0, 0, 0);
-    this._minDate = new Date(this._maxDate);
-
-    if (this._maxDate.getMonth() - 1 < 0) {
-      this._minDate.setFullYear(this._minDate.getFullYear() - 1, 11);
-    } else {
-      this._minDate.setMonth(this._maxDate.getMonth() - 1);
-    }
 
     this.interval = {
-      begin: this._minDate,
-      end: this._maxDate
+      begin: new Date(Date.now()),
+      end: new Date(Date.now())
     };
+    this.intervalBegin.setDate( this.intervalBegin.getDate() - 7 );
+
+    this.startTime = new Date(this.intervalBegin);
+    this.endTime = new Date(this.intervalEnd);
+
+    this.minDuration = '1';
+    this.secDuration = '0';
+
+    this.timerOn = false;
 
     this.checkXLabel();
   }
@@ -65,14 +66,6 @@ export class ChartWidgetComponent implements OnInit {
     link.setAttribute('href', url);
     link.setAttribute('download', `${this.title}.png`);
     link.click();
-  }
-
-  get minDate(): Date {
-    return this._minDate;
-  }
-
-  get maxDate(): Date {
-    return this._maxDate;
   }
 
   get intervalBegin(): Date {
@@ -117,5 +110,61 @@ export class ChartWidgetComponent implements OnInit {
     return a.getFullYear() == b.getFullYear() &&
     a.getMonth() == b.getMonth() &&
     a.getDate() == b.getDate();
+  }
+
+  changeStart() {
+    if (this.startTime <= this.endTime) {
+      this.intervalBegin = this.startTime;
+    } else {
+      this.startTime = new Date(this.endTime);
+      this.intervalBegin = this.startTime;
+    }
+  }
+
+  changeEnd() {
+    if (this.endTime >= this.startTime) {
+      if (this.endTime > new Date(Date.now())) {
+        this.endTime = new Date(Date.now());
+      } else {
+          this.intervalEnd = this.endTime;
+      }
+    } else {
+      this.endTime = new Date(this.startTime);
+      this.intervalEnd = this.endTime;
+    }
+  }
+
+  zeroWhenEmpty(duration: string) {
+    if (duration.length === 0) {
+      if (duration === this.minDuration) {
+        this.minDuration = '0';
+      } else {
+        this.secDuration = '0';
+      }
+    }
+  }
+
+  private setLiveInterval() {
+    if (this.isLive) {
+      this.intervalEnd = new Date(Date.now());
+      const miliDuration: number = Number(this.minDuration) * 60000 + Number(this.secDuration) * 1000;
+      this.intervalBegin = new Date(this.intervalEnd.getTime() - miliDuration);
+      setTimeout(() => this.setLiveInterval(), 1500);
+      this.timerOn = true;
+    } else {
+      this.timerOn = false;
+    }
+  }
+
+  changeMode() {
+    if (this.isLive) {
+      if (this.timerOn) {
+        return;
+      }
+      this.setLiveInterval();
+    } else {
+      this.changeStart();
+      this.changeEnd();
+    }
   }
 }
