@@ -32,4 +32,8 @@ export class RequestService {
       });
     })
   }
+
+  setOnOff(endpoint: string, body: any): Observable<any> {
+    return this.httpClient.post<Observable<any>>(endpoint, body);
+  }
 }
