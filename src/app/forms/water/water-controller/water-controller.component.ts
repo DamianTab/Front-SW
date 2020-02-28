@@ -101,16 +101,16 @@ class WaterControllerCss {
 
   private buttonClicked(event: JQuery.ClickEvent<HTMLElement, undefined, HTMLElement, HTMLElement>): void {
     const button = event.target.attributes.getNamedItem('data-button').value;
+    if (!this.isBlocked()) {
     this.requestService.setOnOff(`/water/1/${button.charAt(0) === 'P' ? 'pump' : 'valve'}/${button.charAt(1)}/states/`,
-      this.isBlocked() ? {"state" : true} : {"state" : false}).subscribe(data => {
-      if (!this.isBlocked()) {
+      this.checked[button] ? {"state" : false} : {"state" : true}).subscribe(data => {
         this.checked[button] = !this.checked[button];
-      }
-      this.drawButtons();
-      this.toastService.info('Uzyskano dostęp wyłączny do stanowiska');
-    }, () => {
-      this.toastService.warn('Nie udało się zmienić stanu elementu.');
-    });
+        this.drawButtons();
+        this.toastService.info('Zmieniono stan eementu');
+      }, () => {
+        this.toastService.warn('Nie udało się zmienić stanu elementu.');
+      });
+    }
   }
 
   private alignSliders(): void {
