@@ -1,5 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { HttpClient } from '@angular/common/http';
 import { TempScenario } from '../../shared/models/temp-scenario';
