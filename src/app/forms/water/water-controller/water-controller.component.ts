@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { SteeringStateService } from '../../../shared/services/steering-state/steering-state.service';
 import { SteeringState } from 'src/app/shared/models/steering-state';
+import {RequestService} from "../../../shared/services/request/request.service";
 
 @Component({
   selector: 'sw-water-controller',
@@ -25,10 +26,11 @@ export class WaterControllerComponent implements OnInit {
   };
 
   constructor(private toastService: ToastService,
-              private steeringStateService: SteeringStateService) { }
+              private steeringStateService: SteeringStateService,
+              private requestService: RequestService) { }
 
   ngOnInit() {
-    this._view = new WaterControllerCss(this._checked, () => !this.blocked, { 'width': 7530, 'height': 5895 });
+    this._view = new WaterControllerCss(this._checked, () => !this.blocked, { 'width': 7530, 'height': 5895 }, this.requestService, this.toastService);
   }
 
   set blocked(value) {
@@ -71,7 +73,10 @@ class WaterControllerCss {
     }
   }
 
-  constructor(private checked: any, private isBlocked: WaterControllerCss.Predicate, private img: WaterControllerCss.Image) {
+  constructor(private checked: any, private isBlocked: WaterControllerCss.Predicate,
+              private img: WaterControllerCss.Image,
+              private requestService: RequestService,
+              private toastService: ToastService) {
     this.bindMethods();
 
     $(document).ready(() => {
@@ -96,10 +101,16 @@ class WaterControllerCss {
 
   private buttonClicked(event: JQuery.ClickEvent<HTMLElement, undefined, HTMLElement, HTMLElement>): void {
     const button = event.target.attributes.getNamedItem('data-button').value;
-    if (!this.isBlocked()) {
-      this.checked[button] = !this.checked[button];
-    }
-    this.drawButtons();
+    this.requestService.setOnOff(`/water/1/${button.charAt(0) === 'P' ? 'pump' : 'valve'}/${button.charAt(1)}/states/`,
+      this.isBlocked() ? {"state" : true} : {"state" : false}).subscribe(data => {
+      if (!this.isBlocked()) {
+        this.checked[button] = !this.checked[button];
+      }
+      this.drawButtons();
+      this.toastService.info('Uzyskano dostęp wyłączny do stanowiska');
+    }, () => {
+      this.toastService.warn('Nie udało się zmienić stanu elementu.');
+    });
   }
 
   private alignSliders(): void {
