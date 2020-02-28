@@ -11,6 +11,8 @@ import { WaterLevelC2ChartModule } from '../../shared/components/charts/water-le
 import { WaterLevelC3ChartModule } from '../../shared/components/charts/water-level-C3-chart/water-level-C3-chart.module';
 import { WaterLevelC4ChartModule } from '../../shared/components/charts/water-level-C4-chart/water-level-C4-chart.module';
 import { WaterLevelC5ChartModule } from '../../shared/components/charts/water-level-C5-chart/water-level-C5-chart.module';
+import {OxygenChartModule} from '../../shared/components/charts/oxygen-chart/oxygen-chart.module';
+import {PhChartModule} from '../../shared/components/charts/ph-chart/ph-chart.module';
 
 @NgModule({
   declarations: [WaterComponent],
@@ -25,7 +27,9 @@ import { WaterLevelC5ChartModule } from '../../shared/components/charts/water-le
     TableModule,
     WaterControllerModule,
     WaterScenarioModule,
-    WaterRoutingModule
+    WaterRoutingModule,
+    OxygenChartModule,
+    PhChartModule
   ],
   exports: [WaterComponent]
 })

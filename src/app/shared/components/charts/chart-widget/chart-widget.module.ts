@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ChartWidgetComponent } from './chart-widget.component';
 import { ChartModule } from '../chart/chart.module';
 import { ButtonModule } from 'primeng/button';
-import {CalendarModule} from 'primeng';
+import {CalendarModule, InputSwitchModule, KeyFilterModule} from 'primeng';
 import {FormsModule} from '@angular/forms';
 
 @NgModule({
@@ -14,7 +14,9 @@ import {FormsModule} from '@angular/forms';
     ChartModule,
     ButtonModule,
     CalendarModule,
-    FormsModule
+    FormsModule,
+    InputSwitchModule,
+    KeyFilterModule
   ],
   exports: [ChartWidgetComponent]
 })
