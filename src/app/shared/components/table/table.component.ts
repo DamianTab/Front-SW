@@ -19,7 +19,6 @@ import { TableService } from '../../services/tables/table.service';
 export class TableComponent implements OnInit {
   @Input() readonly name: string = 'untitled';
   @Input() readonly maxRows: number = 10;
-  @Input() readonly pageMaxNumber: number = 2;
   @Input() readonly dataType: string;
 
   private cols: any[] = [];
@@ -28,16 +27,30 @@ export class TableComponent implements OnInit {
   private loading: boolean;
   private selectedRows: any[] = [];
   private exportColumns: any;
+  private readonly pageMaxNumber: number = 4;
+  private actualPageMaxNumber: number;
+  private nextPage = {'endpoint': null};
 
   constructor(private dataSource: TableService) { }
 
   ngOnInit(): void {
-    this.loading = true
-    this.dataSource.getData(this.dataType, this.pageMaxNumber).subscribe(data => {
+    this.actualPageMaxNumber = this.pageMaxNumber;
+    this.loadData();
+  }
+
+  loadMoreData() {
+    this.actualPageMaxNumber += this.pageMaxNumber;
+    this.loadData();
+  }
+
+  loadData() {
+    this.loading = true;
+    this.cols = [];
+    this.dataSource.getData(this.dataType, this.actualPageMaxNumber, this.nextPage).subscribe(data => {
       this.rows = this.extractRows(data)
       this.data = Object.assign([], this.rows)
 
-      const empty = {}
+      const empty = {};
       for (let key in this.rows[0]) {
         empty[key] = null
       }
