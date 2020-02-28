@@ -63,10 +63,6 @@ export class AuthenticationService {
     if (!this.subjectUser.value) {
       return false;
     }
-
-
-
-    console.log('WALIDACJA JEST TAKA:' + this.subjectIsLogIn.value);
     return this.subjectIsLogIn.value;
   }
 
@@ -92,15 +88,12 @@ export class AuthenticationService {
       // Tzn gdy przyjdzie błąd 404 to znaczy że przeszło logowanie i próbuje przekierować na inną strone.
       // Jak zwróci normalnie to w przypadku gdy niepoprawne dane logowania.
       return this.http.post(this.LOGIN_URL, params, { responseType: 'text' }).subscribe(recv => {
-        console.log('CZY JEST ZALOGOWANY (Nie powinno): ' + this.checkIfIsLogin(recv));
         this.setAuthentication(false);
       }, err => {
         const errorObject = (err as HttpErrorResponse).error;
-        console.log('CZY JEST ZALOGOWANY(Powinno): ' + this.checkIfIsLogin(errorObject));
         if (this.checkIfIsLogin(errorObject)) {
           this.setAuthentication(true);
           return this.http.get(this.CHECK_IF_ADMIN_URL, { responseType: 'text' }).subscribe(recv => {
-            console.log(`IS ADMIN: ${recv.includes('Welcome')}`);
             this.setAdminStatus(this.checkIfAdmin(recv));
           });
 
