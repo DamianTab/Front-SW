@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
+import { WaterStats } from 'src/app/shared/models/water-stats';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'sw-water-controller',
@@ -9,6 +11,8 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
 export class WaterControllerComponent implements OnInit {
 
   private _view: WaterControllerCss;
+
+  private waterID: number;
 
   private _blocked: boolean = false;
 
@@ -22,14 +26,17 @@ export class WaterControllerComponent implements OnInit {
     'Y3': false
   };
 
-  constructor(private toastService: ToastService) { }
+  constructor(private toastService: ToastService,
+    private http: HttpClient) { }
 
   ngOnInit() {
     this._view = new WaterControllerCss(this._checked, () => !this.blocked, { 'width': 7530, 'height': 5895 });
+    this.waterID = Number.parseInt(location.pathname.split('/').filter((val: any) => Number(val))[0]);
   }
 
   set blocked(value) {
     this._blocked = value;
+    this.sendData();
     this._view.notify();
   }
 
@@ -39,6 +46,47 @@ export class WaterControllerComponent implements OnInit {
 
   get checked(): any {
     return this._checked;
+  }
+
+  private sendData(): void {
+    const data: WaterStats = {
+      'pumps': [
+        {
+          'pump_id': 1,
+          'pump_state': this.checked.P1
+        },
+        {
+          'pump_id': 2,
+          'pump_state': this.checked.P2
+        },
+        {
+          'pump_id': 3,
+          'pump_state': this.checked.P3
+        },
+        {
+          'pump_id': 4,
+          'pump_state': this.checked.P4
+        }
+      ],
+      'valves': [
+        {
+          'valve_id': 1,
+          'valve_open': this.checked.Y1
+        },
+        {
+          'valve_id': 2,
+          'valve_open': this.checked.Y2
+        },
+        {
+          'valve_id': 3,
+          'valve_open': this.checked.Y3
+        }
+      ]
+    }
+
+    this.http.post(`/water/${this.waterID}/change/`, data).subscribe(null, (error) => {
+      this.toastService.error('Błąd podczas zmiany stanu sterowania'); //przyciski
+    })
   }
 
   changeAccesStatus(value): void {
