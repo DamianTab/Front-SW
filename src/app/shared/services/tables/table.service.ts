@@ -1,32 +1,73 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { RequestService } from 'src/app/shared/services/request/request.service'
+import { Observable } from "rxjs";
 
 @Injectable()
 export class TableService {
-    private readonly url = 'service/table'
 
-    constructor(private http: HttpClient) { }
+  constructor(private reqService: RequestService) { }
 
-    async getData(dataType: string): Promise<any> {
-        // const data = []
-        // for(let i=0; i<1000; i++) {
-        //     data.push(i)
-        // }
+  getData(dataType: string, pageMaxNumber: number = 1): Observable<any> {
+    let stationNumber = 1; //TODO dynamiczne pobieranie numeru stacji
+    let valvesCounter = 3; //TODO dynamiczne pobieranie ilości zaworów
+    let pumpsCounter = 4;  //TODO dynamiczne pobieranie ilości pomp
+    let containersCounter = 5;  //TODO dynamiczne pobieranie ilości zbiorników
 
-        // let data;
-        // await this.http.get(`${this.url}/${dataType}`).subscribe((recv) => data = recv)
-        // return data
-
-        return {
-            'A': [1, 2, 'EXAMPLE_STRING', 2, 'EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING'],
-            'B': [2, 3, 'EXAMPLE_STRING', 2, 'EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING'],
-            'C': [3, 1, 'EXAMPLE_STRING', 2,'EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING','EXAMPLE_STRING']
+    if (dataType === 'valve') return this.getElementsData(dataType, stationNumber, valvesCounter, valvesCounter, pageMaxNumber);
+    if (dataType === 'pump') return this.getElementsData(dataType, stationNumber, pumpsCounter, pumpsCounter, pageMaxNumber);
+    if (dataType === 'container') return this.getElementsData(dataType, stationNumber, containersCounter, containersCounter, pageMaxNumber);
+  }
 
 
-            // 'Kolumna 1': data,
-            // 'Kolumna 2': Array.from(data).reverse(),
-            // 'Kolumna 3': data.map(val => val + '^2'),
-            // 'Kolumna 4': data.map(val => val + '^2').reverse()
+  private getElementsData(dataType: string, stationId: number, totalElementCounter: number, elementLimit: number, pageMaxNumber: number): Observable<any> {
+    return new Observable(subscriber => {
+      this.reqService.getStates(`/water/${stationId}/${dataType}/${elementLimit--}/states/`, pageMaxNumber).subscribe(data => {
+        if (elementLimit > 0) {
+          this.getElementsData(dataType, stationId, totalElementCounter, elementLimit, pageMaxNumber).subscribe(childData => {
+            this.fillWithData(childData, data, dataType, elementLimit+1);
+            subscriber.next(childData);
+            subscriber.complete();
+          })
+        } else {
+          let result = {};
+          this.fillWithData(result, data, dataType, elementLimit+1, true);
+          subscriber.next(result);
+          subscriber.complete();
         }
+      });
+    });
+  }
+
+
+  private fillWithData(result: any, data: any[], dataType: string, number: number, first: boolean = false): void {
+    if (first) {
+      result["Czas"] = [];
+      data.forEach(elem => {
+        let date = new Date(elem.timestamp);
+        result["Czas"].push(`${date.getUTCFullYear()}-${date.getUTCMonth()+1}-${date.getUTCDate()} ${date.getUTCHours()}:${date.getUTCMinutes()}:${date.getUTCSeconds()}.${date.getUTCMilliseconds()}`);
+      })
     }
+    if (dataType === 'valve') {
+      result[`Y${number}`] = [];
+      data.forEach(elem => {
+        result[`Y${number}`].push(elem.valve_open ? 'otwarty' : 'zamknięty');
+      });
+      return;
+    }
+    if (dataType === 'pump') {
+      result[`P${number}`] = [];
+      data.forEach(elem => {
+        result[`P${number}`].push(elem.pump_state ? 'włączona' : 'wyłączona');
+      });
+      return;
+    }
+    if (dataType === 'container') {
+      result[`C${number}`] = [];
+      data.forEach(elem => {
+        result[`C${number}`].push(elem.container_state);
+      });
+      return;
+    }
+  }
+
 }

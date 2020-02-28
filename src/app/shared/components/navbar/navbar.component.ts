@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { RouterElement } from './models/router-element';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
+import { DOCUMENT } from '@angular/common';
 import { DbPageIterator } from '../../services/db-page/db-page-iterator.service';
 import { WaterContainer } from '../../models/water-container';
 import { DbPageFetchService } from '../../services/db-page/db-page-fetch.service';
@@ -12,6 +13,8 @@ import { DbPageFetchService } from '../../services/db-page/db-page-fetch.service
   styleUrls: ["./navbar.component.scss"]
 })
 export class NavbarComponent implements OnInit {
+
+  private pageIterator: DbPageIterator<WaterContainer>;
 
   pages = [
     {
@@ -50,12 +53,12 @@ export class NavbarComponent implements OnInit {
     },
   ];
 
-  private pageIterator: DbPageIterator<WaterContainer>;
-
   constructor(private router: Router,
-    private auth: AuthenticationService,
-    dbfetch: DbPageFetchService<WaterContainer>
-  ) {
+              private auth: AuthenticationService,
+              @Inject(DOCUMENT) private document: Document,
+              private auth: AuthenticationService,
+              dbfetch: DbPageFetchService<WaterContainer>)
+  {
     this.pageIterator = new DbPageIterator<WaterContainer>(dbfetch, true);
   }
 
@@ -72,6 +75,8 @@ export class NavbarComponent implements OnInit {
       this.router.navigate([elemenet.link, elemenet.id]);
     } else if (elemenet.link === 'settings/logout') {
       this.auth.logout();
+    } else if (elemenet.link === 'settings/data') {
+      this.document.location.href = 'http://localhost:8000/admin/';
     } else {
       this.router.navigate([elemenet.link]);
     }
