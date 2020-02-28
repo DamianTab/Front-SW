@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { HttpClient } from '@angular/common/http';
 import { TempScenario } from '../../shared/models/temp-scenario';
+import { SteeringStateService } from '../../shared/services/steering-state/steering-state.service';
+import { SteeringState } from 'src/app/shared/models/steering-state';
 
 @Component({
   selector: 'sw-water-scenario',
@@ -27,10 +29,12 @@ export class WaterScenarioComponent implements OnInit {
   private waterID: number;
 
   constructor(private toastService: ToastService,
-    private http: HttpClient) { }
+    private http: HttpClient,
+    private steeringStateService: SteeringStateService) { }
 
   ngOnInit() {
-    this.waterID = Number.parseInt(location.pathname.split('/').filter((val: any) => Number(val))[0]);
+    // this.waterID = Number.parseInt(location.pathname.split('/').filter((val: any) => Number(val))[0]);
+    this.waterID = 1;
   }
 
   confirmScenario(): void {
@@ -57,7 +61,12 @@ export class WaterScenarioComponent implements OnInit {
 
   changeAccessStatus() {
     if (this.blocked) {
-      this.toastService.info('Uzyskano dostęp wyłączny do urządzenia');
+      this.steeringStateService.tryToChangesStationSteeringState('water', this.waterID, SteeringState.AU).subscribe(() => {
+        this.toastService.info('Uzyskano dostęp wyłączny do stanowiska');
+      }, () => {
+        this.toastService.warn('Nie udało się zmienić trybu działania. Stanowisko prawdopodobnie jest zajęte.');
+        this.blocked = false;
+      });
     } else {
       this.toastService.info('Zwolniono dostęp do urządzenia');
     }

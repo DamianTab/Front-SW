@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
+import { SteeringStateService } from '../../../shared/services/steering-state/steering-state.service';
+import { SteeringState } from 'src/app/shared/models/steering-state';
 
 @Component({
   selector: 'sw-water-controller',
@@ -22,7 +24,8 @@ export class WaterControllerComponent implements OnInit {
     'Y3': false
   };
 
-  constructor(private toastService: ToastService) { }
+  constructor(private toastService: ToastService,
+              private steeringStateService: SteeringStateService) { }
 
   ngOnInit() {
     this._view = new WaterControllerCss(this._checked, () => !this.blocked, { 'width': 7530, 'height': 5895 });
@@ -42,8 +45,13 @@ export class WaterControllerComponent implements OnInit {
   }
 
   changeAccesStatus(value): void {
-    if (value.checked) {
-      this.toastService.info('Uzyskano dostęp wyłączny do urządzenia');
+    if (this._blocked) {
+      this.steeringStateService.tryToChangesStationSteeringState('water', 1, SteeringState.RM).subscribe(() => {
+        this.toastService.info('Uzyskano dostęp wyłączny do stanowiska');
+      }, () => {
+        this.toastService.warn('Nie udało się zmienić trybu działania. Stanowisko prawdopodobnie jest zajęte.');
+        this.blocked = false;
+      });
     } else {
       this.toastService.info('Zwolniono dostęp do urządzenia');
     }

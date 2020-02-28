@@ -1,7 +1,7 @@
 export enum SteeringState {
-    'AU',
-    'RM',
-    'LM',
-    'ID',
-    'OF'
+    'AU' = 'AU',
+    'RM' = 'RM',
+    'LM' = 'LM',
+    'ID' = 'ID',
+    'OF' = 'OF'
 }
