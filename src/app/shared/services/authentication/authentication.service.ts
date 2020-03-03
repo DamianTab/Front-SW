@@ -41,7 +41,7 @@ export class AuthenticationService {
     }
   }
 
-  login(username: string, password: string) {
+  public login(username: string, password: string) {
     const user = new User();
     user.username = username;
     user.password = password;
@@ -50,7 +50,7 @@ export class AuthenticationService {
     this.setTokens();
   }
 
-  logout() {
+  public logout() {
     this.subjectUser.next(new User());
     this.subjectIsLogIn.next(false);
     this.subjectIsAdmin.next(false);
@@ -59,7 +59,7 @@ export class AuthenticationService {
     this.toastService.info('Poprawnie wylogowano');
   }
 
-  validate(): boolean {
+  public validate(): boolean {
     if (!this.subjectUser.value) {
       return false;
     }
