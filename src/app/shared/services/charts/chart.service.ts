@@ -6,7 +6,51 @@ import { Observable } from 'rxjs';
 export class ChartService {
   constructor(private reqService: RequestService) {}
 
-  getInitialData(
+  public waterLevelC1(
+    meta: ChartService.MetaData,
+    actualData: ChartService.Data = null,
+    update: boolean = false
+  ) {
+    const url = '/water/1/container/1/states/';
+    if (update) {
+      return this.updateData(meta, url, actualData);
+    } else {
+      return this.getInitialData(meta, url);
+    }
+  }
+
+  public temperature(meta: ChartService.MetaData) {
+    return {
+      x: [1, 2, 3],
+      y: [4, 5, 6]
+    };
+    // return this.retrieveData('temperature')
+  }
+
+  public oxygen(meta: ChartService.MetaData) {
+    return {
+      x: [1, 2, 3],
+      y: [4, 5, 6]
+    };
+  }
+
+  public redox(meta: ChartService.MetaData) {
+    return {
+      x: [1, 2, 3],
+      y: [4, 5, 6]
+    };
+    // return this.retrieveData('redox')
+  }
+
+  public pH(meta: ChartService.MetaData) {
+    return {
+      x: [1, 2, 3],
+      y: [4, 5, 6]
+    };
+    // return this.retrieveData('pH')
+  }
+
+  private getInitialData(
     interval: ChartService.MetaData,
     url: string
   ): Observable<any> {
@@ -34,7 +78,7 @@ export class ChartService {
     });
   }
 
-  updateData(
+  private updateData(
     interval: ChartService.MetaData,
     url: string,
     actualData: ChartService.Data
@@ -60,7 +104,7 @@ export class ChartService {
     });
   }
 
-  concatNewData(
+  private concatNewData(
     newData: ChartService.Data,
     currentData: ChartService.Data
   ): ChartService.Data {
@@ -71,7 +115,7 @@ export class ChartService {
     };
   }
 
-  reverseData(data: ChartService.Data): ChartService.Data {
+  private reverseData(data: ChartService.Data): ChartService.Data {
     return {
       x: data.x.reverse(),
       y: data.y.reverse(),
@@ -79,7 +123,10 @@ export class ChartService {
     };
   }
 
-  removeOverdueData(data: ChartService.Data, interval: ChartService.MetaData) {
+  private removeOverdueData(
+    data: ChartService.Data,
+    interval: ChartService.MetaData
+  ) {
     for (let i: number = data.x.length - 1; i >= 0; i--) {
       if (data.timestamps[i] >= interval.begin.getTime()) {
         data.x = data.x.slice(i);
@@ -89,50 +136,6 @@ export class ChartService {
       }
     }
     return data;
-  }
-
-  waterLevelC1(
-    meta: ChartService.MetaData,
-    actualData: ChartService.Data = null,
-    update: boolean = false
-  ) {
-    const url = '/water/1/container/1/states/';
-    if (update) {
-      return this.updateData(meta, url, actualData);
-    } else {
-      return this.getInitialData(meta, url);
-    }
-  }
-
-  temperature(meta: ChartService.MetaData) {
-    return {
-      x: [1, 2, 3],
-      y: [4, 5, 6]
-    };
-    // return this.retrieveData('temperature')
-  }
-
-  oxygen(meta: ChartService.MetaData) {
-    return {
-      x: [1, 2, 3],
-      y: [4, 5, 6]
-    };
-  }
-
-  redox(meta: ChartService.MetaData) {
-    return {
-      x: [1, 2, 3],
-      y: [4, 5, 6]
-    };
-    // return this.retrieveData('redox')
-  }
-
-  pH(meta: ChartService.MetaData) {
-    return {
-      x: [1, 2, 3],
-      y: [4, 5, 6]
-    };
-    // return this.retrieveData('pH')
   }
 }
 
