@@ -11,14 +11,12 @@ export class SteeringStateService {
 
 
   tryToChangesStationSteeringState(stationName: string, stationId: number, steeringState: SteeringState) {
-    const body = new SteeringStateDao(steeringState);
-    console.log(JSON.stringify(body));
+    const body = new SteeringStateDTO(steeringState);
     return this.httpClient.post(`/${stationName}/${stationId}/states/`, body);
   }
 
 }
 
-
-class SteeringStateDao {
+class SteeringStateDTO {
   constructor(public steering_state: SteeringState) { }
 }
