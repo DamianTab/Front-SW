@@ -22,7 +22,9 @@ import { Observable } from 'rxjs';
   templateUrl: './chart.component.html'
 })
 export class ChartComponent implements AfterViewInit, OnChanges {
-
+  private receivedData: ChartService.Data;
+  private data: any;
+  private options: any;
   @Input() readonly lineColor: string = this.randomColor();
   @Input() readonly title: string = 'Oxygen';
   @Input() readonly fontSize: number = 16;
@@ -32,21 +34,8 @@ export class ChartComponent implements AfterViewInit, OnChanges {
   @Input() readonly dataType: any;
   @Input() readonly withAnimation: boolean;
   @Input() readonly interval: ChartService.MetaData;
-  private receivedData: ChartService.Data;
-  public data: any;
-  public options: any;
 
   constructor(private service: ChartService) { }
-
-  public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.interval.currentValue !== changes.interval.previousValue) {
-      const doAnimation = this.withAnimation;
-      this.getServiceData(doAnimation).subscribe(data => {
-        this.actualizeChart(data, doAnimation);
-        this.receivedData = data;
-      });
-    }
-  }
 
   public actualizeChart(data: ChartService.Data, doAnimation: boolean): void {
     this.data = {
@@ -66,7 +55,7 @@ export class ChartComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  public ngAfterViewInit(
+  ngAfterViewInit(
     data: ChartService.Data = { x: [], y: [], timestamps: [] }
   ): void {
     this.data = {
@@ -114,6 +103,16 @@ export class ChartComponent implements AfterViewInit, OnChanges {
       maintainAspectRatio: true,
       aspectRatio: 1
     };
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.interval.currentValue !== changes.interval.previousValue) {
+      const doAnimation = this.withAnimation;
+      this.getServiceData(doAnimation).subscribe(data => {
+        this.actualizeChart(data, doAnimation);
+        this.receivedData = data;
+      });
+    }
   }
 
   private getServiceData(update: boolean): Observable<ChartService.Data> {

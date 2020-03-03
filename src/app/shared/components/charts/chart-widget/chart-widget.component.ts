@@ -21,15 +21,15 @@ export class ChartWidgetComponent implements OnInit {
 
   private interval: ChartService.MetaData;
   private xLabel = '';
-  public startTime: Date;
-  public endTime: Date;
-  public isLive: boolean;
-  public secDuration: string;
-  public minDuration: string;
-  public timerOn: boolean;
-  public withAnimation: boolean;
+  private timerOn: boolean;
+  startTime: Date;
+  endTime: Date;
+  isLive: boolean;
+  secDuration: string;
+  minDuration: string;
+  withAnimation: boolean;
 
-  public ngOnInit() {
+  ngOnInit() {
 
     this.interval = {
       begin: new Date(Date.now()),
