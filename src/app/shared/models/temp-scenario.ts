@@ -1,4 +1,6 @@
 export class TempScenario {
-    'C_min': number[];
-    'C_max': number[];
+  cMin: number[];
+  cMax: number[];
+  totalTime: number;
+  filterTime: number;
 }

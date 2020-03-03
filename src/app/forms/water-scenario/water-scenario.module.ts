@@ -1,13 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'
+import { FormsModule } from '@angular/forms';
 import { KeyFilterModule } from 'primeng/keyfilter';
 import { ButtonModule } from 'primeng/button';
-
 import { WaterScenarioComponent } from './water-scenario.component';
-import {InputSwitchModule} from 'primeng';
-
-
+import { InputSwitchModule } from 'primeng';
 
 @NgModule({
   declarations: [WaterScenarioComponent],
@@ -20,4 +17,4 @@ import {InputSwitchModule} from 'primeng';
   ],
   exports: [WaterScenarioComponent]
 })
-export class WaterScenarioModule { }
+export class WaterScenarioModule {}

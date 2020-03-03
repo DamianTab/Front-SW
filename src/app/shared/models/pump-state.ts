@@ -1,4 +1,4 @@
 export class PumpState {
-    pump_state: boolean;
+    pumpState: boolean;
     timestamp: string;
 }

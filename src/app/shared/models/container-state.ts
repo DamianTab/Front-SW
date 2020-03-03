@@ -1,4 +1,4 @@
 export class ContainerState {
-    container_state: number;
+    containerState: number;
     timestamp: string;
 }

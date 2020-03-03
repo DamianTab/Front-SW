@@ -6,11 +6,7 @@ import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [WaterControllerComponent],
-  imports: [
-    CommonModule,
-    InputSwitchModule,
-    FormsModule
-  ],
+  imports: [CommonModule, InputSwitchModule, FormsModule],
   exports: [WaterControllerComponent]
 })
-export class WaterControllerModule { }
+export class WaterControllerModule {}
