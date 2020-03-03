@@ -14,12 +14,12 @@ import { ChartService } from '../../../services/charts/chart.service';
   styleUrls: ['./chart-widget.component.scss']
 })
 export class ChartWidgetComponent implements OnInit {
-  private interval: ChartService.MetaData;
-  private xLabel = '';
   private timerOn: boolean;
   @Input() readonly title: string = '';
   @Input() readonly yLabel: string = '';
   @Input() readonly dataType: any;
+  interval: ChartService.MetaData;
+  xLabel = '';
   startTime: Date;
   endTime: Date;
   isLive: boolean;
@@ -28,12 +28,11 @@ export class ChartWidgetComponent implements OnInit {
   withAnimation: boolean;
 
   ngOnInit() {
-
     this.interval = {
       begin: new Date(Date.now()),
       end: new Date(Date.now())
     };
-    this.intervalBegin.setDate( this.intervalBegin.getDate() - 7 );
+    this.intervalBegin.setDate(this.intervalBegin.getDate() - 7);
 
     this.startTime = new Date(this.intervalBegin);
     this.endTime = new Date(this.intervalEnd);
@@ -48,7 +47,10 @@ export class ChartWidgetComponent implements OnInit {
   }
 
   public saveChartImg() {
-    const canvas = document.querySelector(`sw-chart-widget[dataType=${this.dataType}]`).getElementsByTagName('canvas').item(0);
+    const canvas = document
+      .querySelector(`sw-chart-widget[dataType=${this.dataType}]`)
+      .getElementsByTagName('canvas')
+      .item(0);
     const img = document.createElement('canvas');
 
     const ctx = img.getContext('2d');
@@ -59,7 +61,6 @@ export class ChartWidgetComponent implements OnInit {
     ctx.globalCompositeOperation = 'destination-over';
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, img.width, img.height);
-
 
     const url = img.toDataURL('image/png');
     const link = document.createElement('a');
@@ -94,68 +95,7 @@ export class ChartWidgetComponent implements OnInit {
     this.checkXLabel();
   }
 
-  private checkXLabel(): void {
-    if (this.dayEquals(this.interval.begin, this.interval.end)) {
-      this.xLabel = 'Godzina';
-    } else {
-      this.xLabel = 'Dzień';
-    }
-  }
-
-  private dayEquals(a: Date, b: Date): boolean {
-    return a.getFullYear() === b.getFullYear() &&
-    a.getMonth() === b.getMonth() &&
-    a.getDate() === b.getDate();
-  }
-
-  private changeStart() {
-    if (this.startTime <= this.endTime) {
-      this.intervalBegin = this.startTime;
-    } else {
-      this.startTime = new Date(this.endTime);
-      this.intervalBegin = this.startTime;
-    }
-  }
-
-  private changeEnd() {
-    if (this.endTime >= this.startTime) {
-      if (this.endTime > new Date(Date.now())) {
-        this.endTime = new Date(Date.now());
-      } else {
-          this.intervalEnd = this.endTime;
-      }
-    } else {
-      this.endTime = new Date(this.startTime);
-      this.intervalEnd = this.endTime;
-    }
-  }
-
-  private zeroWhenEmpty(duration: string) {
-    if (duration.length === 0) {
-      if (duration === this.minDuration) {
-        this.minDuration = '0';
-      } else {
-        this.secDuration = '0';
-      }
-    }
-  }
-
-  private setLiveInterval() {
-    if (this.isLive) {
-      const miliDuration: number = Number(this.minDuration) * 60000 + Number(this.secDuration) * 1000;
-      this.interval =  {
-        begin: new Date(Date.now()),
-        end: new Date(this.intervalEnd.getTime() - miliDuration)
-      };
-      setTimeout(() => this.setLiveInterval(), 1500);
-      this.withAnimation = false;
-      this.timerOn = true;
-    } else {
-      this.timerOn = false;
-    }
-  }
-
-  private changeMode() {
+  changeMode() {
     if (this.isLive) {
       if (this.timerOn) {
         return;
@@ -165,6 +105,70 @@ export class ChartWidgetComponent implements OnInit {
       this.withAnimation = true;
       this.changeStart();
       this.changeEnd();
+    }
+  }
+
+  changeStart() {
+    if (this.startTime <= this.endTime) {
+      this.intervalBegin = this.startTime;
+    } else {
+      this.startTime = new Date(this.endTime);
+      this.intervalBegin = this.startTime;
+    }
+  }
+
+  changeEnd() {
+    if (this.endTime >= this.startTime) {
+      if (this.endTime > new Date(Date.now())) {
+        this.endTime = new Date(Date.now());
+      } else {
+        this.intervalEnd = this.endTime;
+      }
+    } else {
+      this.endTime = new Date(this.startTime);
+      this.intervalEnd = this.endTime;
+    }
+  }
+
+  zeroWhenEmpty(duration: string) {
+    if (duration.length === 0) {
+      if (duration === this.minDuration) {
+        this.minDuration = '0';
+      } else {
+        this.secDuration = '0';
+      }
+    }
+  }
+
+  private checkXLabel(): void {
+    if (this.dayEquals(this.interval.begin, this.interval.end)) {
+      this.xLabel = 'Godzina';
+    } else {
+      this.xLabel = 'Dzień';
+    }
+  }
+
+  private dayEquals(a: Date, b: Date): boolean {
+    return (
+      a.getFullYear() === b.getFullYear() &&
+      a.getMonth() === b.getMonth() &&
+      a.getDate() === b.getDate()
+    );
+  }
+
+  private setLiveInterval() {
+    if (this.isLive) {
+      const miliDuration: number =
+        Number(this.minDuration) * 60000 + Number(this.secDuration) * 1000;
+      this.interval = {
+        begin: new Date(Date.now()),
+        end: new Date(this.intervalEnd.getTime() - miliDuration)
+      };
+      setTimeout(() => this.setLiveInterval(), 1500);
+      this.withAnimation = false;
+      this.timerOn = true;
+    } else {
+      this.timerOn = false;
     }
   }
 }
