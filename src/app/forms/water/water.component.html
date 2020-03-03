@@ -1,31 +1,31 @@
-<sw-dashboard >
-    <sw-track>
-        <sw-track-widget header="Kontroler zbiornika wody">
-            <sw-water-controller></sw-water-controller>
-        </sw-track-widget>
+<sw-dashboard>
+  <sw-track>
+    <sw-track-widget header="Kontroler zbiornika wody">
+      <sw-water-controller></sw-water-controller>
+    </sw-track-widget>
 
-        <sw-track-widget header="Scenariusz">
-            <sw-water-scenario></sw-water-scenario>
-        </sw-track-widget>
+    <sw-track-widget header="Scenariusz">
+      <sw-water-scenario></sw-water-scenario>
+    </sw-track-widget>
 
-        <sw-track-widget header="Stany zaworów">
-            <sw-table dataType="valve" name="Stany zaworów"></sw-table>
-        </sw-track-widget>
+    <sw-track-widget header="Stany zaworów">
+      <sw-table dataType="valve" name="Stany zaworów"></sw-table>
+    </sw-track-widget>
 
-        <sw-track-widget header="Stany pomp">
-          <sw-table dataType="pump" name="Stany pomp"></sw-table>
-        </sw-track-widget>
+    <sw-track-widget header="Stany pomp">
+      <sw-table dataType="pump" name="Stany pomp"></sw-table>
+    </sw-track-widget>
 
-        <sw-track-widget header="Stany zbiorników">
-          <sw-table dataType="container" name="Stany zbiorników"></sw-table>
-        </sw-track-widget>
+    <sw-track-widget header="Stany zbiorników">
+      <sw-table dataType="container" name="Stany zbiorników"></sw-table>
+    </sw-track-widget>
 
 
-        <sw-track-widget>
-            <sw-oxygen-chart></sw-oxygen-chart>
-        </sw-track-widget>
+    <sw-track-widget>
+      <sw-water-level-C1-chart></sw-water-level-C1-chart>
+    </sw-track-widget>
 
-      <!--
+    <!--
         <sw-track-widget>
             <sw-ph-chart></sw-ph-chart>
         </sw-track-widget>
@@ -53,5 +53,5 @@
         <sw-track-widget header="Temperatura">
             <sw-table dataType="temperature" name="Temperatura"></sw-table>
         </sw-track-widget> -->
-    </sw-track>
+  </sw-track>
 </sw-dashboard>
