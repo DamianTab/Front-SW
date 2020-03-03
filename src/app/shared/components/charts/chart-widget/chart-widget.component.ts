@@ -15,20 +15,21 @@ import { ChartService } from '../../../services/charts/chart.service';
 })
 export class ChartWidgetComponent implements OnInit {
 
-  @Input() readonly title: string = '';
-  @Input() readonly yLabel: string = '';
-  @Input() readonly dataType: any;
+  @Input() private readonly title: string = '';
+  @Input() private readonly yLabel: string = '';
+  @Input() private readonly dataType: any;
 
   private interval: ChartService.MetaData;
   private xLabel = '';
-  startTime: Date;
-  endTime: Date;
-  isLive: boolean;
-  secDuration: string;
-  minDuration: string;
-  timerOn: boolean;
+  public startTime: Date;
+  public endTime: Date;
+  public isLive: boolean;
+  public secDuration: string;
+  public minDuration: string;
+  public timerOn: boolean;
+  public withAnimation: boolean;
 
-  ngOnInit() {
+  public ngOnInit() {
 
     this.interval = {
       begin: new Date(Date.now()),
@@ -43,11 +44,12 @@ export class ChartWidgetComponent implements OnInit {
     this.secDuration = '0';
 
     this.timerOn = false;
+    this.withAnimation = true;
 
     this.checkXLabel();
   }
 
-  saveChartImg() {
+  public saveChartImg() {
     const canvas = document.querySelector(`sw-chart-widget[dataType=${this.dataType}]`).getElementsByTagName('canvas').item(0);
     const img = document.createElement('canvas');
 
@@ -94,10 +96,6 @@ export class ChartWidgetComponent implements OnInit {
     this.checkXLabel();
   }
 
-  private parseDate(date: Date): string {
-    return date.toISOString().slice(0, 16);
-  }
-
   private checkXLabel(): void {
     if (this.dayEquals(this.interval.begin, this.interval.end)) {
       this.xLabel = 'Godzina';
@@ -107,12 +105,12 @@ export class ChartWidgetComponent implements OnInit {
   }
 
   private dayEquals(a: Date, b: Date): boolean {
-    return a.getFullYear() == b.getFullYear() &&
-    a.getMonth() == b.getMonth() &&
-    a.getDate() == b.getDate();
+    return a.getFullYear() === b.getFullYear() &&
+    a.getMonth() === b.getMonth() &&
+    a.getDate() === b.getDate();
   }
 
-  changeStart() {
+  private changeStart() {
     if (this.startTime <= this.endTime) {
       this.intervalBegin = this.startTime;
     } else {
@@ -121,7 +119,7 @@ export class ChartWidgetComponent implements OnInit {
     }
   }
 
-  changeEnd() {
+  private changeEnd() {
     if (this.endTime >= this.startTime) {
       if (this.endTime > new Date(Date.now())) {
         this.endTime = new Date(Date.now());
@@ -134,7 +132,7 @@ export class ChartWidgetComponent implements OnInit {
     }
   }
 
-  zeroWhenEmpty(duration: string) {
+  private zeroWhenEmpty(duration: string) {
     if (duration.length === 0) {
       if (duration === this.minDuration) {
         this.minDuration = '0';
@@ -146,23 +144,27 @@ export class ChartWidgetComponent implements OnInit {
 
   private setLiveInterval() {
     if (this.isLive) {
-      this.intervalEnd = new Date(Date.now());
       const miliDuration: number = Number(this.minDuration) * 60000 + Number(this.secDuration) * 1000;
-      this.intervalBegin = new Date(this.intervalEnd.getTime() - miliDuration);
+      this.interval =  {
+        begin: new Date(Date.now()),
+        end: new Date(this.intervalEnd.getTime() - miliDuration)
+      };
       setTimeout(() => this.setLiveInterval(), 1500);
+      this.withAnimation = false;
       this.timerOn = true;
     } else {
       this.timerOn = false;
     }
   }
 
-  changeMode() {
+  private changeMode() {
     if (this.isLive) {
       if (this.timerOn) {
         return;
       }
       this.setLiveInterval();
     } else {
+      this.withAnimation = true;
       this.changeStart();
       this.changeEnd();
     }

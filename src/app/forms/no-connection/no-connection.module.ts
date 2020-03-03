@@ -1,13 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {NoConnectionComponent} from './no-connection.component';
-
+import { NoConnectionComponent } from './no-connection.component';
 
 @NgModule({
   declarations: [NoConnectionComponent],
-  imports: [
-    CommonModule
-  ],
+  imports: [CommonModule],
   exports: [NoConnectionComponent]
 })
-export class NoConnectionModule { }
+export class NoConnectionModule {}
