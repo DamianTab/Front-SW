@@ -1,20 +1,20 @@
 .navbar-nav {
-    width: 100%;
+  width: 100%;
 }
 
 .nav-item {
-    width: 100%;
-    text-align: center;
+  width: 100%;
+  text-align: center;
 }
 
 @media screen and (max-width: 600px) {
-    .nav-item {
-      float: none;
-      display: block;
-      width: 100%;
-      text-align: center; /* If you want the text to be left-aligned on small screens */
-    }
+  .nav-item {
+    float: none;
+    display: block;
+    width: 100%;
+    text-align: center;
   }
+}
 
 a {
   cursor: pointer;

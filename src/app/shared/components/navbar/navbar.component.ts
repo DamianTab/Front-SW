@@ -15,12 +15,10 @@ import { DbPageFetchService } from '../../services/db-page/db-page-fetch.service
 export class NavbarComponent implements OnInit {
 
   private pageIterator: DbPageIterator<WaterContainer>;
-
   pages = [
     {
       name: "Woda", subpages: []
     },
-
     {
       name: "Anamox", subpages: [
         new RouterElement('Reaktor', 'anamox', 1),
@@ -35,7 +33,6 @@ export class NavbarComponent implements OnInit {
         new RouterElement('Reaktor', 'ags', 3)
       ]
     },
-
     {
       name: "Scenariusz", subpages: [
         new RouterElement('Dostępne scenariusze', 'scenario'),
@@ -45,7 +42,6 @@ export class NavbarComponent implements OnInit {
         new RouterElement('Scenariusz', 'scenario', 3)
       ]
     },
-
     {
       name: "Ustawienia", subpages: [
         new RouterElement('Zmień dane', 'settings/data'),
