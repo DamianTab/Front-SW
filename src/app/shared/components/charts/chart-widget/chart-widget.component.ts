@@ -14,14 +14,12 @@ import { ChartService } from '../../../services/charts/chart.service';
   styleUrls: ['./chart-widget.component.scss']
 })
 export class ChartWidgetComponent implements OnInit {
-
-  @Input() private readonly title: string = '';
-  @Input() private readonly yLabel: string = '';
-  @Input() private readonly dataType: any;
-
   private interval: ChartService.MetaData;
   private xLabel = '';
   private timerOn: boolean;
+  @Input() readonly title: string = '';
+  @Input() readonly yLabel: string = '';
+  @Input() readonly dataType: any;
   startTime: Date;
   endTime: Date;
   isLive: boolean;
