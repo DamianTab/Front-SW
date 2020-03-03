@@ -9,13 +9,13 @@ export class EncryptionService {
 
   private keys = '123456$#@$^@1ERF';
 
-  encrypt(value): string {
+  public encrypt(value): string {
     const key = CryptoJS.enc.Utf8.parse(this.keys);
     const iv = CryptoJS.enc.Utf8.parse(this.keys);
     const encrypted = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(value.toString()), key,
       {
         keySize: 128 / 8,
-        iv: iv,
+        iv,
         mode: CryptoJS.mode.CBC,
         padding: CryptoJS.pad.Pkcs7
       });
@@ -23,12 +23,12 @@ export class EncryptionService {
     return encrypted.toString();
   }
 
-  decrypt(value): string {
+  public decrypt(value): string {
     const key = CryptoJS.enc.Utf8.parse(this.keys);
     const iv = CryptoJS.enc.Utf8.parse(this.keys);
     const decrypted = CryptoJS.AES.decrypt(value, key, {
       keySize: 128 / 8,
-      iv: iv,
+      iv,
       mode: CryptoJS.mode.CBC,
       padding: CryptoJS.pad.Pkcs7
     });

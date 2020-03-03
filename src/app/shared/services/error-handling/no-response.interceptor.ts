@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
-import { Observable, of, throwError, TimeoutError } from 'rxjs';
+import { Observable, throwError, TimeoutError } from 'rxjs';
 import { Router } from '@angular/router';
-import { catchError, timeout } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class NoResponseInterceptor implements HttpInterceptor {

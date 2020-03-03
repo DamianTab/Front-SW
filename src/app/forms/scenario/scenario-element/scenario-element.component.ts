@@ -12,8 +12,8 @@ export class ScenarioElementComponent implements OnInit {
   @Input() readonly elemId: number;
   @Output() deleteElem: EventEmitter<number> = new EventEmitter();
   phases: SelectItem[];
-  selectedPhase: string;
   selectedDuration: number;
+  selectedPhase: string;
 
   ngOnInit() {
     this.phases = [

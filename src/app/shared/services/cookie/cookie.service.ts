@@ -11,18 +11,18 @@ export class CookieService {
               private encryptionService: EncryptionService) { }
 
 
-  setCookieValue(cookieName: string, value: string, lifeTime?, isSecure = false) {
+  public setCookieValue(cookieName: string, value: string, lifeTime?, isSecure = false) {
     // name, value, ?expires, ?path, ?domain, ?secure, ?sameSite
     const encrypt = this.encryptionService.encrypt(value);
     this.cookieServiceExternal.set(cookieName, encrypt, lifeTime, undefined, undefined, isSecure);
   }
 
-  getCookieValue(cookieName: string): string {
+  public getCookieValue(cookieName: string): string {
     const decryptedCookie = this.cookieServiceExternal.get(cookieName);
     return this.encryptionService.decrypt(decryptedCookie);
   }
 
-  clearAllCookies() {
+  public clearAllCookies() {
     // ?path,?domain
     this.cookieServiceExternal.deleteAll();
   }
