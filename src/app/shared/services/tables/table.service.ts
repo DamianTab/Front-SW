@@ -21,7 +21,7 @@ export class TableService {
 
   private getElementsData(dataType: string, stationId: number, totalElementCounter: number, elementLimit: number, pageMaxNumber: number, nextPage: any): Observable<any> {
     return new Observable(subscriber => {
-      this.reqService.getStates(`/water/${stationId}/${dataType}/${elementLimit--}/states/`, pageMaxNumber, nextPage).subscribe(data => {
+      this.reqService.getMultipleStatesPages(`/water/${stationId}/${dataType}/${elementLimit--}/states/`, pageMaxNumber, nextPage).subscribe(data => {
         if (elementLimit > 0) {
           this.getElementsData(dataType, stationId, totalElementCounter, elementLimit, pageMaxNumber, nextPage).subscribe(childData => {
             this.fillWithData(childData, data, dataType, elementLimit+1);
