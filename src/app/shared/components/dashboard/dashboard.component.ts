@@ -1,4 +1,10 @@
-import { Component, Input, ContentChildren, QueryList, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  ContentChildren,
+  QueryList,
+  ChangeDetectorRef,
+  AfterViewInit
+} from '@angular/core';
 import { TrackComponent } from './track/track.component';
 
 /*
@@ -34,21 +40,13 @@ import { TrackComponent } from './track/track.component';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent {
+export class DashboardComponent implements AfterViewInit {
   @ContentChildren(TrackComponent) readonly tracks: QueryList<TrackComponent>;
 
   constructor(private cdr: ChangeDetectorRef) {}
 
   ngAfterViewInit(): void {
     this.cdr.detectChanges();
-    this.replaceInnerCssClass('ui-card', 'sw-ui-card')
-  }
-
-  replaceInnerCssClass(searchValue: string, replaceValue): void {
-    const collection = document.getElementsByClassName(searchValue)
-    for(const i in collection) {
-      const element = collection.item(Number.parseInt(i))
-      element.className = element.className.replace(searchValue, replaceValue)
-    }
+    $(`.ui-card`).removeClass('ui-card').addClass('sw-ui-card');
   }
 }

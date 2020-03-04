@@ -30,7 +30,7 @@ export class WaterControllerComponent implements OnInit {
     private requestService: RequestService
   ) {}
 
-  public ngOnInit() {
+  ngOnInit(): void {
     this.prvView = new WaterControllerCss(
       this.prvChecked,
       () => !this.blocked,

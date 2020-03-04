@@ -1,5 +1,5 @@
-import { Component, OnInit, ContentChildren, QueryList, Input } from '@angular/core';
-import { TrackWidgetComponent }from './trackwidget/trackwidget.component'
+import { Component, ContentChildren, QueryList, Input } from '@angular/core';
+import { TrackWidgetComponent } from './trackwidget/trackwidget.component';
 
 @Component({
   selector: 'sw-track',

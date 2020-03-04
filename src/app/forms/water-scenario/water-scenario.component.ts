@@ -25,7 +25,7 @@ export class WaterScenarioComponent implements OnInit {
     this.waterLevels = new Array(5);
   }
 
-  public ngOnInit() {
+  ngOnInit(): void {
     // this.waterID = Number.parseInt(location.pathname.split('/').filter((val: any) => Number(val))[0]);
     this.waterID = 1;
   }
@@ -62,7 +62,7 @@ export class WaterScenarioComponent implements OnInit {
     */
   }
 
-  public changeAccessStatus() {
+  public changeAccessStatus(): void {
     if (this.blocked) {
       this.steeringStateService
         .tryToChangesStationSteeringState(
