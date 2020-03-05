@@ -57,10 +57,10 @@ export class ChartService {
     let newData: ChartService.Data = { x: [], y: [], timestamps: [] };
     return new Observable(subscriber => {
       this.reqService
-        .getStates(
-          `${url}?from=${interval.begin.toISOString()}&to=${interval.end.toISOString()}`,
+        .getMultipleStatesPages(
+          url,
           Infinity,
-          null
+          null, {datetime: {from: interval.begin.toISOString(), to: interval.end.toISOString()}}
         )
         .subscribe((data: any[]) => {
           data.forEach(elem => {
@@ -85,7 +85,7 @@ export class ChartService {
   ): Observable<any> {
     let newData: ChartService.Data = { x: [], y: [], timestamps: [] };
     return new Observable(subscriber => {
-      this.reqService.getStates(url, 1, null).subscribe((data: any[]) => {
+      this.reqService.getSingleStatesPage(url).subscribe(data => {
         data.forEach(elem => {
           const date = new Date(elem.timestamp);
           if (date.getTime() > actualData.timestamps[actualData.x.length - 1]) {

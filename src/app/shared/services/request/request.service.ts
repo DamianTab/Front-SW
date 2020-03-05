@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Page } from 'src/app/shared/models/page';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,7 @@ export class RequestService {
     return new Observable(subscriber => {
       this.httpClient.get<Page<any>>(endpoint, {params: this.setHttpParams(params)}).subscribe(data => {
         if (data.next !== null && --pageMaxNumber > 0) {
-          this.getMultipleStatesPages(data.next.split('00')[1], pageMaxNumber, nextPage).subscribe(childData => {
+          this.getMultipleStatesPages(data.next.split('localhost:4200')[1].replace(/%3A/g,':'), pageMaxNumber, nextPage).subscribe(childData => {
             subscriber.next(data.results.concat(childData));
             subscriber.complete();
           });
@@ -32,8 +32,13 @@ export class RequestService {
     })
   }
 
-  public getSingleStatesPage(endpoint: string, nextPage?: any, params?: {page?: number, limit?: number, datetime?: {from: string, to: string}}) {
-
+  public getSingleStatesPage(endpoint: string, nextPage?: any, params?: {page?: number, limit?: number, datetime?: {from: string, to: string}}): Observable<any> {
+    return new Observable(subscriber => {
+      this.httpClient.get<Page<any>>(endpoint, {params: this.setHttpParams(params)}).subscribe(data => {
+        subscriber.next(data.results);
+        subscriber.complete();
+      });
+    });
   }
 
   setOnOff(endpoint: string, body: any): Observable<any> {
@@ -41,6 +46,7 @@ export class RequestService {
   }
 
   private setHttpParams(params: {page?: number, limit?: number, datetime?: {from: string, to: string}}):HttpParams {
+    if (!params) return undefined;
     let httpParams = new HttpParams();
     if (params.page) httpParams = httpParams.append('page', params.page.toString());
     if (params.limit) httpParams = httpParams.append('limit', params.limit.toString());
