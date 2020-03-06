@@ -15,6 +15,7 @@ import { ChartService } from '../../../services/charts/chart.service';
 })
 export class ChartWidgetComponent implements OnInit {
   private timerOn: boolean;
+  private previousPeriod: number;
   @Input() readonly title: string = '';
   @Input() readonly yLabel: string = '';
   @Input() readonly dataType: any;
@@ -25,7 +26,7 @@ export class ChartWidgetComponent implements OnInit {
   isLive: boolean;
   secDuration: string;
   minDuration: string;
-  withAnimation: boolean;
+  makeAnimation: boolean;
 
   ngOnInit() {
     this.interval = {
@@ -33,16 +34,14 @@ export class ChartWidgetComponent implements OnInit {
       end: new Date(Date.now())
     };
     this.intervalBegin.setDate(this.intervalBegin.getDate() - 7);
-
     this.startTime = new Date(this.intervalBegin);
     this.endTime = new Date(this.intervalEnd);
-
     this.minDuration = '1';
     this.secDuration = '0';
-
+    this.previousPeriod = 60;
     this.timerOn = false;
-    this.withAnimation = true;
-
+    this.isLive = false;
+    this.makeAnimation = true;
     this.checkXLabel();
   }
 
@@ -96,13 +95,13 @@ export class ChartWidgetComponent implements OnInit {
   }
 
   changeMode() {
+    this.makeAnimation = true;
     if (this.isLive) {
       if (this.timerOn) {
         return;
       }
       this.setLiveInterval();
     } else {
-      this.withAnimation = true;
       this.changeStart();
       this.changeEnd();
     }
@@ -157,16 +156,24 @@ export class ChartWidgetComponent implements OnInit {
   }
 
   private setLiveInterval() {
+    const miliDuration: number =
+      Number(this.minDuration) * 60000 + Number(this.secDuration) * 1000;
+    this.interval = {
+      end: new Date(Date.now()),
+      begin: new Date(Date.now() - miliDuration)
+    };
+    if (this.previousPeriod !== miliDuration / 1000){
+      this.makeAnimation = true;
+    }
+    this.previousPeriod = miliDuration / 1000;
+    setTimeout(() => this.checkIfModeChanged(), 1500);
+    this.timerOn = true;
+  }
+
+  private checkIfModeChanged() {
     if (this.isLive) {
-      const miliDuration: number =
-        Number(this.minDuration) * 60000 + Number(this.secDuration) * 1000;
-      this.interval = {
-        begin: new Date(Date.now()),
-        end: new Date(this.intervalEnd.getTime() - miliDuration)
-      };
-      setTimeout(() => this.setLiveInterval(), 1500);
-      this.withAnimation = false;
-      this.timerOn = true;
+      this.makeAnimation = false;
+      this.setLiveInterval();
     } else {
       this.timerOn = false;
     }
