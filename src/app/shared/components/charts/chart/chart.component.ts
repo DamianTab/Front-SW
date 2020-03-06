@@ -42,7 +42,7 @@ export class ChartComponent implements OnChanges {
 
   private static convertDateToLabel(date: Date): string {
     // tslint:disable-next-line:max-line-length
-    return `${date.getUTCFullYear()}-${date.getUTCMonth() + 1}-${date.getUTCDate()} ${date.getUTCHours()}:${date.getUTCMinutes()}:${date.getUTCSeconds()}.${date.getUTCMilliseconds()}`;
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDay()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}.${date.getMilliseconds()}`;
   }
 
   setInitialOptions(): void {
