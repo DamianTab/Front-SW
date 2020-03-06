@@ -36,13 +36,13 @@
       <label>Przekrój czasu:</label>
       <div class="ui-inputgroup">
         <span class="ui-inputgroup-addon">minuty</span>
-        <input type="text" (focusout)="zeroWhenEmpty(minDuration)" pKeyFilter="pint" [(ngModel)]="minDuration">
+        <input type="text" maxlength="6" (focusout)="zeroWhenEmpty(minDuration)" pKeyFilter="pint" [(ngModel)]="minDuration">
       </div>
     </div>
     <div class="p-col">
       <div class="ui-inputgroup">
         <span class="ui-inputgroup-addon">sekundy</span>
-        <input type="text" (focusout)="zeroWhenEmpty(secDuration)" pKeyFilter="pint" [(ngModel)]="secDuration">
+        <input type="text" maxlength="6" (focusout)="zeroWhenEmpty(secDuration)" pKeyFilter="pint" [(ngModel)]="secDuration">
       </div>
     </div>
 
