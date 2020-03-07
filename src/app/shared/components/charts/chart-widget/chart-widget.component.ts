@@ -14,27 +14,25 @@ import { ChartService } from '../../../services/charts/chart.service';
   styleUrls: ['./chart-widget.component.scss']
 })
 export class ChartWidgetComponent implements OnInit {
-
+  private timerOn: boolean;
   @Input() readonly title: string = '';
   @Input() readonly yLabel: string = '';
   @Input() readonly dataType: any;
-
-  private interval: ChartService.MetaData;
-  private xLabel = '';
+  interval: ChartService.MetaData;
+  xLabel = '';
   startTime: Date;
   endTime: Date;
   isLive: boolean;
   secDuration: string;
   minDuration: string;
-  timerOn: boolean;
+  withAnimation: boolean;
 
   ngOnInit() {
-
     this.interval = {
       begin: new Date(Date.now()),
       end: new Date(Date.now())
     };
-    this.intervalBegin.setDate( this.intervalBegin.getDate() - 7 );
+    this.intervalBegin.setDate(this.intervalBegin.getDate() - 7);
 
     this.startTime = new Date(this.intervalBegin);
     this.endTime = new Date(this.intervalEnd);
@@ -43,12 +41,16 @@ export class ChartWidgetComponent implements OnInit {
     this.secDuration = '0';
 
     this.timerOn = false;
+    this.withAnimation = true;
 
     this.checkXLabel();
   }
 
-  saveChartImg() {
-    const canvas = document.querySelector(`sw-chart-widget[dataType=${this.dataType}]`).getElementsByTagName('canvas').item(0);
+  public saveChartImg() {
+    const canvas = document
+      .querySelector(`sw-chart-widget[dataType=${this.dataType}]`)
+      .getElementsByTagName('canvas')
+      .item(0);
     const img = document.createElement('canvas');
 
     const ctx = img.getContext('2d');
@@ -59,7 +61,6 @@ export class ChartWidgetComponent implements OnInit {
     ctx.globalCompositeOperation = 'destination-over';
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, img.width, img.height);
-
 
     const url = img.toDataURL('image/png');
     const link = document.createElement('a');
@@ -94,22 +95,17 @@ export class ChartWidgetComponent implements OnInit {
     this.checkXLabel();
   }
 
-  private parseDate(date: Date): string {
-    return date.toISOString().slice(0, 16);
-  }
-
-  private checkXLabel(): void {
-    if (this.dayEquals(this.interval.begin, this.interval.end)) {
-      this.xLabel = 'Godzina';
+  changeMode() {
+    if (this.isLive) {
+      if (this.timerOn) {
+        return;
+      }
+      this.setLiveInterval();
     } else {
-      this.xLabel = 'Dzień';
+      this.withAnimation = true;
+      this.changeStart();
+      this.changeEnd();
     }
-  }
-
-  private dayEquals(a: Date, b: Date): boolean {
-    return a.getFullYear() == b.getFullYear() &&
-    a.getMonth() == b.getMonth() &&
-    a.getDate() == b.getDate();
   }
 
   changeStart() {
@@ -126,7 +122,7 @@ export class ChartWidgetComponent implements OnInit {
       if (this.endTime > new Date(Date.now())) {
         this.endTime = new Date(Date.now());
       } else {
-          this.intervalEnd = this.endTime;
+        this.intervalEnd = this.endTime;
       }
     } else {
       this.endTime = new Date(this.startTime);
@@ -144,27 +140,35 @@ export class ChartWidgetComponent implements OnInit {
     }
   }
 
-  private setLiveInterval() {
-    if (this.isLive) {
-      this.intervalEnd = new Date(Date.now());
-      const miliDuration: number = Number(this.minDuration) * 60000 + Number(this.secDuration) * 1000;
-      this.intervalBegin = new Date(this.intervalEnd.getTime() - miliDuration);
-      setTimeout(() => this.setLiveInterval(), 1500);
-      this.timerOn = true;
+  private checkXLabel(): void {
+    if (this.dayEquals(this.interval.begin, this.interval.end)) {
+      this.xLabel = 'Godzina';
     } else {
-      this.timerOn = false;
+      this.xLabel = 'Dzień';
     }
   }
 
-  changeMode() {
+  private dayEquals(a: Date, b: Date): boolean {
+    return (
+      a.getFullYear() === b.getFullYear() &&
+      a.getMonth() === b.getMonth() &&
+      a.getDate() === b.getDate()
+    );
+  }
+
+  private setLiveInterval() {
     if (this.isLive) {
-      if (this.timerOn) {
-        return;
-      }
-      this.setLiveInterval();
+      const miliDuration: number =
+        Number(this.minDuration) * 60000 + Number(this.secDuration) * 1000;
+      this.interval = {
+        begin: new Date(Date.now()),
+        end: new Date(this.intervalEnd.getTime() - miliDuration)
+      };
+      setTimeout(() => this.setLiveInterval(), 1500);
+      this.withAnimation = false;
+      this.timerOn = true;
     } else {
-      this.changeStart();
-      this.changeEnd();
+      this.timerOn = false;
     }
   }
 }

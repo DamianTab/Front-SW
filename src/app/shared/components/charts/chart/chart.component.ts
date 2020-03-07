@@ -1,5 +1,6 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
-import { ChartService } from '../../../services/charts/chart.service'
+import { Component, Input, SimpleChanges, AfterViewInit, OnChanges } from '@angular/core';
+import { ChartService } from '../../../services/charts/chart.service';
+import { Observable } from 'rxjs';
 
 /* Example:
  * <sw-chart dataType="oxygen" [interval]="interval"></sw-chart>
@@ -20,91 +21,124 @@ import { ChartService } from '../../../services/charts/chart.service'
   selector: 'sw-chart',
   templateUrl: './chart.component.html'
 })
-export class ChartComponent {
-    private data: any;
-    private options: any;
+export class ChartComponent implements AfterViewInit, OnChanges {
+  private receivedData: ChartService.Data;
+  private data: any;
+  private options: any;
+  @Input() readonly lineColor: string = this.randomColor();
+  @Input() readonly title: string = 'Oxygen';
+  @Input() readonly fontSize: number = 16;
+  @Input() readonly shadow: boolean = true;
+  @Input() readonly xLabel: string = '';
+  @Input() readonly yLabel: string = '';
+  @Input() readonly dataType: any;
+  @Input() readonly withAnimation: boolean;
+  @Input() readonly interval: ChartService.MetaData;
 
-    @Input() readonly lineColor: string = this.randomColor();
-    @Input() readonly title: string = 'Oxygen';
-    @Input() readonly fontSize: number = 16;
-    @Input() readonly shadow: boolean = true;
-    @Input() readonly xLabel: string = '';
-    @Input() readonly yLabel: string = '';
+  constructor(private service: ChartService) { }
 
-    @Input() readonly dataType: any;
-    @Input() interval: ChartService.MetaData;
-
-    constructor(private service: ChartService) { }
-
-    ngOnChanges(changes: SimpleChanges): void {
-
-        if(changes.interval.currentValue != changes.interval.previousValue) {
-            this.interval = changes.interval.currentValue
-            this.ngAfterViewInit()
+  public actualizeChart(data: ChartService.Data, doAnimation: boolean): void {
+    this.data = {
+      labels: data.x,
+      datasets: [
+        {
+          data: data.y,
+          fill: this.shadow,
+          borderColor: this.lineColor
         }
+      ]
+    };
+    if (doAnimation) {
+      this.options.animation.duration = 1;
+    } else {
+      this.options.animation.duration = 0;
     }
+  }
 
-    ngAfterViewInit(): void {
-        const serviceData = this.getServiceData()
-
-        this.data = {
-            labels: serviceData.x,
-            datasets: [
-                {
-                    data: serviceData.y,
-                    fill: this.shadow,
-                    borderColor: this.lineColor
-                }
-            ]
+  ngAfterViewInit(
+    data: ChartService.Data = { x: [], y: [], timestamps: [] }
+  ): void {
+    this.data = {
+      labels: data.x,
+      datasets: [
+        {
+          data: data.y,
+          fill: this.shadow,
+          borderColor: this.lineColor
         }
+      ]
+    };
+    this.options = {
+      animation: {
+        duration: 1
+      },
+      title: {
+        display: this.title !== '',
+        text: this.title,
+        fontSize: this.fontSize
+      },
+      legend: {
+        display: false
+      },
+      scales: {
+        xAxes: [
+          {
+            scaleLabel: {
+              display: this.xLabel !== '',
+              labelString: this.xLabel
+            }
+          }
+        ],
+        yAxes: [
+          {
+            scaleLabel: {
+              display: this.yLabel !== '',
+              labelString: this.yLabel
+            }
+          }
+        ]
+      },
 
-        this.options = {
-            title: {
-                display: this.title !== '',
-                text: this.title,
-                fontSize: this.fontSize
-            },
-            legend: {
-                display: false
-            },
-            scales: {
-                xAxes: [{
-                    scaleLabel: {
-                      display: this.xLabel !== '',
-                      labelString: this.xLabel
-                    }
-                }],
-                yAxes: [{
-                  scaleLabel: {
-                    display: this.yLabel !== '',
-                    labelString: this.yLabel
-                  }
-                }]
-            },
+      responsive: true,
+      maintainAspectRatio: true,
+      aspectRatio: 1
+    };
+  }
 
-            responsive: true,
-            maintainAspectRatio: true,
-            aspectRatio: 1
-        }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.interval.currentValue !== changes.interval.previousValue) {
+      const doAnimation = this.withAnimation;
+      this.getServiceData(doAnimation).subscribe(data => {
+        this.actualizeChart(data, doAnimation);
+        this.receivedData = data;
+      });
     }
+  }
 
-    private getServiceData(): ChartService.Data {
-        return this.service[this.dataType](this.interval)
-    }
+  private getServiceData(update: boolean): Observable<ChartService.Data> {
+    return this.service[this.dataType](
+      this.interval,
+      this.receivedData,
+      update
+    );
+  }
 
-    private randomColor(): string {
-        var r: number, g: number, b: number;
-        r = Math.round(Math.random()*255);
-        g = Math.round(Math.random()*255);
-        b = Math.round(Math.random()*255);
-        return this.rgb2hex(`rgba(${r}, ${g}, ${b}, 1)`)
-    }
+  private randomColor(): string {
+    const r: number = Math.round(Math.random() * 255);
+    const g: number = Math.round(Math.random() * 255);
+    const b: number = Math.round(Math.random() * 255);
+    return this.rgb2hex(`rgba(${r}, ${g}, ${b}, 1)`);
+  }
 
-    private rgb2hex(rgb: string): string {
-        var setRgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
-        return "#" +
-        ("0" + parseInt(setRgb[1],10).toString(16)).slice(-2) +
-        ("0" + parseInt(setRgb[2],10).toString(16)).slice(-2) +
-        ("0" + parseInt(setRgb[3],10).toString(16)).slice(-2);
-    }
+  private rgb2hex(rgb: string): string {
+    const setRgb = rgb.match(
+      /^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i
+    );
+    return (
+      '#' +
+      ('0' + parseInt(setRgb[1], 10).toString(16)).slice(-2) +
+      ('0' + parseInt(setRgb[2], 10).toString(16)).slice(-2) +
+      ('0' + parseInt(setRgb[3], 10).toString(16)).slice(-2)
+    );
+  }
 }

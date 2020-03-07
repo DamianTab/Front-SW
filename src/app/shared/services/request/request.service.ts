@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Page } from 'src/app/models/page';
+import { Page } from 'src/app/shared/models/page';
 import { HttpClient } from '@angular/common/http';
-import {TableComponent} from "../../components/table/table.component";
 
 @Injectable({
   providedIn: 'root'

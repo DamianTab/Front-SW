@@ -12,8 +12,8 @@ import { Subscription } from 'rxjs';
 })
 
 export class LoginComponent implements OnInit, OnDestroy {
-  private _subscription: Subscription;
-  private _firstLoading = true;
+  private subscription: Subscription;
+  private firstLoading = true;
 
   loginForm: FormGroup;
   loading = false;
@@ -38,15 +38,15 @@ export class LoginComponent implements OnInit, OnDestroy {
       password: ['', Validators.required]
     });
 
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
 
-    this._subscription = this.authenticationService.isLogIn$.subscribe(isLogin => {
+    this.subscription = this.authenticationService.isLogIn$.subscribe(isLogin => {
       if (isLogin) {
         this.router.navigate([this.returnUrl]);
         this.toastService.success('Pomyślnie zalogowano');
       } else {
-        if (this._firstLoading) {
-          this._firstLoading = false;
+        if (this.firstLoading) {
+          this.firstLoading = false;
         } else {
           this.toastService.warn('Niepoprawne dane logowania');
         }
@@ -55,8 +55,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this._subscription) {
-      this._subscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
   }
 
