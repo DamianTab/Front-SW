@@ -78,15 +78,15 @@ export class NavbarComponent implements OnInit {
     // .init('/scenario/', { 'callback': () => this.initScenario() });
   }
 
-  public onClick(elemenet: RouterElement): void {
-    if (elemenet.id) {
-      this.router.navigate([elemenet.link, elemenet.id]);
-    } else if (elemenet.link === 'settings/logout') {
+  public onClick(element: RouterElement): void {
+    if (element.id) {
+      this.router.navigate([element.link, element.id]);
+    } else if (element.link === 'settings/logout') {
       this.auth.logout();
-    } else if (elemenet.link === 'settings/data') {
+    } else if (element.link === 'settings/data') {
       this.document.location.href = 'http://localhost:8000/admin/';
     } else {
-      this.router.navigate([elemenet.link]);
+      this.router.navigate([element.link]);
     }
   }
 

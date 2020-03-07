@@ -5,7 +5,7 @@ import { Directive } from '@angular/core';
 @Directive(null)
 export class DbPageIteratorDirective<T> {
     private page: DbPage<T>;
-    private task: Task;
+    private task: Promise<any>;
 
     constructor(private retrieveData: DbPageFetchService<T>,
                 private onErrorContinue: boolean = false
@@ -120,10 +120,8 @@ export class DbPageIteratorDirective<T> {
     }
 
     private addSyncTask(callback: any): void {
-        (this.task as any).then((async () => {
-            await this.task;
-            await callback();
-        })());
+        const nextTask = async () => { await callback(); };
+        this.task = this.task.then(() => nextTask());
     }
 
     private async download(
@@ -142,5 +140,3 @@ export class DbPageIteratorDirective<T> {
             });
     }
 }
-
-type Task = Promise<any> | ((value: any) => any);

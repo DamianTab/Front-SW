@@ -23,7 +23,7 @@ export class WaterScenarioComponent implements OnInit {
     private http: HttpClient,
     private steeringStateService: SteeringStateService
   ) {
-    this.waterLevels = new Array(5);
+    this.waterLevels = new Array(5).fill({ min: undefined, max: undefined });
   }
 
   ngOnInit(): void {
@@ -44,10 +44,10 @@ export class WaterScenarioComponent implements OnInit {
     }
 
     const scenario: TempScenario = {
-      cMin: this.waterLevels.map(value => value.min),
-      cMax: this.waterLevels.map(value => value.max),
-      totalTime: this.totalTime,
-      filterTime: this.filterTime
+      c_min: this.waterLevels.map(value => value.min),
+      c_max: this.waterLevels.map(value => value.max),
+      total_time: this.totalTime,
+      filter_time: this.filterTime
     };
 
     this.http.post(`/water/${this.waterID}/automatic/`, scenario).subscribe(

@@ -19,14 +19,14 @@ import { TableService } from '../../services/tables/table.service';
 })
 export class TableComponent implements OnInit {
   private readonly pageMaxNumber: number = 4;
-  private cols: any[] = [];
-  private rows: any[]; // rows = visible rows + invisible rows
   private data: any[]; // data = visible rows
-  private loading: boolean;
-  private selectedRows: any[] = [];
   private exportColumns: any;
   private actualPageMaxNumber: number;
-  private nextPage = { endpoint: null };
+  cols: any[] = [];
+  rows: any[]; // rows = visible rows + invisible rows
+  loading: boolean;
+  selectedRows: any[] = [];
+  nextPage = { endpoint: null };
 
   @Input() readonly name: string = 'untitled';
   @Input() readonly maxRows: number = 10;
