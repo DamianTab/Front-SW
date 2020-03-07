@@ -26,32 +26,33 @@ export class DbPageIteratorDirective<T> {
     loadAll({ url, callback, errorCallback }: { url: string; callback?: CallableFunction; errorCallback?: CallableFunction; }): this {
         this.addSyncTask(async () => {
 
-            this.init(url, {callback: async () => {
+            const worker = new DbPageIteratorDirective<T>(this.retrieveData, this.onErrorContinue);
 
-                const start = this.page.results;
+            this.page = {
+                count: 0,
+                next: null,
+                previous: null,
+                results: []
+            };
 
-                this.page = {
-                    count: 0,
-                    next: null,
-                    previous: null,
-                    results: []
-                };
+            worker.init(url, {callback: async () => {
+
+                const left = new DbPageIteratorDirective<T>(this.retrieveData, this.onErrorContinue);
+                const right = new DbPageIteratorDirective<T>(this.retrieveData, this.onErrorContinue);
 
                 const prev = [];
                 const next = [];
 
-                while (await this.hasNext()) {
-                    this.loadNext({ callback: () => next.push(...this.results), offset: 1, errorCallback });
+                while (await right.hasNext(false)) {
+                    right.loadNext({ callback: () => next.push(...right.page.results), offset: 1, errorCallback });
                 }
 
-                this.init(url, {callback: errorCallback});
-                while (await this.hasPrevious()) {
-                    this.loadPrevious({ callback: () => prev.push(...this.results), offset: 1, errorCallback });
+                while (await left.hasPrevious(false)) {
+                    left.loadPrevious({ callback: () => prev.push(...left.page.results), offset: 1, errorCallback });
                 }
 
-                this.page.results = [...prev, ...start, ...next];
+                this.page.results = [...prev, ...worker.page.results, ...next];
                 this.page.count = this.page.results.length;
-                console.log(`${prev}, ${start} ${next}`);
                 await callback();
 
             }, errorCallback});
@@ -66,7 +67,7 @@ export class DbPageIteratorDirective<T> {
             const offsetArg: number = offset === undefined ? 1 : offset;
 
             for (let i = 0; i < offsetArg; i++) {
-                if (await this.hasNext()) {
+                if (this.hasNext()) {
                     if (i + 1 === offset) {
                         await this.download({ url: this.page.next, callback, errorCallback });
                     } else {
@@ -87,7 +88,7 @@ export class DbPageIteratorDirective<T> {
             const offsetArg: number = offset === undefined ? 1 : offset;
 
             for (let i = 0; i < offsetArg; i++) {
-                if (await this.hasNext()) {
+                if (this.hasPrevious()) {
                     if (i + 1 === offset) {
                         await this.download({ url: this.page.previous, callback, errorCallback });
                     } else {
@@ -101,18 +102,26 @@ export class DbPageIteratorDirective<T> {
         return this;
     }
 
-    hasNext(): Promise<boolean> {
-        this.addSyncTask((async () => {
+    hasNext(sync: boolean = true): boolean | Promise<boolean> {
+        if (sync) {
             return this.page.next !== null;
-        }));
-        return this.task as Promise<boolean>;
+        } else {
+            this.addSyncTask((async () => {
+                return this.page.next !== null;
+            }));
+            return this.task as Promise<boolean>;
+        }
     }
 
-    hasPrevious(): Promise<boolean> {
-        this.addSyncTask((async () => {
+    hasPrevious(sync: boolean = true): boolean | Promise<boolean> {
+        if (sync) {
             return this.page.previous !== null;
-        }));
-        return this.task as Promise<boolean>;
+        } else {
+            this.addSyncTask((async () => {
+                return this.page.previous !== null;
+            }));
+            return this.task as Promise<boolean>;
+        }
     }
 
     get results(): T[] {
