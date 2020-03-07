@@ -120,8 +120,8 @@ export class DbPageIteratorDirective<T> {
     }
 
     private addSyncTask(callback: any): void {
-        const nextTask = async () => { await callback(); };
-        this.task = this.task.then(() => nextTask());
+        const nextTask = async (data) => await callback(data);
+        this.task = this.task.then(nextTask);
     }
 
     private async download(
