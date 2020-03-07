@@ -6,6 +6,7 @@ import { SteeringStateService } from '../../shared/services/steering-state/steer
 import { SteeringState } from 'src/app/shared/models/steering-state';
 
 @Component({
+  /* tslint:disable-next-line */
   selector: 'sw-water-scenario',
   templateUrl: './water-scenario.component.html',
   styleUrls: ['./water-scenario.component.scss']

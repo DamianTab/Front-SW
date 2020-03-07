@@ -1,4 +1,5 @@
+/* tslint:disable */
 export class PumpState {
-    pumpState: boolean;
+    pump_state: boolean;
     timestamp: string;
 }

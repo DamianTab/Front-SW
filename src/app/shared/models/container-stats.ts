@@ -1,8 +1,9 @@
 import { SteeringState } from './steering-state';
 import { User } from './user';
 
+/* tslint:disable */
 export class ContainerStats {
-  steeringState: SteeringState;
-  manualSteeringUser: null | User;
+  steering_state: SteeringState;
+  manual_steering_user: null | User;
   timestamp: string;
 }

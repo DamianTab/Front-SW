@@ -36,6 +36,7 @@ import { TrackComponent } from './track/track.component';
  * styleClass - p-card styleClass
  */
 @Component({
+  /* tslint:disable-next-line */
   selector: 'sw-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']

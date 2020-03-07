@@ -8,7 +8,8 @@ import { WaterContainer } from '../../models/water-container';
 import { DbPageFetchService } from '../../services/db-page/db-page-fetch.service';
 
 @Component({
-  selector: "sw-navbar",
+  /* tslint:disable-next-line */
+  selector: 'sw-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })

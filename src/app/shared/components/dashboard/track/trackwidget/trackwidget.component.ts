@@ -1,6 +1,7 @@
 import { Component, ViewChild, TemplateRef, Input } from '@angular/core';
 
 @Component({
+  /* tslint:disable-next-line */
   selector: 'sw-track-widget',
   templateUrl: './trackwidget.component.html'
 })

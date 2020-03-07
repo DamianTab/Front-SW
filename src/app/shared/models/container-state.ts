@@ -1,4 +1,5 @@
+/* tslint:disable */
 export class ContainerState {
-    containerState: number;
-    timestamp: string;
+  container_state: number;
+  timestamp: string;
 }
