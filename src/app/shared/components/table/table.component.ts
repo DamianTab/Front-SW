@@ -12,18 +12,19 @@ import { TableService } from '../../services/tables/table.service';
  * b) maxRows - maximum rows per table page
  */
 @Component({
+  // tslint:disable-next-line
   selector: 'sw-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss']
 })
 export class TableComponent implements OnInit {
+  private readonly pageMaxNumber: number = 4;
   private cols: any[] = [];
   private rows: any[]; // rows = visible rows + invisible rows
   private data: any[]; // data = visible rows
   private loading: boolean;
   private selectedRows: any[] = [];
   private exportColumns: any;
-  private readonly pageMaxNumber: number = 4;
   private actualPageMaxNumber: number;
   private nextPage = { endpoint: null };
 
