@@ -9,32 +9,32 @@
   </div>
 </div>
 <div class="p-grid p-justify-between">
-    <div class="p-col-12 p-sm-6">
-        <h5>Poziom wody w zbiorniku reakcji (C1):</h5>
-        <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Minimum" [(ngModel)]="c1_min">
-        <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Maximum" [(ngModel)]="c1_max">
-    </div>
-    <div class="p-col-12 p-sm-6">
-        <h5>Poziom wody w filtrze (C2):</h5>
-        <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Minimum" [(ngModel)]="c2_min">
-        <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Maximum" [(ngModel)]="c2_max">
-    </div>
-    <div class="p-col-12 p-sm-6">
-        <h5>Poziom wody w filtrze (C3):</h5>
-        <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Minimum" [(ngModel)]="c3_min">
-        <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Maximum" [(ngModel)]="c3_max">
-    </div>
-    <div class="p-col-12 p-sm-6">
-        <h5>Poziom wody w filtrze (C4):</h5>
-        <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Minimum" [(ngModel)]="c4_min">
-        <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Maximum" [(ngModel)]="c4_max">
-    </div>
-    <div class="p-col-12 p-sm-6">
-        <h5>Poziom wody w zbiorniku wody czystej (C5):</h5>
-        <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Minimum" [(ngModel)]="c5_min">
-        <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Maximum" [(ngModel)]="c5_max">
-    </div>
-    <div class="p-col-12 p-sm-4">
-        <p-button [disabled]="!blocked" label="Uruchom" icon="pi pi-check" (onClick)="confirmScenario()"></p-button>
-    </div>
+  <div class="p-col-12 p-sm-6">
+    <h5>Poziom wody w zbiorniku reakcji (C1):</h5>
+    <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Minimum" [(ngModel)]="waterLevels[0].min">
+    <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Maximum" [(ngModel)]="waterLevels[0].max">
+  </div>
+  <div class="p-col-12 p-sm-6">
+    <h5>Poziom wody w filtrze (C2):</h5>
+    <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Minimum" [(ngModel)]="waterLevels[1].min">
+    <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Maximum" [(ngModel)]="waterLevels[1].max">
+  </div>
+  <div class="p-col-12 p-sm-6">
+    <h5>Poziom wody w filtrze (C3):</h5>
+    <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Minimum" [(ngModel)]="waterLevels[2].min">
+    <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Maximum" [(ngModel)]="waterLevels[2].max">
+  </div>
+  <div class="p-col-12 p-sm-6">
+    <h5>Poziom wody w filtrze (C4):</h5>
+    <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Minimum" [(ngModel)]="waterLevels[3].min">
+    <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Maximum" [(ngModel)]="waterLevels[3].max">
+  </div>
+  <div class="p-col-12 p-sm-6">
+    <h5>Poziom wody w zbiorniku wody czystej (C5):</h5>
+    <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Minimum" [(ngModel)]="waterLevels[4].min">
+    <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Maximum" [(ngModel)]="waterLevels[4].max">
+  </div>
+  <div class="p-col-12 p-sm-4">
+    <p-button [disabled]="!blocked" label="Uruchom" icon="pi pi-check" (onClick)="confirmScenario()"></p-button>
+  </div>
 </div>
