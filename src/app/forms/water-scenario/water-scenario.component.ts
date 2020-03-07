@@ -57,9 +57,6 @@ export class WaterScenarioComponent implements OnInit {
         this.toastService.error('Nie udało się rozpocząć scenariusz');
       }
     );
-    /* jeśli jakiś min/max jest nezdefiniowany,
-     przyjmujemy wykorzystanie zbiornika do minimum/maximum? ~ Nie, wszystkie inputy musza byc zdefiniowane [Adam]
-    */
   }
 
   public changeAccessStatus(): void {
