@@ -37,6 +37,10 @@ export class ChartService {
     return data;
   }
 
+  public actualizeData() {
+
+  }
+
   public waterLevelC1(
     meta: ChartService.MetaData,
     actualData: ChartService.Data = null,
