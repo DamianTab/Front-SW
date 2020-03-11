@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ChartWidgetModule } from '../chart-widget/chart-widget.module'
-import { WaterLevelC5ChartComponent } from './water-level-C5-chart.component'
+import { ChartWidgetModule } from '../chart-widget/chart-widget.module';
+import { WaterLevelC5ChartComponent } from './water-level-C5-chart.component';
 
 @NgModule({
   declarations: [WaterLevelC5ChartComponent],

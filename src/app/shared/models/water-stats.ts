@@ -1,5 +1,6 @@
 import { SteeringState } from './steering-state';
 
+/* tslint:disable */
 export class WaterStats {
     steering_state: SteeringState;
     timestamp: string;
