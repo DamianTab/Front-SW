@@ -6,19 +6,6 @@ import { Observable } from 'rxjs';
 export class ChartService {
   constructor(private reqService: RequestService) {}
 
-  public waterLevelC1(
-    meta: ChartService.MetaData,
-    actualData: ChartService.Data = null,
-    update: boolean = false
-  ) {
-    const url = '/water/1/container/1/states/';
-    if (update) {
-      return this.updateData(meta, url, actualData);
-    } else {
-      return this.getInitialData(meta, url);
-    }
-  }
-
   private static concatNewData(
     newData: ChartService.Data,
     currentData: ChartService.Data
@@ -99,6 +86,19 @@ export class ChartService {
         });
       });
     });
+  }
+
+  public waterLevelC1(
+    meta: ChartService.MetaData,
+    actualData: ChartService.Data = null,
+    update: boolean = false
+  ) {
+    const url = '/water/1/container/1/states/';
+    if (update) {
+      return this.updateData(meta, url, actualData);
+    } else {
+      return this.getInitialData(meta, url);
+    }
   }
 }
 
