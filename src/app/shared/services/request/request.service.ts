@@ -13,7 +13,7 @@ export class RequestService {
   //pageMaxNumber - ilość stron danych do pobrania
   //nextPage - obiekt przechowujący endpoint do ładowania kolejnych danych w tabelach
 
-  getMultipleStatesPages(endpoint: string, pageMaxNumber: number, nextPage?: any, params?: {page?: number, limit?: number, datetime?: {from: string, to: string}}): Observable<any> {
+  public getMultipleStatesPages(endpoint: string, pageMaxNumber: number, nextPage?: any, params?: {page?: number, limit?: number, datetime?: {from: string, to: string}}): Observable<any> {
     return new Observable(subscriber => {
       this.httpClient.get<Page<any>>(endpoint, {params: this.setHttpParams(params)}).subscribe(data => {
         if (data.next !== null && --pageMaxNumber > 0) {
@@ -41,7 +41,7 @@ export class RequestService {
     });
   }
 
-  setOnOff(endpoint: string, body: any): Observable<any> {
+  public setOnOff(endpoint: string, body: any): Observable<any> {
     return this.httpClient.post<Observable<any>>(endpoint, body);
   }
 

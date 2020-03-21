@@ -1,4 +1,7 @@
+/* tslint:disable */
 export class TempScenario {
-    'C_min': number[];
-    'C_max': number[];
+  c_min: number[];
+  c_max: number[];
+  total_time: number;
+  filter_time: number;
 }
