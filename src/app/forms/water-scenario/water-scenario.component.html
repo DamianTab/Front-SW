@@ -8,33 +8,38 @@
     </div>
   </div>
 </div>
-<div class="p-grid p-justify-between">
-  <div class="p-col-12 p-sm-6">
-    <h5>Poziom wody w zbiorniku reakcji (C1):</h5>
-    <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Minimum" [(ngModel)]="waterLevels[0].min">
-    <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Maximum" [(ngModel)]="waterLevels[0].max">
-  </div>
-  <div class="p-col-12 p-sm-6">
-    <h5>Poziom wody w filtrze (C2):</h5>
-    <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Minimum" [(ngModel)]="waterLevels[1].min">
-    <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Maximum" [(ngModel)]="waterLevels[1].max">
-  </div>
-  <div class="p-col-12 p-sm-6">
-    <h5>Poziom wody w filtrze (C3):</h5>
-    <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Minimum" [(ngModel)]="waterLevels[2].min">
-    <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Maximum" [(ngModel)]="waterLevels[2].max">
-  </div>
-  <div class="p-col-12 p-sm-6">
-    <h5>Poziom wody w filtrze (C4):</h5>
-    <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Minimum" [(ngModel)]="waterLevels[3].min">
-    <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Maximum" [(ngModel)]="waterLevels[3].max">
-  </div>
-  <div class="p-col-12 p-sm-6">
-    <h5>Poziom wody w zbiorniku wody czystej (C5):</h5>
-    <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Minimum" [(ngModel)]="waterLevels[4].min">
-    <input [disabled]="!blocked" type="text" pKeyFilter="pint" placeholder="Maximum" [(ngModel)]="waterLevels[4].max">
-  </div>
-  <div class="p-col-12 p-sm-4">
-    <p-button [disabled]="!blocked" label="Uruchom" icon="pi pi-check" (onClick)="confirmScenario()"></p-button>
+<div *ngIf="!blocked">
+  <h4>Ustawienia zbiorników</h4>
+  <h6>Wartości powinny spełniać ograniczenie: min < rd < rg < max < cap</h6>
+  <div class="p-grid nested-grid">
+    <div class="p-col-12">
+      <p-tabMenu [model]="items" [activeItem]="items[0]"></p-tabMenu>
+    </div>
+    <div class="p-col-12 p-sm-6" style="text-align: center;">
+      <sw-container-settings [disabled]="isLoading" [title]="'Zbiornik C'+ visible" [values]="settings['C' + visible]"></sw-container-settings>
+    </div>
+    <div class="p-col-align-end p-justify-start p-col-12 p-sm-6" style="text-align: right; margin-bottom: 0.5vw">
+      <p-button class="p-col-12" label="Przywróć aktualne ustawienia" icon="pi pi-refresh" (onClick)="loadCurrentConfigs()"></p-button>
+      <p-button class="p-col-12" label="Zastosuj zmiany" icon="pi pi-check" (onClick)="confirmScenario()"></p-button>
+    </div>
   </div>
 </div>
+<!--<h3>Nested</h3>-->
+<!--<div class="p-grid nested-grid">-->
+<!--  <div class="p-col-8">-->
+<!--    <div class="p-grid">-->
+<!--      <div class="p-col-6">-->
+<!--        <div class="box">6</div>-->
+<!--      </div>-->
+<!--      <div class="p-col-6">-->
+<!--        <div class="box">6</div>-->
+<!--      </div>-->
+<!--      <div class="p-col-12">-->
+<!--        <div class="box">12</div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <div class="p-col-align-end p-col-4">-->
+<!--    <div class="box box-stretched">4</div>-->
+<!--  </div>-->
+<!--</div>-->

@@ -4,7 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { KeyFilterModule } from 'primeng/keyfilter';
 import { ButtonModule } from 'primeng/button';
 import { WaterScenarioComponent } from './water-scenario.component';
-import { InputSwitchModule } from 'primeng';
+import {InputSwitchModule, MegaMenuModule, MenuModule, TabMenuModule} from 'primeng';
+import { ContainerSettingsModule } from './container-settings/container-settings.module';
 
 @NgModule({
   declarations: [WaterScenarioComponent],
@@ -13,7 +14,11 @@ import { InputSwitchModule } from 'primeng';
     FormsModule,
     KeyFilterModule,
     ButtonModule,
-    InputSwitchModule
+    InputSwitchModule,
+    ContainerSettingsModule,
+    MegaMenuModule,
+    TabMenuModule,
+    MenuModule,
   ],
   exports: [WaterScenarioComponent]
 })

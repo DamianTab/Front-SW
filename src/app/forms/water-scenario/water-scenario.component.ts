@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { TempScenario } from '../../shared/models/temp-scenario';
 import { SteeringStateService } from '../../shared/services/steering-state/steering-state.service';
 import { SteeringState } from 'src/app/shared/models/steering-state';
+import {MenuItem} from 'primeng/api';
 
 @Component({
   /* tslint:disable-next-line */
@@ -14,16 +15,27 @@ import { SteeringState } from 'src/app/shared/models/steering-state';
 export class WaterScenarioComponent implements OnInit {
   private waterID: number;
   blocked: boolean;
-  waterLevels: { min: number; max: number }[];
-  totalTime: number;
-  filterTime: number;
+  settings: TempScenario[];
+  numbers: number[];
+  isLoading: boolean;
+  items: MenuItem[];
+  visible: number;
 
   constructor(
     private toastService: ToastService,
     private http: HttpClient,
     private steeringStateService: SteeringStateService
   ) {
-    this.waterLevels = new Array(5).fill({ min: undefined, max: undefined });
+    this.isLoading = false;
+    this.settings = []; // setting values for specific container
+    this.items = []; // menu elements
+    this.visible = 1; // which container config is visible
+    this.numbers = [1, 2, 3, 4, 5];
+    const component = this;
+    for (const i of this.numbers) {
+      this.settings[`C${i}`] = new TempScenario();
+      this.items.push({label: `Zbiornik ${i}`, command: (() => component.visible = i)});
+    }
   }
 
   ngOnInit(): void {
@@ -32,30 +44,29 @@ export class WaterScenarioComponent implements OnInit {
   }
 
   public confirmScenario(): void {
-    for (const c of this.waterLevels) {
+    for (const i of this.numbers) {
       if (
-        this[c.min] > this[c.max] ||
-        this[c.min] === undefined ||
-        this[c.max] === undefined
+        this.settings[`C${i}`].min > this.settings[`C${i}`].rd ||
+        this.settings[`C${i}`].rd > this.settings[`C${i}`].rg ||
+        this.settings[`C${i}`].rg > this.settings[`C${i}`].max ||
+        this.settings[`C${i}`].max > this.settings[`C${i}`].cap ||
+        this.settings[`C${i}`].min === undefined ||
+        this.settings[`C${i}`].rd === undefined ||
+        this.settings[`C${i}`].rg === undefined ||
+        this.settings[`C${i}`].max === undefined ||
+        this.settings[`C${i}`].cap === undefined
       ) {
-        this.toastService.error('Niepoprawe dane w scenariuszu');
+        this.toastService.error('Niepoprawne ustawienia');
         return;
       }
     }
 
-    const scenario: TempScenario = {
-      c_min: this.waterLevels.map(value => value.min),
-      c_max: this.waterLevels.map(value => value.max),
-      total_time: this.totalTime,
-      filter_time: this.filterTime
-    };
-
-    this.http.post(`/water/${this.waterID}/automatic/`, scenario).subscribe(
-      (response: any) => {
-        this.toastService.success('Pomyślnie rozpoczęto scenariusz');
+    this.http.put(`/water/${this.waterID}/config/`, this.settings).subscribe(
+      () => {
+        this.toastService.success('Pomyślnie zmieniono ustawienia');
       },
-      error => {
-        this.toastService.error('Nie udało się rozpocząć scenariusz');
+      () => {
+        this.toastService.error('Nie udało się zmienić ustawień');
       }
     );
   }
@@ -71,6 +82,7 @@ export class WaterScenarioComponent implements OnInit {
         .subscribe(
           () => {
             this.toastService.info('Uzyskano dostęp wyłączny do stanowiska');
+            this.loadCurrentConfigs();
           },
           () => {
             this.toastService.warn(
@@ -82,5 +94,19 @@ export class WaterScenarioComponent implements OnInit {
     } else {
       this.toastService.info('Zwolniono dostęp do urządzenia');
     }
+  }
+
+  public loadCurrentConfigs() {
+    this.isLoading = true;
+    this.http.get(`/water/${this.waterID}/config/`).subscribe(
+      (data: TempScenario[]) => {
+        this.settings = data;
+        this.isLoading = false;
+      },
+      () => {
+        this.toastService.error('Nie udało się załadować bieżących ustawień');
+        this.isLoading = false;
+      }
+    );
   }
 }
