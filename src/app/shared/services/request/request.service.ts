@@ -17,7 +17,7 @@ export class RequestService {
     return new Observable(subscriber => {
       this.httpClient.get<Page<any>>(endpoint, {params: this.setHttpParams(params)}).subscribe(data => {
         if (data.next !== null && --pageMaxNumber > 0) {
-          this.getMultipleStatesPages(data.next.split('localhost:4200')[1].replace(/%3A/g,':'), pageMaxNumber, nextPage).subscribe(childData => {
+          this.getMultipleStatesPages(data.next.split(window.location.host)[1].replace(/%3A/g,':'), pageMaxNumber, nextPage).subscribe(childData => {
             subscriber.next(data.results.concat(childData));
             subscriber.complete();
           });
