@@ -90,15 +90,16 @@ export class ChartComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.previousData === undefined) { return; }
-    if (changes.interval.currentValue !== changes.interval.previousValue) {
-      if ( this.subscription ) {
-        this.subscription.unsubscribe();
+    if (this.previousData !== undefined) {
+      if (changes.interval.currentValue !== changes.interval.previousValue) {
+        if (this.subscription) {
+          this.subscription.unsubscribe();
+        }
+        this.subscription = this.getServiceData(!this.makeAnimation).subscribe(data => {
+          this.actualizeChart(data, this.makeAnimation);
+          this.previousData = data;
+        });
       }
-      this.subscription = this.getServiceData(this.makeAnimation).subscribe(data => {
-        this.actualizeChart(data, this.makeAnimation);
-        this.previousData = data;
-      });
     }
   }
 
@@ -118,11 +119,7 @@ export class ChartComponent implements OnChanges {
       text: this.title,
       fontSize: this.fontSize
     };
-    if (doAnimation) {
-      this.options.animation.duration = 1500;
-    } else {
-      this.options.animation.duration = 0;
-    }
+    this.options.animation.duration = doAnimation ? 1500 : 0;
   }
 
   private getServiceData(update: boolean): Observable<ChartService.Data> {

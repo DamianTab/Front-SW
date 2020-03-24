@@ -41,7 +41,6 @@ export class ChartService {
     interval: ChartService.MetaData,
     url: string
   ): Observable<any> {
-    console.log('init data');
     let newData: ChartService.Data = { y: [], timestamps: [] };
     return new Observable(subscriber => {
       this.reqService
@@ -67,7 +66,6 @@ export class ChartService {
     url: string,
     actualData: ChartService.Data
   ): Observable<any> {
-    console.log('update data');
     let newData: ChartService.Data = { y: [], timestamps: [] };
     const previousTime: number = actualData.timestamps.length === 0 ? interval.begin.getTime()
       : actualData.timestamps[actualData.timestamps.length - 1].getTime();

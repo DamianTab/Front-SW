@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {ConfigLocalValues} from '../../../shared/models/config-local-values';
 
 @Component({
   selector: 'sw-container-settings',
@@ -6,13 +7,9 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./container-settings.component.scss']
 })
 export class ContainerSettingsComponent implements OnInit {
-  @Input() values: {
-  t_ust: number;
-  rg: number; rd: number;
-  cap: number;
-  min: number; max: number };
   @Input() readonly title: string;
   @Input() readonly disabled: boolean;
+  @Input() values: ConfigLocalValues;
 
   constructor() { }
 

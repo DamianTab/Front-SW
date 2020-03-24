@@ -8,7 +8,7 @@
     </div>
   </div>
 </div>
-<div *ngIf="!blocked">
+<div *ngIf="blocked">
   <h4>Ustawienia zbiorników</h4>
   <h6>Wartości powinny spełniać ograniczenie: min < rd < rg < max < cap</h6>
   <div class="p-grid nested-grid">
@@ -16,7 +16,7 @@
       <p-tabMenu [model]="items" [activeItem]="items[0]"></p-tabMenu>
     </div>
     <div class="p-col-12 p-sm-6" style="text-align: center;">
-      <sw-container-settings [disabled]="isLoading" [title]="'Zbiornik C'+ visible" [values]="settings['C' + visible]"></sw-container-settings>
+      <sw-container-settings [disabled]="isLoading" [title]="'Zbiornik C'+ visible" [values]="values['C' + visible]"></sw-container-settings>
     </div>
     <div class="p-col-align-end p-justify-start p-col-12 p-sm-6" style="text-align: right; margin-bottom: 0.5vw">
       <p-button class="p-col-12" label="Przywróć aktualne ustawienia" icon="pi pi-refresh" (onClick)="loadCurrentConfigs()"></p-button>
