@@ -126,7 +126,7 @@ export class ChartComponent implements OnChanges {
     return this.service[this.dataType](
       this.interval,
       this.previousData,
-      !update
+      update
     );
   }
 
