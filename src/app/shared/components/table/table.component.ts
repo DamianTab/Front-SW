@@ -49,15 +49,16 @@ export class TableComponent implements OnInit {
         this.rows = this.extractRows(data);
         this.data = Object.assign([], this.rows);
 
-        const empty = {};
-        for (const key of Object.keys(this.rows[0])) {
-          empty[key] = null;
-        }
+        if (this.rows.length > 0) {
+          const empty = {};
+          for (const key of Object.keys(this.rows[0])) {
+            empty[key] = null;
+          }
 
-        for (let i = 0; i < this.rows.length % this.maxRows; i++) {
-          this.rows.push(empty);
+          for (let i = 0; i < this.rows.length % this.maxRows; i++) {
+            this.rows.push(empty);
+          }
         }
-
         this.loading = false;
       });
   }
