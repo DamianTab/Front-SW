@@ -23,8 +23,8 @@ import { Observable } from 'rxjs';
 })
 export class ChartComponent implements AfterViewInit, OnChanges {
   private receivedData: ChartService.Data;
-  private data: any;
-  private options: any;
+  data: any;
+  options: any;
   @Input() readonly lineColor: string = this.randomColor();
   @Input() readonly title: string = 'Oxygen';
   @Input() readonly fontSize: number = 16;

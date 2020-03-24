@@ -32,17 +32,25 @@ export class TableComponent implements OnInit {
   @Input() readonly maxRows: number = 10;
   @Input() readonly dataType: string;
 
-
   constructor(private dataSource: TableService) {}
 
   ngOnInit(): void {
     this.actualPageMaxNumber = this.pageMaxNumber;
+    this.lazyLoading();
     this.loadData();
+  }
+
+  lazyLoading(): void {
+    const emptyRows = [];
+    for (let i = 0; i < 10; i++) { // bo pobieramy 10 stron
+      emptyRows.push(null);
+    }
+    this.rows = this.extractRows({'': emptyRows});
+    this.data = Object.assign([], this.rows);
   }
 
   loadData(): void {
     this.loading = true;
-    this.cols = [];
     this.dataSource
       .getData(this.dataType, this.actualPageMaxNumber, this.nextPage)
       .subscribe(data => {
@@ -68,7 +76,7 @@ export class TableComponent implements OnInit {
   }
 
   public exportCSV(): void {
-    const rows = (this.selectedRows.length > 0) ? this.selectedRows : this.data;
+    const rows = this.selectedRows.length > 0 ? this.selectedRows : this.data;
     const headers = [this.cols.map(col => col.header).join(',')];
 
     const csvData = headers
@@ -148,17 +156,20 @@ export class TableComponent implements OnInit {
     }
 
     // assign values to rows
+    const tmpCols = [];
     for (const key of Object.keys(data)) {
-      this.cols.push({ field: key, header: key });
+      tmpCols.push({ field: key, header: key });
       for (const colIndx of Object.keys(data[key])) {
         rows[colIndx][key] = data[key][colIndx];
       }
     }
 
-    this.exportColumns = this.cols.map(col => ({
+    this.exportColumns = tmpCols.map(col => ({
       title: col.header,
       dataKey: col.field
     }));
+
+    this.cols = tmpCols; // lazy loading
 
     return rows;
   }
