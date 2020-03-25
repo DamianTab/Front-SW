@@ -41,9 +41,9 @@ export class ChartComponent implements OnChanges {
   }
 
   private static convertDateToLabel(date: Date): string {
-    const day = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDay()}`;
+    const date = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDay()}`;
     const time = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}.${date.getMilliseconds()}`;
-    return day + ' ' + time;
+    return date + ' ' + time;
   }
 
   setInitialOptions(): void {
