@@ -1,6 +1,6 @@
-import { Component, Input, SimpleChanges, AfterViewInit, OnChanges } from '@angular/core';
+import { Component, Input, SimpleChanges, OnChanges } from '@angular/core';
 import { ChartService } from '../../../services/charts/chart.service';
-import {Observable, Subscriber, Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 
 /* Example:
  * <sw-chart dataType="oxygen" [interval]="interval"></sw-chart>
@@ -37,7 +37,8 @@ export class ChartComponent implements OnChanges {
   @Input() readonly shadow: boolean = true;
   @Input() readonly xLabel: string = '';
   @Input() readonly yLabel: string = '';
-  @Input() readonly dataType: any;
+  @Input() readonly dataType: string;
+  @Input() readonly dataURL: string;
   @Input() readonly interval: ChartService.MetaData;
 
   private static convertDateToLabel(date: Date): string {
@@ -59,28 +60,7 @@ export class ChartComponent implements OnChanges {
     };
     this.options = {
       legend: {
-        display: false
-      },
-      scales: {
-        xAxes: [
-          {
-            scaleLabel: {
-              display: this.xLabel !== '',
-              labelString: this.xLabel
-            }
-          }
-        ],
-        yAxes: [
-          {
-            scaleLabel: {
-              display: this.yLabel !== '',
-              labelString: this.yLabel
-            }
-          }
-        ]
-      },
-      animation: {
-        duration: 1500
+        display: false,
       },
 
       responsive: true,
@@ -119,11 +99,34 @@ export class ChartComponent implements OnChanges {
       text: this.title,
       fontSize: this.fontSize
     };
-    this.options.animation.duration = doAnimation ? 1500 : 0;
+    this.options.animation = { duration: doAnimation ? 1500 : 0 };
+    this.options.scales = {
+      xAxes: [
+        {
+          scaleLabel: {
+            display: this.xLabel !== '',
+            labelString: this.xLabel
+          },
+          ticks: {
+            minRotation: 75,
+            maxRotation: 75,
+          }
+        }
+      ],
+        yAxes: [
+        {
+          scaleLabel: {
+            display: this.yLabel !== '',
+            labelString: this.yLabel
+          }
+        }
+      ]
+    };
   }
 
   private getServiceData(update: boolean): Observable<ChartService.Data> {
-    return this.service[this.dataType](
+    return this.service.getData(
+      this.dataURL,
       this.interval,
       this.previousData,
       update

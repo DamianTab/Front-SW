@@ -15,12 +15,12 @@
     <div class="p-col-12">
       <p-tabMenu [model]="items" [activeItem]="items[0]"></p-tabMenu>
     </div>
-    <div class="p-col-12 p-sm-6" style="text-align: center;">
+    <div class="p-col-12 p-sm-6">
       <sw-container-settings [disabled]="isLoading" [title]="'Zbiornik C'+ visible" [values]="values['C' + visible]"></sw-container-settings>
     </div>
-    <div class="p-col-align-end p-justify-start p-col-12 p-sm-6" style="text-align: right; margin-bottom: 0.5vw">
-      <p-button class="p-col-12" label="Przywróć aktualne ustawienia" icon="pi pi-refresh" (onClick)="loadCurrentConfigs()"></p-button>
-      <p-button class="p-col-12" label="Zastosuj zmiany" icon="pi pi-check" (onClick)="confirmScenario()"></p-button>
+    <div class="p-col-align-end p-justify-start p-col-10 p-sm-4 p-offset-2" style="text-align: right; margin-bottom: 0.5vw">
+      <p-button class="p-col-12 top-button" label="Przywróć aktualne ustawienia" icon="pi pi-refresh" (onClick)="loadCurrentConfigs()"></p-button>
+      <p-button class="p-col-12 bottom-button" label="Zastosuj zmiany" icon="pi pi-check" (onClick)="confirmScenario()"></p-button>
     </div>
   </div>
 </div>

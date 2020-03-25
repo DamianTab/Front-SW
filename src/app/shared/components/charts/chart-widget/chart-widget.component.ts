@@ -18,9 +18,10 @@ export class ChartWidgetComponent implements OnInit {
   private previousPeriod: number;
   @Input() readonly title: string = '';
   @Input() readonly yLabel: string = '';
-  @Input() readonly dataType: any;
+  @Input() readonly xLabel = 'Czas';
+  @Input() readonly dataType: string;
+  @Input() readonly dataURL: string;
   interval: ChartService.MetaData;
-  xLabel = '';
   startTime: Date;
   endTime: Date;
   isLive: boolean;
@@ -42,7 +43,6 @@ export class ChartWidgetComponent implements OnInit {
     this.timerOn = false;
     this.isLive = false;
     this.makeAnimation = true;
-    this.checkXLabel();
   }
 
   public saveChartImg() {
@@ -77,8 +77,6 @@ export class ChartWidgetComponent implements OnInit {
       begin: val,
       end: this.interval.end
     };
-
-    this.checkXLabel();
   }
 
   get intervalEnd(): Date {
@@ -90,8 +88,6 @@ export class ChartWidgetComponent implements OnInit {
       begin: this.interval.begin,
       end: new Date(val)
     };
-
-    this.checkXLabel();
   }
 
   changeMode() {
@@ -139,22 +135,6 @@ export class ChartWidgetComponent implements OnInit {
     }
   }
 
-  private checkXLabel(): void {
-    if (this.dayEquals(this.interval.begin, this.interval.end)) {
-      this.xLabel = 'Godzina';
-    } else {
-      this.xLabel = 'Dzień';
-    }
-  }
-
-  private dayEquals(a: Date, b: Date): boolean {
-    return (
-      a.getFullYear() === b.getFullYear() &&
-      a.getMonth() === b.getMonth() &&
-      a.getDate() === b.getDate()
-    );
-  }
-
   private setLiveInterval() {
     const miliDuration: number =
       Number(this.minDuration) * 60000 + Number(this.secDuration) * 1000;
@@ -162,7 +142,7 @@ export class ChartWidgetComponent implements OnInit {
       end: new Date(Date.now()),
       begin: new Date(Date.now() - miliDuration)
     };
-    if (this.previousPeriod !== miliDuration / 1000){
+    if (this.previousPeriod !== miliDuration / 1000) {
       this.makeAnimation = true;
     }
     this.previousPeriod = miliDuration / 1000;

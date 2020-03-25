@@ -4,3 +4,11 @@
     padding-bottom: 1vh;
     padding-right: 1vw;
 }
+
+::ng-deep .ui-inputtext {
+  max-width: 80% !important;
+}
+
+input {
+  max-width: 50% !important;
+}
