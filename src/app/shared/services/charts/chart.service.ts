@@ -6,6 +6,86 @@ import { Observable } from 'rxjs';
 export class ChartService {
   constructor(private reqService: RequestService) {}
 
+  private static concatNewData(
+    newData: ChartService.Data,
+    currentData: ChartService.Data
+  ): ChartService.Data {
+    return {
+      y: currentData.y.concat(newData.y.reverse()),
+      timestamps: currentData.timestamps.concat(newData.timestamps.reverse())
+    };
+  }
+
+  private static reverseData(data: ChartService.Data): ChartService.Data {
+    return {
+      y: data.y.reverse(),
+      timestamps: data.timestamps.reverse()
+    };
+  }
+
+  private static removeOverdueData(
+    data: ChartService.Data,
+    interval: ChartService.MetaData
+  ) {
+    for (let i: number = data.y.length - 1; i >= 0; i--) {
+      if (data.timestamps[i].getTime() >= interval.begin.getTime()) {
+        data.y = data.y.slice(i);
+        data.timestamps = data.timestamps.slice(i);
+        break;
+      }
+    }
+    return data;
+  }
+
+  private getInitialData(
+    interval: ChartService.MetaData,
+    url: string
+  ): Observable<any> {
+    let newData: ChartService.Data = { y: [], timestamps: [] };
+    return new Observable(subscriber => {
+      this.reqService
+        .getMultipleStatesPages(
+          url,
+          Infinity,
+          null, {datetime: {from: interval.begin.toISOString(), to: interval.end.toISOString()}}
+        )
+        .subscribe((data: any[]) => {
+          data.forEach(elem => {
+            newData.timestamps.push(new Date(elem.timestamp));
+            newData.y.push(elem.container_state);
+          });
+          newData = ChartService.reverseData(newData);
+          subscriber.next(newData);
+          subscriber.complete();
+        });
+    });
+  }
+
+  private updateData(
+    interval: ChartService.MetaData,
+    url: string,
+    actualData: ChartService.Data
+  ): Observable<any> {
+    let newData: ChartService.Data = { y: [], timestamps: [] };
+    const previousTime: number = actualData.timestamps.length === 0 ? interval.begin.getTime()
+      : actualData.timestamps[actualData.timestamps.length - 1].getTime();
+    return new Observable(subscriber => {
+      this.reqService.getSingleStatesPage(url).subscribe(data => {
+        data.forEach(elem => {
+          const date = new Date(elem.timestamp);
+          if (date.getTime() > previousTime) {
+            newData.timestamps.push(date);
+            newData.y.push(elem.container_state);
+          } else {
+            newData = ChartService.removeOverdueData(newData, interval);
+            subscriber.next(ChartService.concatNewData(newData, actualData));
+            subscriber.complete();
+          }
+        });
+      });
+    });
+  }
+
   public waterLevelC1(
     meta: ChartService.MetaData,
     actualData: ChartService.Data = null,
@@ -18,125 +98,6 @@ export class ChartService {
       return this.getInitialData(meta, url);
     }
   }
-
-  public temperature(meta: ChartService.MetaData) {
-    return {
-      x: [1, 2, 3],
-      y: [4, 5, 6]
-    };
-    // return this.retrieveData('temperature')
-  }
-
-  public oxygen(meta: ChartService.MetaData) {
-    return {
-      x: [1, 2, 3],
-      y: [4, 5, 6]
-    };
-  }
-
-  public redox(meta: ChartService.MetaData) {
-    return {
-      x: [1, 2, 3],
-      y: [4, 5, 6]
-    };
-    // return this.retrieveData('redox')
-  }
-
-  public pH(meta: ChartService.MetaData) {
-    return {
-      x: [1, 2, 3],
-      y: [4, 5, 6]
-    };
-    // return this.retrieveData('pH')
-  }
-
-  private getInitialData(
-    interval: ChartService.MetaData,
-    url: string
-  ): Observable<any> {
-    let newData: ChartService.Data = { x: [], y: [], timestamps: [] };
-    return new Observable(subscriber => {
-      this.reqService
-        .getMultipleStatesPages(
-          url,
-          Infinity,
-          null, {datetime: {from: interval.begin.toISOString(), to: interval.end.toISOString()}}
-        )
-        .subscribe((data: any[]) => {
-          data.forEach(elem => {
-            const date = new Date(elem.timestamp);
-            newData.timestamps.push(date.getTime());
-            newData.x.push(`${date.getUTCFullYear()}-${date.getUTCMonth() +
-              1}-${date.getUTCDate()}
-               ${date.getUTCHours()}:${date.getUTCMinutes()}:${date.getUTCSeconds()}.${date.getUTCMilliseconds()}`);
-            newData.y.push(elem.container_state);
-          });
-          newData = this.reverseData(newData);
-          subscriber.next(newData);
-          subscriber.complete();
-        });
-    });
-  }
-
-  private updateData(
-    interval: ChartService.MetaData,
-    url: string,
-    actualData: ChartService.Data
-  ): Observable<any> {
-    let newData: ChartService.Data = { x: [], y: [], timestamps: [] };
-    return new Observable(subscriber => {
-      this.reqService.getSingleStatesPage(url).subscribe(data => {
-        data.forEach(elem => {
-          const date = new Date(elem.timestamp);
-          if (date.getTime() > actualData.timestamps[actualData.x.length - 1]) {
-            newData.x.push(`${date.getUTCFullYear()}-${date.getUTCMonth() +
-              1}-${date.getUTCDate()}
-                 ${date.getUTCHours()}:${date.getUTCMinutes()}:${date.getUTCSeconds()}.${date.getUTCMilliseconds()}`);
-            newData.timestamps.push(date.getTime());
-            newData.y.push(elem.container_state);
-          } else {
-            newData = this.removeOverdueData(newData, interval);
-            subscriber.next(this.concatNewData(newData, actualData));
-            subscriber.complete();
-          }
-        });
-      });
-    });
-  }
-
-  private concatNewData(
-    newData: ChartService.Data,
-    currentData: ChartService.Data
-  ): ChartService.Data {
-    return {
-      x: currentData.x.concat(newData.x.reverse()),
-      y: currentData.y.concat(newData.y.reverse()),
-      timestamps: currentData.timestamps.concat(newData.timestamps.reverse())
-    };
-  }
-
-  private reverseData(data: ChartService.Data): ChartService.Data {
-    return {
-      x: data.x.reverse(),
-      y: data.y.reverse(),
-      timestamps: data.timestamps.reverse()
-    };
-  }
-
-  private removeOverdueData(
-    data: ChartService.Data,
-    interval: ChartService.MetaData
-  ) {
-    for (let i: number = data.x.length - 1; i >= 0; i--) {
-      if (data.timestamps[i] >= interval.begin.getTime()) {
-        data.x = data.x.slice(i);
-        data.y = data.y.slice(i);
-        data.timestamps = data.timestamps.slice(i);
-        break;
-      }
-    }
-    return data;
-  }
 }
 
 // tslint:disable-next-line: no-namespace
@@ -147,8 +108,7 @@ export namespace ChartService {
   }
 
   export interface Data {
-    timestamps: number[];
-    x: string[];
+    timestamps: Date[];
     y: number[];
   }
 }
