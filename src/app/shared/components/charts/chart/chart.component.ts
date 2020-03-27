@@ -22,10 +22,6 @@ import {Observable, Subscription} from 'rxjs';
   templateUrl: './chart.component.html'
 })
 export class ChartComponent implements OnChanges {
-
-  constructor(private service: ChartService) {
-    this.setInitialOptions();
-  }
   private previousData: ChartService.Data;
   private data: any;
   private options: any = null;
@@ -41,9 +37,14 @@ export class ChartComponent implements OnChanges {
   @Input() readonly dataURL: string;
   @Input() readonly interval: ChartService.MetaData;
 
+  constructor(private service: ChartService) {
+    this.setInitialOptions();
+  }
+
   private static convertDateToLabel(date: Date): string {
-    // tslint:disable-next-line:max-line-length
-    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDay()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}.${date.getMilliseconds()}`;
+    const date = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDay()}`;
+    const time = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}.${date.getMilliseconds()}`;
+    return date + ' ' + time;
   }
 
   setInitialOptions(): void {
