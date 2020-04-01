@@ -1,7 +1,28 @@
-<h5>{{title}}</h5>
-<input [disabled]="disabled" type="text" maxlength="8" pKeyFilter="pint" placeholder="Minimum" [(ngModel)]="values.minLevel">
-<input [disabled]="disabled" type="text" maxlength="8" pKeyFilter="pint" placeholder="Dolny poziom roboczy" [(ngModel)]="values.lowerWorkingLevel">
-<input [disabled]="disabled" type="text" maxlength="8" pKeyFilter="pint" placeholder="Górny poziom roboczy" [(ngModel)]="values.upperWorkingLevel">
-<input [disabled]="disabled" type="text" maxlength="8" pKeyFilter="pint" placeholder="Maksimum" [(ngModel)]="values.maxLevel">
-<input [disabled]="disabled" type="text" maxlength="8" pKeyFilter="pint" placeholder="Pojemność" [(ngModel)]="values.capacity">
-<input [disabled]="disabled" type="text" maxlength="8" pKeyFilter="pint" placeholder="Czas utrzymania poziomu" [(ngModel)]="values.waterLevelDuration">
+<h5 class="p-offset-1" style="text-align: left">{{title}}</h5>
+<div class="ui-g-8 ui-float-label">
+  <div class="ui-inputgroup">
+    <input [disabled]="disabled" pInputText type="text" maxlength="8" pKeyFilter="pint" placeholder="Minimum" [(ngModel)]="values.minLevel">
+    <span class="ui-inputgroup-addon" style="height: min-content">cm</span>
+  </div>
+  <div class="ui-inputgroup">
+    <input [disabled]="disabled" pInputText type="text" maxlength="8" pKeyFilter="pint" placeholder="Dolny poziom roboczy" [(ngModel)]="values.lowerWorkingLevel">
+    <span class="ui-inputgroup-addon" style="height: min-content">cm</span>
+  </div>
+  <div class="ui-inputgroup">
+    <input [disabled]="disabled" pInputText type="text" maxlength="8" pKeyFilter="pint" placeholder="Górny poziom roboczy" [(ngModel)]="values.upperWorkingLevel">
+    <span class="ui-inputgroup-addon" style="height: min-content">cm</span>
+  </div>
+  <div class="ui-inputgroup">
+    <input [disabled]="disabled" pInputText type="text" maxlength="8" pKeyFilter="pint" placeholder="Maksimum" [(ngModel)]="values.maxLevel">
+    <span class="ui-inputgroup-addon" style="height: min-content">cm</span>
+  </div>
+  <div class="ui-inputgroup">
+    <input [disabled]="disabled" pInputText type="text" maxlength="8" pKeyFilter="pint" placeholder="Pojemność" [(ngModel)]="values.capacity">
+    <span class="ui-inputgroup-addon" style="height: min-content">cm</span>
+  </div>
+  <div class="ui-inputgroup">
+    <input [disabled]="disabled" pInputText type="text" maxlength="8" pKeyFilter="pint" placeholder="Czas utrzymania poziomu" [(ngModel)]="values.waterLevelDuration">
+    <span class="ui-inputgroup-addon" style="height: min-content">s</span>
+  </div>
+</div>
+

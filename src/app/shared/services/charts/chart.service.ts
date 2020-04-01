@@ -86,12 +86,12 @@ export class ChartService {
     });
   }
 
-  public waterLevelC1(
+  public getData(
+    url: string,
     meta: ChartService.MetaData,
     actualData: ChartService.Data = null,
     update: boolean = false
   ) {
-    const url = '/water/1/container/1/states/';
     if (update) {
       return this.updateData(meta, url, actualData);
     } else {
