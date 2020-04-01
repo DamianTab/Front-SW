@@ -18,7 +18,7 @@ export class ChartWidgetComponent implements OnInit {
   private previousPeriod: number;
   @Input() readonly title: string = '';
   @Input() readonly yLabel: string = '';
-  @Input() readonly xLabel = 'Czas';
+  @Input() readonly xLabel: string = 'Czas';
   @Input() readonly dataType: string;
   @Input() readonly dataURL: string;
   interval: ChartService.MetaData;
