@@ -90,7 +90,7 @@ export class ChartService {
     url: string,
     meta: ChartService.MetaData,
     actualData: ChartService.Data = null,
-    update: boolean = false,
+    update: boolean = false
   ) {
     if (update) {
       return this.updateData(meta, url, actualData);
