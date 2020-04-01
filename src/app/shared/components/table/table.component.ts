@@ -36,11 +36,11 @@ export class TableComponent implements OnInit {
 
   ngOnInit(): void {
     this.actualPageMaxNumber = this.pageMaxNumber;
-    this.lazyLoading();
+    this.initTableRows();
     this.loadData();
   }
 
-  lazyLoading(): void {
+  initTableRows(): void {
     const emptyRows = [];
     for (let i = 0; i < 10; i++) { // bo pobieramy 10 stron
       emptyRows.push(null);
