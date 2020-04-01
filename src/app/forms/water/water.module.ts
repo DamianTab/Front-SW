@@ -25,7 +25,7 @@ import { WaterLevelC5ChartModule } from '../../shared/components/charts/water-le
     TableModule,
     WaterControllerModule,
     WaterScenarioModule,
-    WaterRoutingModule
+    WaterRoutingModule,
   ],
   exports: [WaterComponent]
 })

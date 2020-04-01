@@ -1,29 +1,33 @@
 import { Injectable } from '@angular/core';
-import { RequestService } from 'src/app/shared/services/request/request.service'
-import { Observable } from "rxjs";
+import { RequestService } from 'src/app/shared/services/request/request.service';
+import { Observable } from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class TableService {
 
   constructor(private reqService: RequestService) { }
 
-  getData(dataType: string, pageMaxNumber: number, nextPage: any): Observable<any> {
+  public getData(dataType: string, pageMaxNumber: number, nextPage: any): Observable<any> {
     let stationNumber = 1; //TODO dynamiczne pobieranie numeru stacji
     let valvesCounter = 3; //TODO dynamiczne pobieranie ilości zaworów
     let pumpsCounter = 4;  //TODO dynamiczne pobieranie ilości pomp
     let containersCounter = 5;  //TODO dynamiczne pobieranie ilości zbiorników
 
-    if (dataType === 'valve') return this.getElementsData(dataType, stationNumber, valvesCounter, valvesCounter, pageMaxNumber, nextPage);
-    if (dataType === 'pump') return this.getElementsData(dataType, stationNumber, pumpsCounter, pumpsCounter, pageMaxNumber, nextPage);
-    if (dataType === 'container') return this.getElementsData(dataType, stationNumber, containersCounter, containersCounter, pageMaxNumber, nextPage);
+    let params = {limit: 5, datetime: {from: '2020-02-24T02:33:23.290000Z', to: '2020-02-24T02:35:34.370047Z'}};
+
+    if (dataType === 'valve') return this.getElementsData('valve', stationNumber, valvesCounter, valvesCounter, pageMaxNumber, nextPage, params);
+    if (dataType === 'pump') return this.getElementsData('pump', stationNumber, pumpsCounter, pumpsCounter, pageMaxNumber, nextPage, params);
+    if (dataType === 'container') return this.getElementsData('container', stationNumber, containersCounter, containersCounter, pageMaxNumber, nextPage, params);
   }
 
 
-  private getElementsData(dataType: string, stationId: number, totalElementCounter: number, elementLimit: number, pageMaxNumber: number, nextPage: any): Observable<any> {
+  private getElementsData(dataType: string, stationId: number, totalElementCounter: number, elementLimit: number, pageMaxNumber: number, nextPage: any, params?: {page?: number, limit?: number, datetime?: {from: string, to: string}}): Observable<any> {
     return new Observable(subscriber => {
-      this.reqService.getStates(`/water/${stationId}/${dataType}/${elementLimit--}/states/`, pageMaxNumber, nextPage).subscribe(data => {
+      this.reqService.getMultipleStatesPages(`/water/${stationId}/${dataType}/${elementLimit--}/states/`, pageMaxNumber, nextPage, params).subscribe(data => {
         if (elementLimit > 0) {
-          this.getElementsData(dataType, stationId, totalElementCounter, elementLimit, pageMaxNumber, nextPage).subscribe(childData => {
+          this.getElementsData(dataType, stationId, totalElementCounter, elementLimit, pageMaxNumber, nextPage, params).subscribe(childData => {
             this.fillWithData(childData, data, dataType, elementLimit+1);
             subscriber.next(childData);
             subscriber.complete();
@@ -38,13 +42,12 @@ export class TableService {
     });
   }
 
-
   private fillWithData(result: any, data: any[], dataType: string, number: number, first: boolean = false): void {
     if (first) {
-      result["Czas"] = [];
+      result['Czas'] = [];
       data.forEach(elem => {
         let date = new Date(elem.timestamp);
-        result["Czas"].push(`${date.getUTCFullYear()}-${date.getUTCMonth()+1}-${date.getUTCDate()} ${date.getUTCHours()}:${date.getUTCMinutes()}:${date.getUTCSeconds()}.${date.getUTCMilliseconds()}`);
+        result['Czas'].push(`${date.getUTCFullYear()}-${date.getUTCMonth()+1}-${date.getUTCDate()} ${date.getUTCHours()}:${date.getUTCMinutes()}:${date.getUTCSeconds()}.${date.getUTCMilliseconds()}`);
       })
     }
     if (dataType === 'valve') {
@@ -69,5 +72,4 @@ export class TableService {
       return;
     }
   }
-
 }
