@@ -13,12 +13,10 @@ import { NoResponseInterceptor } from './shared/services/error-handling/no-respo
 import { ExternalErrorHandler } from './shared/services/error-handling/error.interceptor';
 import { InternalErrorHandler } from './shared/services/error-handling/internal-error-handler';
 import { CookieService } from 'ngx-cookie-service';
-import { FooterComponent } from './forms/footer/footer/footer.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    FooterComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
